@@ -16,7 +16,7 @@
         %ul.nav.span-10
           %li= link_to 'Vezérlőpult', root_url
           %li= link_to 'Videók', videos_url
-          - if current_admin.super_admin?
+          - if current_admin && current_admin.super_admin?
             %li= link_to 'Háttérfolyamatok', resque_web_path
         = widget 'usermenu', global: true
 

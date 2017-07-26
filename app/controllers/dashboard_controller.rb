@@ -1,5 +1,8 @@
-class DashboardController < ApplicationController
+# frozen_string_literal: true
 
+require 'client_info/service'
+
+class DashboardController < ApplicationController
   respond_to :html, :json
 
   def index
@@ -10,8 +13,8 @@ class DashboardController < ApplicationController
     @upcoming_playlists = Playlist.upcoming
   end
 
-
   private
+
   def client_info
     @client_info ||= ClientInfo::Service.new
   end
