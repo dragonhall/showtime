@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ENV['RUBY_DEP_GEM_SILENCE_WARNINGS'] = '1' if %x(hostname -s).strip == 'darkstar'
@@ -37,10 +39,10 @@ group :assets do
   gem 'facebox-rails', github: 'hron84/facebox-rails',
                        branch: 'hron84/feature-rails5'
   gem 'jbuilder', '~> 2.5'
-  gem 'jquery-rails'
-  gem 'jquery-easing-rails'
-  gem 'jquery-ui-rails'
   gem 'jqtools-rails'
+  gem 'jquery-easing-rails'
+  gem 'jquery-rails'
+  gem 'jquery-ui-rails'
   gem 'sass-rails', '~> 5.0'
   gem 'uglifier', '>= 1.3.0'
 end
@@ -55,10 +57,14 @@ group :development do
   # gem 'web-console', '>= 3.3.0'
   gem 'better_errors'
   gem 'binding_of_caller'
+
+  gem 'capistrano-linked-files'
   gem 'capistrano-rails'
+  gem 'capistrano-rvm'
+  gem 'capistrano3-puma'
+
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'
-  gem 'pry-rails'
 
   # Spring speeds up development by keeping your application
   # running in the background. Read more: https://github.com/rails/spring
@@ -72,11 +78,9 @@ group :development do
         rspec: :latest,
         bundler: :latest,
         rake: :latest
-        # resque: :latest
+  # resque: :latest
 
   gem 'guard-resque', github: 'jacquescrocker/guard-resque', branch: :master
-
-
 end
 
 group :test do
@@ -88,8 +92,8 @@ group :test do
 end
 
 group :application do
-
   gem 'active_scheduler'
+  gem 'pry-rails'
 
   gem 'carrierwave'
   gem 'consul'
@@ -118,8 +122,6 @@ group :application do
 
   gem 'twitter-bootstrap-rails'
 
-
   gem 'imgkit'
-  gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match(/linux|darwin/)
-
+  gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
 end
