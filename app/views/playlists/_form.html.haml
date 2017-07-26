@@ -11,48 +11,48 @@
   .actions
     = f.submit 'Save'
 
-    - unless f.object.new_record?
-      %table#playlist_tracklist(style="margin-top: 10px")
-        %caption
-          Lejátszandó videók
-          %span.actions.right
-            = link_to image_tag('icons/add.png'), '#' , class: 'add'
+  - unless f.object.new_record?
+    %table#playlist_tracklist(style="margin-top: 10px")
+      %caption
+        Lejátszandó videók
+        %span.actions.right
+          = link_to image_tag('icons/add.png'), '#' , class: 'add'
 
-        %thead
-          %tr
-            %th Pozíció
-            %th Cím
-            %th Hossz
-            %th Várható kezdés
-            %th.actions Műveletek
-        %tbody
-          - f.object.tracks.each do |track|
-            %tr{id: "track_#{track.id}"}
-              %td= track.position
-              %td= track.title
-              %td= Time.at(track.length).utc.strftime('%H:%M')
-              %td= track.start_time.strftime('%H:%M')
-              %td.actions
-                = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
-                = link_to(image_tag('icons/cross.png'), [@channel, @playlist, track], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
-          %tr#new-video(style="display: none")
-            %td(data-property="position")
-            %td(data-property="title")
-            %td(data-property="length")
-            %td(data-property="start_time")
+      %thead
+        %tr
+          %th Pozíció
+          %th Cím
+          %th Hossz
+          %th Várható kezdés
+          %th.actions Műveletek
+      %tbody
+        - f.object.tracks.each do |track|
+          %tr{id: "track_#{track.id}"}
+            %td= track.position
+            %td= track.title
+            %td= Time.at(track.length).utc.strftime('%H:%M')
+            %td= track.start_time.strftime('%H:%M')
             %td.actions
               = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
-              = link_to(image_tag('icons/cross.png'), [@channel, @playlist, :tracks], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
+              = link_to(image_tag('icons/cross.png'), [@channel, @playlist, track], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
+        %tr#new-video(style="display: none")
+          %td(data-property="position")
+          %td(data-property="title")
+          %td(data-property="length")
+          %td(data-property="start_time")
+          %td.actions
+            = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
+            = link_to(image_tag('icons/cross.png'), [@channel, @playlist, :tracks], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
 
-          %tr#line-form(style="display: none")
-            %td &nbsp;
-            %td.autocomplete-target.video
-              %input(type="text" name="video_title" id="video_title" placeholder="Videó címe")
-              = select_tag :video_type, options_for_select(Video.video_types.map {|k, v| [k.titleize, v] }, 'film')
-              %input(type="hidden" name="video_id" id="video_id")
-              %input{type: 'hidden', name: 'playlist_id', id: 'playlist_id', value: @playlist.id}
-            %td
-            %td
-            %td.actions
-              = link_to image_tag('icons/accept.png'), [@channel, @playlist, :tracks], class: 'accept'
-              = link_to image_tag('icons/cancel.png'), '#', class: 'cancel'
+        %tr#line-form(style="display: none")
+          %td &nbsp;
+          %td.autocomplete-target.video
+            %input(type="text" name="video_title" id="video_title" placeholder="Videó címe")
+            = select_tag :video_type, options_for_select(Video.video_types.map {|k, v| [k.titleize, v] }, 'film')
+            %input(type="hidden" name="video_id" id="video_id")
+            %input{type: 'hidden', name: 'playlist_id', id: 'playlist_id', value: @playlist.id}
+          %td
+          %td
+          %td.actions
+            = link_to image_tag('icons/accept.png'), [@channel, @playlist, :tracks], class: 'accept'
+            = link_to image_tag('icons/cancel.png'), '#', class: 'cancel'
