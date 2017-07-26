@@ -62,6 +62,7 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-rvm'
   gem 'capistrano3-puma'
+  gem 'capistrano-foreman'
 
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'
@@ -94,6 +95,8 @@ end
 group :application do
   gem 'active_scheduler'
   gem 'pry-rails'
+
+  gem 'foreman'
 
   gem 'carrierwave'
   gem 'consul'
