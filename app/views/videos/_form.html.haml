@@ -1,8 +1,8 @@
 = form_for @video, html: { class: 'simple_form' } do |f|
   - unless f.object.imported?
     = f.input :path
-  = f.input :video_type, collection: Video.video_types.map { |t, v| [t.to_s.titleize, v]}, selected: 0
-  = f.input :pegi_rating, collection: Video.pegi_rating_titles, selected: 2
+  = f.input :video_type, collection: Video.video_types.map { |t, v| [t.to_s.titleize, v]}, selected: f.object.video_type_before_type_cast
+  = f.input :pegi_rating, collection: Video.pegi_rating_titles, selected: f.object.pegi_rating_before_type_cast
 
   - if f.object.imported?
     = f.input :title
