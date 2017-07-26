@@ -1,0 +1,27 @@
+!!!
+%html.no-js(lang="hu")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8" )
+    %meta(name="google-site-verification" content="abcdefghijklmnopqrstuvwxyz0123456789" )
+    %link(rel="shortcut icon" href="http://dragonhall.hu/images/favicon.gif" )
+    = stylesheet_link_tag :tv
+    = javascript_include_tag :tv
+
+    = yield :head if content_for? :head
+
+  %body
+    .container
+      .header
+        = image_tag 'dhlogo_TV.png', alt: 'header'
+      #navbar
+        %ul
+          %li= link_to 'Portál', '#'
+          %li= link_to 'TV', root_url(host: request.host)
+          %li= link_to 'Videótár', footages_url
+
+      #content
+        = yield
+
+      %footer
+        %p= "Copyright &copy; 2007-#{Time.now.year} DragonHall+".html_safe

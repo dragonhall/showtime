@@ -1,0 +1,31 @@
+!!!
+%html
+  %head
+    - content_for(:title) { @title }
+    %meta(charset="UTF-8")
+    %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    %title= content_for?(:title) ? content_for(:title) : "Műsor"
+    = csrf_meta_tag
+
+    :css
+      @font-face {
+        font-family: Discognatehacka;
+        src: url(#{asset_path 'Discognatehacka_1.ttf'})
+      }
+
+      body {
+        background: url(#{asset_path 'musorhatter.png'}) no-repeat;
+        font-family: Discognatehacka;
+        font-weight: bold;
+        color: #1e9edf;
+        font-size: 24pt;
+      }
+
+    = stylesheet_link_tag :playlists
+  %body
+    #wrapper
+      #heading= content_for?(:title) ? content_for(:title) : "Műsor"
+      #schedule_wrapper
+        = yield
+      %footer
+        = @playlist.start_time.strftime('%Y.%m.%d.')

@@ -1,0 +1,9 @@
+#usermenu.right
+  - if admin_signed_in?
+    %button.username{:style => "background-image: url(#{image_path 'icons/user.png'}); background-repeat: no-repeat; background-position: 5px; padding-left: 24px;"}= admin_signed_in? ? current_admin.name : "Guest"
+    %ul.menu
+      %li= link_to 'Link 1', '#'
+      %li= link_to 'Link 2', '#'
+      %li= link_to 'Link 3', '#'
+      %hr.separator
+      %li= link_to 'Kilépés', destroy_admin_session_url, method: :delete

@@ -1,0 +1,11 @@
+hu:
+  activerecord:
+    models:
+      track: Szám
+      playlist: Műsor
+      channel: Csatorna
+    attributes:
+      track:
+        title: Cím
+        duration: Hossz
+        

@@ -1,0 +1,32 @@
+// Place all the styles related to the footages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+//= require jquery-ui
+
+#footages-wrapper {
+
+  width: 1180px;
+  overflow: hidden;
+
+  margin: 10px auto;
+
+
+
+  .footage-selector {
+    float: left;
+    margin-right: 5px;
+    width: 280px;
+    margin-bottom: 20px;
+
+  }
+
+  .ui-selectmenu-button {
+    width: 248px;
+  }
+  //
+  #footages {
+    //display: none;
+
+  }
+
+}

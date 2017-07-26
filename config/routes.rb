@@ -1,0 +1,65 @@
+require 'resque_web'
+require 'resque/status/web'
+#
+# class DomainConstraint
+#   def initialize(domain = nil, inverse = false)
+#     @domain = domain
+#     @inverse = inverse
+#   end
+#
+#   def matches?(request)
+#
+#     return false if @domain.nil? or "#{@domain}".empty?
+#
+#     host = "#{request.host}"
+#
+#     if request.subdomain == 'www'
+#       host = host[4..-1]
+#     end
+#
+#
+#     ret = @domain.is_a?(Regexp) ? @domain.match(host) : @domain == host
+#
+#     @inverse ? !ret : ret
+#   end
+# end
+
+Rails.application.routes.draw do
+  constraints subdomain: 'showtime' do
+    devise_for :admins
+
+    resources :channels do
+      resources :playlists do
+        resources :tracks do
+          collection do
+            post 'reorder'
+          end
+        end
+      end
+    end
+
+    resources :videos do
+      collection do
+        get 'autocomplete'
+      end
+    end
+
+    # resources :footages, constraints: DomainConstraint.new(/^tv\./)
+
+    get '/viewers/:id', to: 'viewers#show',
+                        constraints: {id: /\d+/}, as: 'viewer'
+    post '/viewers/kill/:id', to: 'viewers#kill', as: 'viewer_kill'
+    post '/viewers/block/:id', to: 'viewers#block', as: 'viewer_block'
+
+    root to: 'dashboard#index'
+  end
+
+  constraints subdomain: 'tv' do
+    resources :footages
+    root to: 'tv#index'
+  end
+
+  authenticated :admin do
+    mount ResqueWeb::Engine => '/job_status'
+  end
+end

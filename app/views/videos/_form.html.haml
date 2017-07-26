@@ -1,0 +1,10 @@
+= form_for @video, html: { class: 'simple_form' } do |f|
+  - unless f.object.imported?
+    = f.input :path
+  = f.input :video_type, collection: Video.video_types.map { |t, v| [t.to_s.titleize, v]}, selected: 0
+  = f.input :pegi_rating, collection: Video.pegi_rating_titles, selected: 2
+
+  - if f.object.imported?
+    = f.input :title
+
+  = f.submit

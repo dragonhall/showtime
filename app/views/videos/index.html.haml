@@ -1,0 +1,28 @@
+%table#videos.span-23
+  %caption
+    Videók
+    %span.actions.right
+      = link_to image_tag('icons/add.png'), new_video_path , class: 'add'
+  %thead
+    %tr
+      %th Cím
+      %th Típus
+      %th Korhatár
+      %th Státusz
+      %th.actions Műveletek
+
+  %tbody
+    - collection.each do |video|
+      %tr
+        %td= (video.metadata.blank? || video.metadata['title'].blank?) ? "[ #{File.basename(video.path)} ]" : video.metadata['title']
+        %td= video.video_type.to_s.titleize
+        %td= video.pegi_rating.to_s.sub(/^pegi_/, '') + '+' # Video.pegi_rating_titles[video.pegi_rating]
+        %td= video.imported? ? 'Importálva' : 'Importra vár'
+        %td
+          = link_to image_tag('icons/pencil.png'), [:edit, video], class: 'edit'
+          = link_to image_tag('icons/trash.png'), video, method: :delete, confirm: 'Biztosan törlöd ezt a műsort?'
+
+
+%br
+
+

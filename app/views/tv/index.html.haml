@@ -1,0 +1,8 @@
+.post.main
+  .post_header
+    %h3 DragonHall+ TV Lejátszó
+  .player
+    .flowplayer{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') } }
+      %video{autoplay: true}
+        -# TODO: Rewrite to dynamic src.
+        %source{type: 'video/flash', src: 'rtmp://tv.dragonhall.hu:1935/live/dragonhall'}

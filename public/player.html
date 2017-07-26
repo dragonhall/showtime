@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .player {
+            width: 720px;
+            height: 404px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        flowplayer.conf = {live: true}
+    </script>
+</head>
+<body>
+
+<div class="player">
+    <div class="flowplayer"
+         data-debug="true" data-engine="flash" data-swf="/assets/flowplayer.swf">
+        <video autoplay>
+            <source type="video/flash" src="rtmp://tv.dragonhall.hu:1935/live/dragonhall"/>
+        </video>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+---
+scheme: http
+hostname: tv.dragonhall.hu
+port: 8080
+path: /stat
+username: admin
+password: piccolo

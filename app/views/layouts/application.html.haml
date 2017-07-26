@@ -1,0 +1,34 @@
+!!!
+%html(lang="en" xml:lang="en-US")
+  %head
+    %meta(charset="UTF-8")
+    %meta(http-equiv="Content-Type" content="text/html; charset=utf-8")
+    %title
+      Showtime
+    = stylesheet_link_tag :application
+    = csrf_meta_tag
+
+  %body
+    #wrapper.container
+      %nav#navbar.container
+        #logo.span-1
+          = link_to image_tag('tv_admin.png'), root_url(host: 'tv.dragonhall.hu', port: 80), target: :blank
+        %ul.nav.span-10
+          %li= link_to 'Vezérlőpult', root_url
+          %li= link_to 'Videók', videos_url
+          - if current_admin.super_admin?
+            %li= link_to 'Háttérfolyamatok', resque_web_path
+        = widget 'usermenu', global: true
+
+      %main.container
+        = yield
+    %footer.container
+      .footline.right
+        %ul
+          %li#copy
+            Copyright &copy; 2007-2017 <b>DragonHall+ team</b> &bullet;
+          %li#design
+            Designed by <b>Hron &amp; Izzy</b> &bullet;
+          %li#rights
+            All rights reserved
+    = javascript_include_tag :application

@@ -1,0 +1,223 @@
+.lof-slidecontent {
+  position: relative;
+  overflow: hidden;
+  border: #F4F4F4 solid 1px;
+  width: 892px;
+  height: 300px;
+  .preload {
+    height: 100%;
+    width: 100%;
+    background: #FFF;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    color: #FFF;
+    text-align: center;
+    div {
+      height: 100%;
+      width: 100%;
+      background: transparent url(/assets/load-indicator.gif) no-repeat scroll 50% 50%;
+    }
+  }
+}
+
+.lof-main-outer {
+  position: relative;
+  height: 100%;
+  width: 600px;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.lof-main-item-desc {
+  z-index: 100;
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 400px;//
+  background: url(/assets/transparent_bg.png);
+  p {
+    color: #FFF;
+    margin: 0 8px;
+    padding: 8px 0;
+  }
+  h3 a {
+    color: #FFF;
+    margin: 0;
+    font-size: 140%;
+    padding: 20px 8px 2px;
+    font-family:  sans-serif;
+    &:hover {
+      color: #FF6;
+      text-decoration: underline;
+    }
+  }
+}
+
+ul.lof-main-wapper {
+  overflow: hidden;
+  background: transparent url(/assets/load-indicator.gif) no-repeat scroll 50% 50%;
+  padding: 0;
+  margin: 0;
+  height: 300px;
+  width: 600px;
+  position: absolute;
+
+  li {
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 600px;
+    float: left;
+  }
+}
+
+.lof-opacity li {
+  position: absolute;
+  top: 0;
+  left: 0;
+  float: inherit;
+}
+
+ul.lof-main-wapper li img {
+  padding: 0;
+  width: 600px;
+}
+
+li-desc {
+  z-index: 100;
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  width: 400px;//
+  background: url(/assets/transparent_bg.png);
+  p {
+    color: #FFF;
+    margin: 0 8px;
+    padding: 8px 0;
+  }
+  h3 a {
+    color: #FFF;
+    margin: 0;
+    font-size: 140%;
+    padding: 20px 8px 2px;
+    font-family: sans-serif;
+    &:hover {
+      color: #FF6;
+      text-decoration: underline;
+    }
+  }
+}
+
+ul.lof-navigator {
+  top: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 100%;
+  li {
+    cursor: pointer;
+    list-style: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+.lof-navigator-outer {
+  position: absolute;
+  right: 0;
+  top: 00px;
+  z-index: 100;
+  height: 300px;
+  width: 310px;
+  overflow: hidden;
+  color: #FFF;
+}
+
+.lof-navigator li {
+  &.active {//
+    background: url(/assets/arrow-bg.png) no-repeat scroll left center;
+    color: #FFF;
+  }
+  h3 {
+    color: #FFF;
+    font-size: 100%;
+    padding: 15px 0 0 !important;
+    margin: 0;
+  }
+  div {//
+    background: url(/assets/transparent_bg.png);
+    color: #FFF;
+    height: 100%;
+    position: relative;
+    margin-left: 15px;
+    padding-left: 15px;
+    border-top: 1px solid #E1E1E1;
+  }
+  &.active div {
+    background: url(/assets/grad-bg.gif);
+    color: #FFF;
+  }
+  img {
+    height: 60px;
+    width: 60px;
+    margin: 15px 15px 10px 0;
+    float: left;
+    padding: 3px;
+    border: 1px solid #C5C5C5;
+  }
+  &.active {
+    img {
+      border: #6C8E5C solid 1px;
+    }
+    h3 {
+      color: #FFF;
+    }
+  }
+}
+
+.lof-snleft {
+  .lof-main-outer {
+    float: right;
+  }
+  .lof-main-wapper {
+    margin-left: auto;
+    margin-right: inherit;
+    clear: both;
+    height: 300px;
+  }
+  .lof-navigator-outer {
+    left: 0;
+    top: 0;
+    right: inherit;
+  }
+}
+
+ul.lof-main-wapper li {
+  position: relative !important;
+}
+
+.lof-snleft .lof-navigator {
+  .active {//
+    background: url(/assets/arrow-bg2.gif) center right no-repeat !important;
+  }
+  li {
+    div {
+      margin-left: inherit !important;
+      margin-right: 18px !important;
+    }
+    &.active div {
+      margin-left: inherit !important;
+      margin-right: 18px !important;//
+      background: url(/assets/grad-bg2.gif) !important;
+    }
+  }
+}
+
+ul.lof-main-wapper li {
+  position: relative;
+}

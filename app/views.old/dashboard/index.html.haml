@@ -1,0 +1,25 @@
+.post.main
+  .post_header
+    %h3 Vezérlőpult
+  .post_body
+    .span-18.left
+      %table#viewers
+        %caption Nézők
+        %thead
+          %tr
+            %th Felhasználó
+            %th IP cím
+            %th Oldal
+            %th Platform
+            %th Flash verzió
+            %th.actions &nbsp;
+        %tbody
+          - @clients.each do |client|
+            %tr
+              %td.userinfo= client.user_id ? link_to(image_tag(client.user.avatar_url, size: '24x24') + client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : 'Anonymous'
+              %td= link_to client.address, viewer_path(client.client_id)
+              %td= link_to client.url, client.url
+              %td= client.platform
+              %td= client.flash_version
+              %td.actions
+                = link_to image_tag('icons/cross.png'), viewer_kill_path(client.client_id), method: :post, title: 'Néző letiltása', data: { confirm: "Biztosan kitiltod #{client.user_id ? client.user.name : 'Anonymous'}-t?" }

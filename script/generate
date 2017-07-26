@@ -1,0 +1,21 @@
+#!/bin/sh
+
+ME=$(basename "$0")
+
+hostname="$(hostname -s)"
+RAILS_ENV="${RAILS_ENV:-development}"
+
+if [ "$1" = "-e" ]; then
+  RAILS_ENV=$2
+  shift
+  shift
+fi
+
+export RAILS_ENV
+
+if [ "${RAILS_ENV}" != "production" ]; then
+  exec spring rails "$ME" "$@"
+else
+  exec rails "$ME" "$@"
+  :;
+fi

@@ -1,0 +1,18 @@
+Lint/HandleExceptions:
+  Exclude:
+    - spec/support/*.rb
+
+Style/CommandLiteral:
+  Enabled: false
+
+Style/MultilineIfThen:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  Enabled: false
+
+Style/FirstParameterIndentation:
+  Enabled: false

@@ -1,0 +1,56 @@
+.post.main
+  .post_header
+    %h3 Videótár
+  #footages-wrapper
+    .footage-selector
+      = select_tag :series, options_for_select(%w[Sorozatok WataMote Bleach Naruto PuriGorota Vassalord], 'Sorozatok')
+      .calendar
+    #footages.lof-slidecontent.lof-snleft
+      .preload
+        %div
+      .lof-main-outer
+        %ul.lof-main-wapper
+          %li
+            = image_tag 'http://dragonhall.hu/tar/kep/teszt/kis/wata3tv.png', size: '600x300', title: 'WataMote 3'
+
+            .lof-main-item-desc
+              %h3= link_to 'WataMote 3', '#'
+
+              %p
+                Mivel népszerűtlen vagyok, az időjárás is megromlott.
+          %li
+            = image_tag 'http://dragonhall.hu/tar/kep/teszt/kis/wata2tv.png', size: '600x300', title: 'WataMote 2'
+            .lof-main-item-desc
+              %h3= link_to 'WataMote 2', '#'
+
+              %p
+                Mivel népszerűtlen vagyok, meglátogatom egyik régi barátom.
+          %li
+            = image_tag 'http://dragonhall.hu/tar/kep/teszt/kis/wata1tv.png', size: '600x300', title: 'WataMote 1'
+            .lof-main-item-desc
+              %h3= link_to 'WataMote 1', '#'
+
+              %p
+                Mivel népszerűtlen vagyok, ideje kicsit helyreráznom az imázsom.
+
+
+      .lof-navigator-outer
+        %ul.lof-navigator
+          %li
+            %div
+              = image_tag 'http://dragonhall.hu/tar/kep/teszt/kicsi/wata3tv.png', size: '140x70', alt: ''
+              %h3 WataMote 3
+              %span.date 2010.08.05.
+              WataMote - 3. rész
+          %li
+            %div
+              = image_tag 'http://dragonhall.hu/tar/kep/teszt/kicsi/wata2tv.png', size: '140x70', alt: ''
+              %h3 WataMote 2
+              %span.date 2017.07.29.
+              WataMote - 2. rész
+          %li
+            %div
+              = image_tag 'http://dragonhall.hu/tar/kep/teszt/kicsi/wata1tv.png', size: '140x70', alt: ''
+              %h3 WataMote 1
+              %span.date 2017.07.29.
+              WataMote - 1. rész
