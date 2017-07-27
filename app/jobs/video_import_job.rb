@@ -24,7 +24,7 @@ class VideoImportJob < ApplicationJob
 
     if fv && !fv.title.blank? then
       v.metadata[:title] = fv.title
-    elsif !movie.format_tags[:title].blank?
+    elsif !movie.format_tags.blank? && !movie.format_tags[:title].blank?
       v.metadata[:title] = movie.format_tags[:title]
     else
       # fallback title creation mechanism
