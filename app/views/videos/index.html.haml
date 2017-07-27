@@ -7,6 +7,7 @@
     %tr
       %th Cím
       %th Típus
+      %th Méret
       %th Korhatár
       %th Hossz
       %th Státusz
@@ -17,6 +18,7 @@
       %tr
         %td= (video.metadata.blank? || video.metadata['title'].blank?) ? "[ #{File.basename(video.path)} ]" : video.metadata['title']
         %td= video.video_type.to_s.titleize
+        %td= na_or_s(video.imported?) { "#{video.metadata[:width]}x#{video.metadata[:height]}" }
         %td= video.pegi_rating.to_s.sub(/^pegi_/, '') + '+' # Video.pegi_rating_titles[video.pegi_rating]
         %td= na_or_s(video.imported?) { Time.at(video.metadata[:length]).utc.strftime('%H:%M:%S') }
         %td= video.imported? ? 'Importálva' : 'Importra vár'
