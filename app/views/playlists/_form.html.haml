@@ -30,8 +30,8 @@
           %tr{id: "track_#{track.id}"}
             %td= track.position
             %td= track.title
-            %td= Time.at(track.length).utc.strftime('%H:%M')
-            %td= track.start_time.strftime('%H:%M')
+            %td= Time.at(track.length).utc.strftime('%H:%M:%S')
+            %td= track.start_time.strftime('%H:%M:%S')
             %td.actions
               = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
               = link_to(image_tag('icons/cross.png'), [@channel, @playlist, track], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?

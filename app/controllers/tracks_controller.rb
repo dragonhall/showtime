@@ -17,8 +17,8 @@ class TracksController < InheritedResources::Base
             id: @track.id,
             position: @track.position,
             title: @track.title,
-            start_time: @track.start_time.strftime('%H:%M'),
-            length: Time.at(@track.length).utc.strftime('%H:%M')
+            start_time: @track.start_time.strftime('%H:%M:%S'),
+            length: Time.at(@track.length).utc.strftime('%H:%M:%S')
           }
         }
       end
@@ -39,7 +39,7 @@ class TracksController < InheritedResources::Base
                     {
                       id: "track_#{track.id}",
                       position: track.position,
-                      start_time: track.start_time.strftime('%H:%M')
+                      start_time: track.start_time.strftime('%H:%M:%S')
                     }
                   end
         }
