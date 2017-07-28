@@ -1,4 +1,4 @@
-%table#viewers.span-12
+%table#viewers.span-11
   %caption Nézők
   %thead
     %tr
@@ -16,7 +16,7 @@
         %td= client.flash_version
         %td.actions
 
-%table#channels.span-11
+%table#channels.span-12
   %caption Csatornák
   %thead
     %tr
@@ -24,6 +24,7 @@
       %th Aktuális műsor
       %th Aktuális szám
       %th Nézők száma
+      %th.actions Műveletek
   %tbody
     - @channels.each do |channel|
       %tr
@@ -33,6 +34,9 @@
         %td
           = na_or_s(channel.playlists.active.any? && channel.playlists.active.first.tracks.now_playing.any?) { channel.playlists.active.first.tracks.now_playing.first.title }
         %td 0
+        %td.actions
+          = link_to image_tag('icons/magnifier.png'), channel, class: 'show'
+          = link_to image_tag('icons/pencil.png'), [:edit, channel], class: 'edit'
 
 %br.span-24.clearfix
 

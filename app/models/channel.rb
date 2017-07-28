@@ -12,6 +12,11 @@ class Channel < ApplicationRecord
 
   after_create :permit_fulladmins
 
+  def url
+    'http:// ' + self.domain
+  end
+
+
   private
 
   def permit_fulladmins
@@ -19,6 +24,4 @@ class Channel < ApplicationRecord
       groups << Group.where(name: 'FullAdmin').first
     end
   end
-
-
 end

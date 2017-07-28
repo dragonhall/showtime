@@ -1,6 +1,11 @@
-%p#notice= notice
+.card-view
+  %dl
+    %dt Név
+    %dd= @channel.name
+    %dt Domain
+    %dd= link_to @channel.domain, @channel.url, target: '_blank'
+    %dt Stream útvonal
+    %dd= "rtmp://tv.dragonhall.hu/live/#{@channel.stream_path}"
+    %dt Overlay kép
+    %dd= image_tag @channel.logo, size: '75x25'
 
-
-= link_to 'Edit', edit_channel_path(@channel)
-\|
-= link_to 'Back', channels_path

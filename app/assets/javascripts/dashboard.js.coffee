@@ -28,3 +28,8 @@ jQuery ->
       success: (data, status, jqXHR) ->
         console.log { data: data, status: status }
     }
+
+  $('table#channels td.actions a').on 'click', (e) ->
+    e.preventDefault()
+
+    jQuery.facebox(ajax: $(this).attr('href'))

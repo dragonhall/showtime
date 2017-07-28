@@ -194,6 +194,17 @@ tfoot tr td {
 }
 
 
+.card-view {
+  dt {
+    width: 110px;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+  }
+
+}
+
+
 footer {
   background: #223444;
   background: -moz-linear-gradient(bottom, #395570 0%, #223444 64%);
