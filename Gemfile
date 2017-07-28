@@ -30,7 +30,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0'
 
-gem 'puma', '~> 3.7'
+gem 'puma', '3.8.2'
 
 group :assets do
   gem 'blueprint-rails', github: 'hron84/blueprint-rails',
@@ -106,6 +106,8 @@ group :application do
   gem 'kaminari'
 
   gem 'mini_magick'
+
+  gem 'rack-dev-mark'
 
   gem 'rails-i18n'
 
