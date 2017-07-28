@@ -36,7 +36,15 @@ module Showtime
 
     config.log_formatter = ::Logger::Formatter.new
 
+    if config.respond_to? :rack_dev_mark
+      config.rack_dev_mark.enable = true
+      config.rack_dev_mark.env =
+        "#{Rails.env} (#{%x(git rev-parse HEAD).strip[0...6]})"
+    end
+
+
     config.active_job.queue_adapter = :resque
+
     # config.active_job.default_url_options = { host: 'localhost' }
 
     config.generators do |generators|
