@@ -73,7 +73,7 @@ module ClientInfo
     end
 
     def block_client(address)
-
+      # BlockedIp.create(address: address)
     end
   end
 end

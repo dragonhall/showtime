@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'client_info/service'
-
 class DashboardController < ApplicationController
   respond_to :html, :json
 
