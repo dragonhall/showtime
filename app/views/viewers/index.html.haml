@@ -21,4 +21,6 @@
           = geoip_flag client.address
           = geoip_country client.address
         %td= geoip_city client.address
-        %td.actions= ' '
+        %td.actions
+          = link_to image_tag('icons/cross.png'), kill_viewer_path(client.client_id), title: 'Gyilkol'
+          = link_to image_tag('icons/trash.png'), block_viewer_path(client.address), title: 'Blokk'
