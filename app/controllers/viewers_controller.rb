@@ -13,11 +13,11 @@ class ViewersController < ApplicationController
   end
 
   def kill
-
+    client_service.kill_client params[:id]
   end
 
   def block
-
+    BlockedIp.find_or_create_by address: params[:address]
   end
 
 

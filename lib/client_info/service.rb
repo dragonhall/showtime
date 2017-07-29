@@ -7,6 +7,8 @@ module ClientInfo
     def initialize
       @config = HashWithIndifferentAccess.new(YAML.load_file(Rails.root.join('config/client_info.yml').to_s))
       @config[:port] ||= @config[:scheme] == 'https' ? 443 : 80
+      @config[:password] ||= Rails.application.secrets.control_api_password
+
 
       url_s = "#{@config[:scheme]}://#{@config[:hostname]}:#{@config[:port]}#{@config[:path]}"
       control_url_s = "#{@config[:scheme]}://#{@config[:hostname]}:#{@config[:port]}#{@config[:control_path]}"

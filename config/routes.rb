@@ -56,8 +56,8 @@ Rails.application.routes.draw do
 
     resources :viewers do
       member do
-        post 'kill'
-        post 'block'
+        get 'kill'
+        get 'block'
       end
     end
 

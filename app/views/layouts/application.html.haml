@@ -20,6 +20,7 @@
           %li= link_to 'Videók', videos_url
           - if current_admin && current_admin.super_admin?
             %li= link_to 'Háttérfolyamatok', resque_web_path
+            -#%li= link_to 'Nézők', viewers_path, target: '_blank'
         = widget 'usermenu', global: true
 
       %main.container
