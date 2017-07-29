@@ -8,6 +8,7 @@ capybara-*.html
 /public/system
 /public/assets
 /public/uploads
+/public/programs
 /coverage/
 /spec/tmp
 /.idea/workspace.xml

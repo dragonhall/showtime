@@ -7,6 +7,7 @@
 //= require jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon
 //= require lofJSlider
 //= require simple_form
+//= require flowplayer-skin
 
 #wrapper {
   margin-top: 10px;
@@ -159,6 +160,16 @@ table caption {
   text-align: center;
   padding: 3px 0;
 
+  a {
+    color: white;
+    text-decoration: none;
+
+    &:hover, &:focus {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+
   .add {
     display: block;
     float: right;
@@ -167,16 +178,25 @@ table caption {
 }
 
 tbody tr td {
-  background: white;
   padding: 2px 5px;
+  background-color: white;
+
+  &.userinfo {
+    background-repeat: no-repeat;
+
+    padding-left: 24px;
+    background-size: 16px;
+    background-position: 3px 50%;
+  }
 }
 
 thead tr th {
   padding: 2px 5px;
 }
 
+tbody th.actions,
 tbody td.actions {
-  width: 40px;
+  width: 80px;
   text-align: right;
 }
 

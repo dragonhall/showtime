@@ -1,5 +1,5 @@
 class VideoImportJob < ApplicationJob
-  def perform(video_path, video_type: :film)
+  def perform(video_path, video_type: :film, pegi_rating: :pegi_3)
     unless File.exist?(video_path)
       failed(file: video_path, message: 'File not found')
       return
@@ -17,10 +17,10 @@ class VideoImportJob < ApplicationJob
       v.metadata[:height] = movie.height
       v.metadata[:frame_rate] = (movie.frame_rate.to_f * 100).to_i / 100.0 # 2 decimals enough
 
-      v.pegi_rating ||= :pegi_12
+      v.pegi_rating ||= pegi_rating.to_sym
     end
 
-    fv = FusionVideo.from_filepath(video_path)
+    fv = FusionVideo.from_filepath(video_path) rescue nil
 
     if fv && !fv.title.blank? then
       v.metadata[:title] = fv.title
@@ -34,9 +34,9 @@ class VideoImportJob < ApplicationJob
       end.join(' ').gsub(/\[.+?\]/, '').strip
     end
 
-    v.metadata[:title] = v.metadata[:title][0..18]
+    v.metadata[:title] = v.metadata[:title]
 
-    v.video_type ||= video_type
+    v.video_type ||= video_type.to_sym
 
     if v.valid?
       v.save

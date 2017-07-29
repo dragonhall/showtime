@@ -19,6 +19,20 @@ class PlaylistsController < InheritedResources::Base
     destroy! { root_url }
   end
 
+  def play
+
+    @playlist ||= Playlist.find(params[:id]) rescue nil
+    @channel = Channel.where(domain: '#technical').first
+
+    if @playlist
+      @playlist.stream_to_technical
+      render 'tv/index', layout: false
+    else
+      redirect_to root_url
+    end
+
+  end
+
   #
   # def reorder
   #   tracks = params[:track]

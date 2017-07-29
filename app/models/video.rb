@@ -23,7 +23,7 @@ class Video < ApplicationRecord
 
   after_create :prepare_for_import
 
-  after_save :update_tracks, if: :metadata_changed?
+  after_save :update_tracks, if: :saved_change_to_metadata?
 
   scope :trailers, -> { where(video_type: :trailer) }
   scope :adverts, -> { where(video_type: :advert) }

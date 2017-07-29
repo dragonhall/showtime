@@ -5,11 +5,21 @@
 #= require jquery.tools.min
 #= require jquery.facebox
 #= require jquery.initialize
- #= require flowplayer
+#= require flowplayer
 #= require footages
 
 jQuery ->
-  flowplayer.conf = { live: true };
+  flowplayer.conf = {live: true};
 
-  jQuery.initialize '.flowplayer', ->
-    $('.flowplayer:has(video,script[type="application/json"])').flowplayer()
+  jQuery.initialize '.viragjatekos', ->
+    setTimeout((->
+      jQuery.ajax
+        url: '/tv/index.json'
+        method: 'GET'
+        success: (data, status, jqXHR) ->
+          console.log(data)
+          $('.playlist').slideUp(500)
+
+          flowplayer('.viragjatekos', {clip: {sources: [type: 'video/flash', src: data.src]}, autoplay: true, live: true, swf: $('.viragjatekos').data('swf')})
+          $('.viragjatekos').show()
+    ), 3000)

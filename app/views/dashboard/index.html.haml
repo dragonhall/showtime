@@ -1,5 +1,8 @@
 %table#viewers.span-11
-  %caption Nézők
+  %caption
+    = link_to "Nézők (#{@clients.size})", viewers_path
+
+
   %thead
     %tr
       %th Felhasználó
@@ -11,13 +14,18 @@
     - @clients.each do |client|
       %tr
         %td.userinfo= client.user_id >= 0 ? link_to(image_tag(client.user.avatar_url, size: '24x24') + client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : 'Anonymous'
-        %td= link_to client.address, viewer_path(client.client_id)
+        %td
+          = geoip_flag(client.address)
+          = link_to client.address, viewer_path(client.client_id)
         %td= client.platform
         %td= client.flash_version
         %td.actions
 
 %table#channels.span-12
-  %caption Csatornák
+  %caption
+    Csatornák
+    %span.actions.right
+      = link_to image_tag('icons/add.png'), new_channel_path, class: 'add'
   %thead
     %tr
       %th Név
@@ -92,6 +100,7 @@
         %td= playlist.end_time.strftime('%F %T')
         %td= "#{playlist.tracks.count} db (#{playlist.tracks.films.count} film)"
         %td.actions
+          = link_to image_tag('icons/play.png'), [:play, playlist.channel, playlist], class: 'play'
           = link_to image_tag('icons/magnifier.png'), [playlist.channel, playlist, :tracks], target: '_blank'
           = link_to image_tag('icons/pencil.png'), [:edit, playlist.channel, playlist], class: 'edit' if !playlist.finalized
           = link_to image_tag('icons/cross.png'), [playlist.channel, playlist], method: :delete, confirm: 'Biztosan törlöd ezt a műsort?'

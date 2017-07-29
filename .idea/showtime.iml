@@ -131,7 +131,7 @@
     <orderEntry type="library" scope="PROVIDED" name="powerpack (v0.1.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry (v0.10.4, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="pry-rails (v0.3.6, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="puma (v3.9.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="puma (v3.8.2, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.0.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-contrib (v1.2.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-protection (v2.0.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />

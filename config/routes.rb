@@ -30,6 +30,9 @@ Rails.application.routes.draw do
 
     resources :channels do
       resources :playlists do
+        member do
+          get :play
+        end
         resources :tracks do
           collection do
             post 'reorder'
@@ -46,10 +49,17 @@ Rails.application.routes.draw do
 
     # resources :footages, constraints: DomainConstraint.new(/^tv\./)
 
-    get '/viewers/:id', to: 'viewers#show',
-                        constraints: {id: /\d+/}, as: 'viewer'
-    post '/viewers/kill/:id', to: 'viewers#kill', as: 'viewer_kill'
-    post '/viewers/block/:id', to: 'viewers#block', as: 'viewer_block'
+    # get '/viewers/:id', to: 'viewers#show',
+    #                     constraints: {id: /\d+/}, as: 'viewer'
+    # post '/viewers/kill/:id', to: 'viewers#kill', as: 'viewer_kill'
+    # post '/viewers/block/:id', to: 'viewers#block', as: 'viewer_block'
+
+    resources :viewers do
+      member do
+        post 'kill'
+        post 'block'
+      end
+    end
 
     root to: 'dashboard#index'
   end
@@ -57,6 +67,7 @@ Rails.application.routes.draw do
   constraints subdomain: 'tv' do
     resources :footages
     root to: 'tv#index'
+    get '/tv/index', to: 'tv#index'
   end
 
   authenticated :admin do

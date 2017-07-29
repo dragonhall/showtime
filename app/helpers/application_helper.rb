@@ -17,4 +17,17 @@ module ApplicationHelper
       render partial: path
     end
   end
+
+  def geoip_country(address)
+    $geoip.country(address).country_name
+  end
+
+  def geoip_flag(address)
+    code = $geoip.country(address).country_code2.downcase
+    image_tag "flags/#{code}.png"
+  end
+
+  def geoip_city(address)
+    $geocity.city(address).city_name
+  end
 end

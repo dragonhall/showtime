@@ -17,6 +17,16 @@ require 'sprockets/railtie'
 Bundler.require(*Rails.groups, :assets, :application)
 
 module Showtime
+  class Version
+    def self.version(root_path)
+      @@version ||= if File.exists?("#{root_path}/REVISION") then
+                      File.read("#{root_path}/REVISION")
+                    else
+                      %x(cd #{Rails.root} && git rev-parse HEAD).chomp
+                    end[0..6]
+    end
+  end
+
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
@@ -37,9 +47,9 @@ module Showtime
     config.log_formatter = ::Logger::Formatter.new
 
     if config.respond_to? :rack_dev_mark
-      config.rack_dev_mark.enable = true
+      config.rack_dev_mark.enable = !Rails.env.production?
       config.rack_dev_mark.env =
-        "#{Rails.env} (#{%x(git rev-parse HEAD).strip[0...6]})"
+        "#{Rails.env} (#{Showtime::Version.version(Rails.root)})"
     end
 
 

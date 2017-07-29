@@ -7,6 +7,8 @@
       Showtime
     = stylesheet_link_tag :application
     = csrf_meta_tag
+    - if Rails.env.production?
+      %meta{name: 'Application-Version', content: Showtime::Version.version(Rails.root)}
 
   %body
     #wrapper.container

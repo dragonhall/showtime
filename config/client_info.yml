@@ -3,5 +3,5 @@ scheme: http
 hostname: tv.dragonhall.hu
 port: 8080
 path: /stat
+control_path: /control
 username: admin
-password: piccolo

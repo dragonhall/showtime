@@ -28,6 +28,10 @@ class Track < ApplicationRecord
     video.metadata['length'] || 0
   end
 
+  def stop!
+    update_attribute :playing, false
+  end
+
   def up!
     return if position <= 1
 

@@ -17,30 +17,22 @@ class PlaylistGeneratorJob < ApplicationJob
                end
     unless playlist
       failed("Playlist##{playlist_id} not found")
+
       return
     end
 
     kit = IMGKit.new(
-        url_helpers.channel_playlist_tracks_url(
+        channel_playlist_tracks_url(
             playlist.channel,
-            playlist.id,
-            host: 'localhost',
-            port: 3000
+            playlist.id
         )
     )
 
-    FileUtils.mkdir_p(program_root.join(playlist.channel.name))
+    FileUtils.mkdir_p(program_root.join("channel_#{playlist.channel_id}/#{playlist.id}"))
 
-    File.open(program_root.join(playlist.channel.name)
+    File.open(program_root.join("channel_#{playlist.channel_id}/#{playlist_id}")
          .join("#{playlist.start_time.to_date.strftime('%Y-%m-%d')}.png"), 'wb') do |fp|
       fp.write kit.to_png.force_encoding(::Encoding::ASCII_8BIT)
     end
   end
-
-  private
-
-  def sluggify(string)
-    string.gsub(/\W+/, '')
-  end
-
 end

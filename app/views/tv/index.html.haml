@@ -2,7 +2,10 @@
   .post_header
     %h3 DragonHall+ TV Lejátszó
   .player
-    .flowplayer{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') } }
+    - if @playlist
+      .playlist
+        = image_tag "/programs/channel_#{@channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png", size: '720x404'
+    .viragjatekos{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') }}
       %video{autoplay: true}
         -# TODO: Rewrite to dynamic src.
-        %source{type: 'video/flash', src: 'rtmp://tv.dragonhall.hu:1935/live/dragonhall'}
+        %source{type: 'video/flash', src: ""}

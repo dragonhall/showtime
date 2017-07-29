@@ -12,9 +12,11 @@ class StreamingJob < ApplicationJob
 
   def perform(playlist_id)
     begin
-      playlist = playlist_id.is_a?(Playlist) ?
-                      playlist_id :
-                      Playlist.find(playlist_id)
+      playlist = if playlist_id.is_a?(Playlist) then
+                   playlist_id
+                 else
+                   Playlist.find(playlist_id)
+                 end
     rescue ActiveRecord::RecordNotFound => e
       failed "Cannot play Playlist##{playlist_id}: #{e.message}"
       return
@@ -27,7 +29,7 @@ class StreamingJob < ApplicationJob
     logger.debug "Playing #{total} tracks"
 
     playlist.tracks.each_with_index do |track, i|
-      return if track.playing? # Currently I have no idea how to prevent overlapping jobs
+      next if playlist.tracks.where(playing: true).any? && !track.playing?
 
       track.update_attribute :playing, true
 
@@ -84,13 +86,13 @@ class StreamingJob < ApplicationJob
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
     if channel.logo? && video.video_type != :intro
-      if pegi_path && video.video_type == :film && [:pegi_12, :pegi_16, :pegi_18].include?(video.pegi_rating)
+      if pegi_path && video.video_type == :film && %i[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating)
         filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
       else
         filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
       end
     else
-      filter_params += pegi_path.blank? ? nil : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
+      filter_params += pegi_path.blank? ? '' : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
     end
 
     # unless ratio < (16.0 / 9.0)

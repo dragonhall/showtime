@@ -33,3 +33,9 @@ jQuery ->
     e.preventDefault()
 
     jQuery.facebox(ajax: $(this).attr('href'))
+
+  $('#playlists_editables a.play, table#channels caption a.add').on 'click', (e) ->
+    e.preventDefault()
+
+    jQuery.facebox
+      ajax: $(this).attr('href')

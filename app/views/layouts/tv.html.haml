@@ -7,7 +7,7 @@
     %link(rel="shortcut icon" href="http://dragonhall.hu/images/favicon.gif" )
     = stylesheet_link_tag :tv
     = javascript_include_tag :tv
-
+    = analytics_init if GoogleAnalytics.valid_tracker?
     = yield :head if content_for? :head
 
   %body
@@ -24,4 +24,14 @@
         = yield
 
       %footer
+        %ins(class="adsbygoogle"
+        style="display:inline-block;width:728px;height:90px"
+        data-ad-client="ca-pub-9728607859007946"
+        data-ad-slot="4176233528") LOFASZ
+
         %p= "Copyright &copy; 2007-#{Time.now.year} DragonHall+".html_safe
+
+    = javascript_include_tag '//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js'
+
+    :javascript
+      (adsbygoogle = window.adsbygoogle || []).push({});

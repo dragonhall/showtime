@@ -1,0 +1,24 @@
+%table#viewers.span-23
+  %caption Nézők
+  %thead
+    %tr
+      %th Felhasználó
+      %th IP cím
+      %th Platform
+      %th Flash verzió
+      %th Ország
+      %th Város
+      %th.actions Műveletek
+  %tbody
+    - @clients.each do |client|
+      %tr
+        %td.userinfo{style: "#{client.user_id >= 0 && "background-image: url(#{client.user.avatar_url}"});"}
+          = client.user_id >= 0 ? link_to(client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : 'Anonymous'
+        %td= client.address
+        %td= client.platform
+        %td= client.flash_version
+        %td
+          = geoip_flag client.address
+          = geoip_country client.address
+        %td= geoip_city client.address
+        %td.actions= ' '

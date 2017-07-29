@@ -129,4 +129,8 @@ group :application do
 
   gem 'imgkit'
   gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
+
+  gem 'geoip'
+
+  gem 'google-analytics-rails'
 end
