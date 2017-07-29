@@ -19,3 +19,15 @@
 #= require_tree .
 
 
+
+
+$('table#viewers a.kill, table#viewers a.block').on 'click', (e) ->
+  e.preventDefault()
+
+  jQuery.ajax
+    url: $(this).attr('href')
+    method: 'GET'
+    success: (data, status, xhr) ->
+      alert('Gyilok/Blokk kesz')
+    error: (data, status, lofasz) ->
+      alert('Tulelte!!!!')

@@ -61,15 +61,20 @@ module ClientInfo
         params[:clientid] = cid_or_address
       end
 
-      req = Net::HTTP::Get.new(@control_url.path + '/drop/client')
-      req.basic_auth @config[:username], @config[:password]
-      req.set_form_data params
+      qparams = params.map { |k,v| "#{k}=#{v}" }.join('&')
+      #
+      # req = Net::HTTP::Get.new(@control_url.path + '/drop/client?' + qparams)
+      # req.basic_auth @config[:username], @config[:password]
+      # # req.set_form_data params
+      #
+      #
+      # rsp = Net::HTTP.start(@control_url.hostname, @control_url.port) do |http|
+      #   http.request req
+      # end
 
-      rsp = Net::HTTP.start(@control_url.hostname, @control_url.port) do |http|
-        http.request req
-      end
+      system "curl -ks #{@control_url.to_s}/drop/client?#{qparams}"
 
-      Rails.logger.info "#{rsp.body} client(s) with #{cid_or_address} killed"
+      # Rails.logger.info "#{rsp.body} client(s) with #{cid_or_address} killed"
     end
 
     def block_client(address)

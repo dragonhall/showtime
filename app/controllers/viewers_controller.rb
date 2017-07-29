@@ -14,6 +14,11 @@ class ViewersController < ApplicationController
 
   def kill
     client_service.kill_client params[:id]
+    respond_to do |format|
+      format.html { redirect_to viewers_path }
+      format.json { render status: :ok}
+    end
+
   end
 
   def block
