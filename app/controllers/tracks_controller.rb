@@ -52,7 +52,7 @@ class TracksController < InheritedResources::Base
   def set_title
     playlist = Playlist.find(params[:playlist_id])
 
-    @title = if playlist.start_time == Time.zone.now.to_date
+    @title = if playlist.start_time.to_date == Time.zone.now.to_date
                'Mai'
              elsif playlist.start_time >= Time.zone.now.to_date.beginning_of_week &&
                    playlist.start_time <= Time.zone.now.to_date.end_of_week
