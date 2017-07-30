@@ -90,6 +90,6 @@ class Playlist < ApplicationRecord
 
   def postprocess_finalization
     PlaylistGeneratorJob.perform_later id
-    Resque.enqueue_at_with_queue 'streaming', self.start_time, StreamingJob, self.id
+    Resque.enqueue_at self.start_time, StreamingJob, playlist_id: id
   end
 end

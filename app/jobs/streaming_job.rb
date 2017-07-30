@@ -1,16 +1,21 @@
 require 'fileutils'
-class StreamingJob < ApplicationJob
-  queue_as :streaming
+class StreamingJob # < ApplicationJob
+  include Resque::Plugins::Status
 
-  before_perform do
-    FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
-  end
+  # queue_as :streaming
+  @queue = 'streaming'
 
-  after_perform do
-    FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
-  end
+  #before_perform do
+  #  FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
+  #end
 
-  def perform(playlist_id)
+  #after_perform do
+  #  FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
+  #end
+
+  def perform
+    playlist_id = options['playlist_id']
+
     begin
       playlist = if playlist_id.is_a?(Playlist) then
                    playlist_id
@@ -28,6 +33,8 @@ class StreamingJob < ApplicationJob
 
     logger.debug "Playing #{total} tracks"
 
+    FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
+
     playlist.tracks.each_with_index do |track, i|
       next if playlist.tracks.where(playing: true).any? && !track.playing?
 
@@ -41,16 +48,16 @@ class StreamingJob < ApplicationJob
       if File.exist?(track.video.path)
         # Loading video
         stream_video track.video, channel: playlist.channel
-
       else
         logger.fatal "Playing movie failed: missing file: '#{track.video.path}'"
         failed "Playing movie failed: missing file: '#{track.video.path}'"
         sleep track.length # TODO: replace it with looping monoscope/error video
-        return
       end
 
       track.update_attribute :playing, false
     end
+
+    FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
   end
 
   private
@@ -86,7 +93,7 @@ class StreamingJob < ApplicationJob
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
     if channel.logo? && video.video_type != :intro
-      if pegi_path && video.video_type == :film && %i[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating)
+      if pegi_path && video.video_type == :film && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating)
         filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
       else
         filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
@@ -102,8 +109,8 @@ class StreamingJob < ApplicationJob
     # filter_params.sub!(/\[scaled\];\Z/, '')
 
     # bitrate = movie.video_bitrate > 0 ? movie.video_bitrate : 30_000
-    bitrate = movie.video_bitrate > 1_500_000 ? 1_500_000 : movie.video_bitrate
-    bitrate /= 1000
+    bitrate = movie.video_bitrate > 2_000_000 ? 2_000_000 : movie.video_bitrate
+    bitrate = (bitrate / 1000.0).ceil
 
     transcoding_params = {}
 
@@ -209,4 +216,9 @@ class StreamingJob < ApplicationJob
 
     system(pipecmd)
   end
+
+  def job_id
+    @uuid
+  end
+
 end
