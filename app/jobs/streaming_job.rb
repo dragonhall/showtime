@@ -106,8 +106,8 @@ class StreamingJob # < ApplicationJob
     # unless ratio < (16.0 / 9.0)
     #   filter_params.gsub!('[scaled]', '[in]')
     # end
-    #
-    # filter_params.sub!(/\[scaled\];\Z/, '')
+    
+    filter_params.sub!(/\[scaled\];\Z/, '')
 
     # bitrate = movie.video_bitrate > 0 ? movie.video_bitrate : 30_000
     bitrate = movie.video_bitrate > 2_000_000 ? 2_000_000 : movie.video_bitrate
