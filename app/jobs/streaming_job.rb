@@ -80,7 +80,8 @@ class StreamingJob # < ApplicationJob
     # target_height = ratio < (16.0 / 9.0) ? 540 : 404
     target_height = 404
 
-    wspacing = ratio < (16.0 / 9.0) ? 22 + 91 : 22
+    # wspacing = ratio < (16.0 / 9.0) ? 22 + 91 : 22
+    wspacing = ratio < 1.5 ? 22 + 91 : 22
 
     channel_logo = channel.logo.path if channel.logo?
 
@@ -92,14 +93,14 @@ class StreamingJob # < ApplicationJob
 
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
-    if channel.logo? && video.video_type != :intro
-      if pegi_path && video.video_type == :film && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating)
+    if channel.logo? && video.video_type != 'intro'
+      if video.video_type == :film && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path
         filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
       else
         filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
       end
-    else
-      filter_params += pegi_path.blank? ? '' : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
+    #else
+    #  filter_params += pegi_path.blank? ? '' : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}" 
     end
 
     # unless ratio < (16.0 / 9.0)
