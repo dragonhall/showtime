@@ -110,12 +110,13 @@ class StreamingJob # < ApplicationJob
     filter_params.sub!(/\[scaled\];\Z/, '')
 
     # bitrate = movie.video_bitrate > 0 ? movie.video_bitrate : 30_000
-    bitrate = movie.video_bitrate > 2_000_000 ? 2_000_000 : movie.video_bitrate
+    #bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
+    bitrate = 2_000_000
     bitrate = (bitrate / 1000.0).ceil
 
     transcoding_params = {}
 
-    transcoding_params[:custom] = %w[-f flv]
+    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -f flv]
 
     if video.metadata[:deinterlace]
       transcoding_params[:custom].unshift '-deinterlace'
