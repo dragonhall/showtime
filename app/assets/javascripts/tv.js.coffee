@@ -6,7 +6,7 @@
 #= require jquery.facebox
 #= require jquery.initialize
 #= require flowplayer
-#= require footages
+#= require recordings
 
 jQuery ->
   flowplayer.conf = {live: true};

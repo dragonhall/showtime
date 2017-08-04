@@ -20,6 +20,7 @@ class Video < ApplicationRecord
   # validates_length_of :title, maximum: 20
 
   has_many :tracks
+  has_many :recordings
 
   after_create :prepare_for_import
 
@@ -30,12 +31,12 @@ class Video < ApplicationRecord
   scope :films, -> { where(video_type: :film) }
   scope :intros, -> { where(video_type: :intro) }
 
-  # def metadata
-  #   (self.attributes['metadata'] || Hash.new).with_indifferent_access
-  # end
-
   def imported?
     !metadata.blank?
+  end
+
+  def recorded?
+    Recording.where(video_id: id).any? && Recording.where(video_id: id).first.recorded?
   end
 
   def self.pegi_rating_titles
@@ -54,6 +55,17 @@ class Video < ApplicationRecord
     # end
 
     @@pegi_icons = Hash[v]
+  end
+
+  def self.series
+    @series ||= connection.exec_query(
+        'SELECT DISTINCT series FROM videos'
+    ).rows.flatten.compact
+  end
+
+  # @param [Playlist] playlist
+  def record!(playlist)
+    recording = recordings.create!(valid_from: playlist.start_time, channel_id: playlist.channel.id)
   end
 
   private

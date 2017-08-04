@@ -1,0 +1,49 @@
+.post.main
+  .post_header
+    %h3 Videótár
+  #recordings-wrapper
+    .recording-selector
+      = select_tag :series, options_for_select(Recording.series.dup.unshift('Sorozatok'), 'Sorozatok')
+      .calendar
+    #recordings.lof-slidecontent.lof-snleft
+      .preload
+        %div
+      .lof-main-outer
+        %ul.lof-main-wapper
+          -#%li
+          -#  = image_tag 'http://dragonhall.hu/tar/kep/teszt/kis/wata3tv.png', size: '720x404', title: 'WataMote 5'
+          -#
+          -#  .lof-main-item-desc
+          -#    %h3= link_to 'WataMote 5', '#'
+          -#
+          -#    %p
+          -#      Aenean efficitur nisl dignissim, hendrerit nisi at, lobortis sem.
+          - @recordings.each do |recording|
+            %li
+              = image_tag recording.video.screenshot_path, size: '720x404', title: 'LOFASZ'
+
+              .lof-main-item-desc
+                %h3= link_to recording.video.title, recording
+
+                %p= l recording.valid_from, format: :long
+
+
+      .lof-navigator-outer
+        %ul.lof-navigator
+          -#%li
+          -#  %div
+          -#    = image_tag 'http://dragonhall.hu/tar/kep/teszt/kicsi/wata3tv.png', size: '140x70', alt: ''
+          -#    %h3 Naruto 002 Konohamaru színre lép
+          -#    %span.date 2010.08.05.
+          -#    WataMote - 5. rész
+          - @recordings.each do |recording|
+            %li
+              %div
+                = image_tag recording.video.screenshot_path, size: '140x70', alt: ''
+                %h3= recording.video.title
+                %span.date= l recording.valid_from, format: :short
+                = recording.video.series
+
+    %br(style="clear:both;")
+
+%div.recordings-player(style="display: none;")
