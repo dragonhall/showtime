@@ -7,6 +7,16 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
+server 'szeroka.dragonhall.hu', user: 'showtime', roles: %w[app db web], port: 15_412
+
+
+set :nginx_sites_available_path, '/opt/nginx-with-rtmp/conf/sites-available'
+set :nginx_sites_enabled_path, '/opt/nginx-with-rtmp/conf/sites-enabled'
+
+
+set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu/htdocs'
+set :nginx_server_name, 'showtime.teszt.dragonhall.hu'
+set :branch, 'develop'
 
 
 # role-based syntax
@@ -21,8 +31,6 @@
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
-
-
 # Configuration
 # =============
 # You can set any configuration variable like in config/deploy.rb
@@ -30,8 +38,6 @@
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================
@@ -46,6 +52,9 @@
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }
+
+set :ssh_options, keys: %W[#{ENV['HOME']}/.ssh/id_rsa], auth_methods: %w[publickey] #, verbose: :debug
+
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------

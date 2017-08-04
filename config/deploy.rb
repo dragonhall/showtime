@@ -50,5 +50,5 @@ set :rvm_ruby_version, 'ruby-2.4.1@showtime'
 set :nginx_config_file, -> { "#{fetch(:nginx_config_name)}.conf" }
 set :nginx_server_name, 'showtime.dragonhall.hu'
 
-set :foreman_roles, :all
-set :foreman_init_system, 'systemd'
+#set :foreman_roles, :all
+#set :foreman_init_system, 'systemd'
