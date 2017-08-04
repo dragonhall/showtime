@@ -32,7 +32,13 @@ Rails.application.routes.draw do
       resources :playlists do
         member do
           get :play
+          get :program
         end
+
+        collection do
+          get :current_program
+        end
+
         resources :tracks do
           collection do
             post 'reorder'

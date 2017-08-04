@@ -1,6 +1,7 @@
 *.rbc
 capybara-*.html
-.rspec
+!/log/.keep
+!/tmp/.keep
 /log
 /tmp
 /db/*.sqlite3
@@ -15,10 +16,6 @@ capybara-*.html
 *.orig
 rerun.txt
 pickle-email-*.html
-
-!/log/.keep
-!/tmp/.keep
-
 
 # TODO Comment out this rule if you are OK with secrets being uploaded to the repo
 config/initializers/secret_token.rb
@@ -60,3 +57,6 @@ bower.json
 
 # Ignore encrypted secrets key file.
 config/secrets.yml.key
+/public/recordings/
+/public/screenshots/
+public/streaming/channellogos/
