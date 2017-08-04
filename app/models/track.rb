@@ -9,7 +9,7 @@ class Track < ApplicationRecord
 
   scope :films, -> { joins(:video).where('videos.video_type' => Video.video_types[:film]) }
 
-  default_scope -> { order(:playlist_id, :position) }
+  default_scope -> { includes(:video).order(:playlist_id, :position) }
 
   validates_presence_of :video
   validates_presence_of :playlist

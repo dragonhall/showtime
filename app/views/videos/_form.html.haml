@@ -1,4 +1,5 @@
 = form_for @video, html: { class: 'simple_form' } do |f|
+
   - unless f.object.imported?
     = f.input :path
   = f.input :video_type, collection: Video.video_types.map { |t, v| [t.to_s.titleize, v]}, selected: f.object.video_type_before_type_cast
@@ -6,5 +7,12 @@
 
   - if f.object.imported?
     = f.input :title
-
+    - if f.object.video_type == 'film'
+      %input{type: 'hidden', id: 'video_series_values', value: Video.series.to_json}
+      = f.input :series
+    = f.input :recordable
+    = f.input :deinterlace, as: :boolean, input_html: { value: !!f.object.deinterlace }
+    - if f.object.screenshot_path?
+      = f.input :screenshot_path, input_html: { disabled: true }
+      = image_tag f.object.screenshot_path
   = f.submit

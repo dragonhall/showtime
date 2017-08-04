@@ -16,6 +16,7 @@ class VideoImportJob < ApplicationJob
       v.metadata[:width] = movie.width
       v.metadata[:height] = movie.height
       v.metadata[:frame_rate] = (movie.frame_rate.to_f * 100).to_i / 100.0 # 2 decimals enough
+      v.metadata[:deinterlace] = false
 
       v.pegi_rating ||= pegi_rating.to_sym
     end

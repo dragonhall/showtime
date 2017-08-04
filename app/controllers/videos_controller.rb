@@ -7,6 +7,12 @@ class VideosController < InheritedResources::Base
   skip_before_action :verify_authenticity_token, only: :autocomplete
   skip_before_action :authenticate_admin!, only: :autocomplete
 
+
+  def edit
+    @series = Video.series
+    edit!
+  end
+
   def create
     create! do |success, failure|
       success.html { redirect_to videos_url }
@@ -31,7 +37,16 @@ class VideosController < InheritedResources::Base
     end
 
     if query.any?
-      result = query.all.map { |video| {id: video.id, label: video.title}  }
+      result = query.all.map do
+      # @type [Video] video
+      |video|
+        {
+            id: video.id,
+            label: video.title,
+            duration: Time.at(video.metadata[:length]).utc.strftime('%T'),
+            icon: "film_#{video.video_type}"
+        }
+      end
       render json: result
     else
       render status: :not_found, json: []
@@ -63,7 +78,8 @@ class VideosController < InheritedResources::Base
 
     logger.debug 'Params incoming: ' + params.to_json
 
-    params.require(:video).permit(:path, :video_type, :title, :pegi_rating)
+    params.require(:video).permit(:path, :video_type, :title, :pegi_rating, :recordable,
+                                  :deinterlace, :series)
   end
 end
 

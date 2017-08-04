@@ -17,7 +17,7 @@ Rails.application.config.assets.precompile += %w[
   tv.css
   tv.js
   flowplayer.js
-  footages.css
-  footages.js
+  recordings.css
+  recordings.js
   playlists.css
 ]

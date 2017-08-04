@@ -1,0 +1,23 @@
+#!/bin/bash
+
+JOB_ID="$1"
+SOURCE="$2"
+TARGET="$3"
+PEGI="$4"
+
+###################################################3
+
+ME="$(readlink -f "$0")"
+RAILS_ROOT=$(readlink -f "$(dirname "${ME}")/..")
+
+LOGO_INTRO="/szeroka/dh0/load/load3/dhtv/intro/LogoIntro.mpg"
+PEGI_INTRO="/szeroka/dh0/load/load3/dhtv/intro/${PEGI}.mpg"
+
+CONCAT="${RAILS_ROOT}/tmp/recordings/${JOB_ID}/concat.txt"
+
+echo "file '${LOGO_INTRO}'" > "$CONCAT"
+echo "file '${PEGI_INTRO}'" >> "$CONCAT"
+echo "file '${SOURCE}'" >> "$CONCAT"
+
+ffmpeg -safe 0 -f concat -i "$CONCAT" -b:v 2000k -f mp4 "${TARGET}"
+

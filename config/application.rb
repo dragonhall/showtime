@@ -46,6 +46,8 @@ module Showtime
 
     config.log_formatter = ::Logger::Formatter.new
 
+    config.i18n.default_locale = :hu
+
     if config.respond_to? :rack_dev_mark
       config.rack_dev_mark.enable = !Rails.env.production?
       config.rack_dev_mark.env =

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170729150319) do
+ActiveRecord::Schema.define(version: 20170804082708) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
@@ -71,6 +71,18 @@ ActiveRecord::Schema.define(version: 20170729150319) do
     t.index ["start_time"], name: "index_playlists_on_start_time", unique: true
   end
 
+  create_table "recordings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "path"
+    t.integer "video_id", null: false
+    t.datetime "valid_from", null: false
+    t.datetime "expires_at"
+    t.integer "channel_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["path"], name: "index_recordings_on_path", unique: true
+    t.index ["valid_from"], name: "index_recordings_on_valid_from"
+  end
+
   create_table "tracks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "playlist_id", null: false
     t.integer "video_id", null: false
@@ -88,7 +100,11 @@ ActiveRecord::Schema.define(version: 20170729150319) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "pegi_rating"
+    t.boolean "recordable"
+    t.string "screenshot_path"
+    t.string "series"
     t.index ["path"], name: "index_videos_on_path", unique: true
+    t.index ["series"], name: "index_videos_on_series"
   end
 
 end

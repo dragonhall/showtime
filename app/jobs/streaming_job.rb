@@ -16,6 +16,8 @@ class StreamingJob # < ApplicationJob
   def perform
     playlist_id = options['playlist_id']
 
+    FFMPEG.logger = logger
+
     begin
       playlist = if playlist_id.is_a?(Playlist) then
                    playlist_id
@@ -91,7 +93,10 @@ class StreamingJob # < ApplicationJob
 
     filter_params = ''
 
-    filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
+    if movie.width != 720 && movie.height != 404 then
+      filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
+    end
+
 
     if channel.logo? && video.video_type != 'intro'
       if video.video_type == 'film' && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path
@@ -103,11 +108,11 @@ class StreamingJob # < ApplicationJob
     #  filter_params += pegi_path.blank? ? '' : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}" 
     end
 
-    # unless ratio < (16.0 / 9.0)
-    #   filter_params.gsub!('[scaled]', '[in]')
-    # end
-    
     filter_params.sub!(/\[scaled\];\Z/, '')
+
+    if movie.width != 720 && movie.height != 404
+      filter_params.sub!(/\[scaled\]/, '[in]')
+    end
 
     # bitrate = movie.video_bitrate > 0 ? movie.video_bitrate : 30_000
     #bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
@@ -118,7 +123,7 @@ class StreamingJob # < ApplicationJob
 
     transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -f flv]
 
-    if video.metadata[:deinterlace]
+    if video.metadata[:deinterlace] != '0'
       transcoding_params[:custom].unshift '-deinterlace'
     end
 
@@ -128,7 +133,7 @@ class StreamingJob # < ApplicationJob
       video_bitrate: bitrate
     )
 
-    transcoding_params[:custom] += ['-vf', filter_params] if filter_params
+    transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
 
     other_params = { input_options: ['-re'], validate: false }
 

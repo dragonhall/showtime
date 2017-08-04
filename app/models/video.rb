@@ -7,7 +7,7 @@ class Video < ApplicationRecord
 
   # serialize :metadata, JSON
   serialize :metadata, JsonWithIndifferentAccessSerializer
-  store_accessor :metadata, :title, :width, :height, :frame_rate, :bitrate
+  store_accessor :metadata, :title, :width, :height, :frame_rate, :bitrate, :deinterlace
 
   validates_presence_of :path
   validates_uniqueness_of :path

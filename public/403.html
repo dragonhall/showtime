@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Az oldal nem taláható (404)</title>
+    <title>A szerver visszautasítja a kérelmet (403)</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <style>
         .rails-default-error-page {
@@ -55,19 +55,14 @@
 </head>
 
 <body class="rails-default-error-page">
-<!-- This file lives in public/404.html -->
+<!-- This file lives in public/422.html -->
 <div class="dialog">
     <div>
-        <h1>Az oldal nem taláható</h1>
-        <p>
-            A szerver nem találja a kért lapot. Ezért nem tudja meg jeleníteni. Próbáld később!
-            A böngésző kapcsolódni tud a webkiszolgálóhoz, de a weblap nem található, a webcímmel (URL)
-            kapcsolatos probléma miatt. Ez a hibaüzenet gyakran a webhely címének helytelen beírása miatt jelenik meg,
-            és a
-            weblap ideiglenesen nem érhető el vagy, törölve lett a tárhelyről. De nem kizárt, hogy át lett helyezve a
-            fájl
-            máshova, csak a link nem lett módosítva.
-        </p>
+        <h1>A szerver visszautasítja a kérelmet</h1>
+        <p>A szerver visszautasítja a kérelmet. Ha azt tapasztalod, hogy ezt az állapotkódot kaptad,
+            miközben a webhely elérhető oldalait próbáltad feltérképezni, valószínű, hogy a szerver nem engedélyezi a
+            könyvtárlistázást, amely lehetővé teszi a fájlok megtekintését a mappa struktúrában. Ergo le vagy
+            tiltva!!!</p>
     </div>
     <p>Ha csapattag vagy, kérdezd meg a rendszergazdát.</p>
 </div>

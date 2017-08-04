@@ -18,7 +18,8 @@ class TracksController < InheritedResources::Base
             position: @track.position,
             title: @track.title,
             start_time: @track.start_time.strftime('%H:%M:%S'),
-            length: Time.at(@track.length).utc.strftime('%H:%M:%S')
+            length: Time.at(@track.length).utc.strftime('%H:%M:%S'),
+            video_type: @track.video.video_type
           }
         }
       end

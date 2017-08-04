@@ -16,8 +16,20 @@ jQuery ->
 
       tbody.find('#line-form').show()
 
-      $('input#video_title').autocomplete
+      $('input#video_title').autocomplete(
 #        source: '/videos/autocomplete'
+        open: (event, ui) ->
+          input = $(event.target)
+          widget = input.autocomplete('widget')
+          top = widget.position().top
+          height = widget.outerHeight()
+          scrollTop = $(window).scrollTop()
+
+          if (top + height > $(window).innerHeight() + scrollTop)
+            newTop = top - height - input.outerHeight()
+            if newTop > scrollTop
+              widget.css('top', newTop + 'px')
+
         source: (request, response) ->
           jQuery.ajax
             url: '/videos/autocomplete'
@@ -38,10 +50,16 @@ jQuery ->
           if ui.item
             $('input#video_title').val ui.item.label
             $('input#video_id').val ui.item.id
-
+      ).autocomplete('instance')._renderItem = (ul, item) ->
+#        $('<li>').append("<div><img src=\"/assets/icons/#{item.icon}.png\"/> #{item.label}<br/><small style=\"margin-left: 20px;\">#{item.duration}</small></div>").appendTo(ul)
+         $('<li>').append("<div style=\"background-image: url(/assets/icons/#{item.icon}.png); background-repeat: no-repeat; background-position: 2px 3px; padding-left: 20px;\">#{item.label}<br><small>#{item.duration}</small></div>").appendTo(ul)
     # Re-triggering completion if user changed the filter after typing
     $('select#video_type').on 'change', (e) ->
       $('input#video_title').trigger('keydown') if $('input#video_title').val() != ''
+    $('input#video_title').on 'keypress', (e) ->
+      if e.which == 13
+        e.preventDefault()
+        $('#line-form a.accept').trigger('click')
 
     $('#line-form a.cancel').on 'click', (e) ->
       e.preventDefault()
@@ -64,15 +82,15 @@ jQuery ->
 
           delete_track_href = $('table#playlist_tracklist').parent().attr('action') + '/tracks/' + track.id
 
-#          new_entry = $("
-#            <tr id=\"track_#{track.id}\">
-#              <td>#{track.position}</td>
-#              <td>#{track.title}</td>
-#              <td>#{track.length}</td>
-#              <td>#{track.start_time}</td>
-#              <td class=\"actions\">
-#            </tr>
-#          ")
+          #          new_entry = $("
+          #            <tr id=\"track_#{track.id}\">
+          #              <td>#{track.position}</td>
+          #              <td>#{track.title}</td>
+          #              <td>#{track.length}</td>
+          #              <td>#{track.start_time}</td>
+          #              <td class=\"actions\">
+          #            </tr>
+          #          ")
 
           new_entry = $('tr#new-video').clone()
 
@@ -80,17 +98,17 @@ jQuery ->
             if idx == 0
               $(this).html(track.position)
             else if idx == 1
-              $(this).html(track.title)
-            else if idx == 2
-              $(this).html(track.length)
+              $(this).html("<img src=\"/assets/icons/film_#{track.video_type}.png\" title=\"#{track.video_type.charAt(0).toUpperCase() + track.video_type.slice(1)}\" /> #{track.title}")
             else if idx == 3
+              $(this).html(track.length)
+            else if idx == 2
               $(this).html(track.start_time)
 
           new_entry.find('td.actions a.delete').attr('href', new_entry.find('td.actions a.delete').attr('href') + '/' + track.id)
           new_entry.attr('id', 'track_' + track.id)
 
-#          $('table#playlist_tracklist tbody').append new_entry
-          new_entry.insertBefore $('tr#line-form')
+          #          $('table#playlist_tracklist tbody').append new_entry
+          new_entry.insertBefore $('tr#new-video')
           new_entry.show()
 
           $('#line-form').hide()

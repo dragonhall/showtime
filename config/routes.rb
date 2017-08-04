@@ -71,7 +71,7 @@ Rails.application.routes.draw do
   end
 
   constraints subdomain: 'tv' do
-    resources :footages
+    resources :recordings
     root to: 'tv#index'
     get '/tv/index', to: 'tv#index'
   end
