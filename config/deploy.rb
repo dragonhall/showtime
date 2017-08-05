@@ -26,7 +26,14 @@ set :deploy_to, '/srv/www/showtime.dragonhall.hu/htdocs'
 append :linked_files, 'config/database.yml', 'config/secrets.yml'
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system', 'public/uploads', 'public/programs'
+append :linked_dirs, 'log',
+       'tmp/pids',
+       'tmp/cache',
+       'tmp/sockets',
+       'public/system',
+       'public/uploads',
+       'public/programs',
+       'public/recordings'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -43,5 +50,5 @@ set :rvm_ruby_version, 'ruby-2.4.1@showtime'
 set :nginx_config_file, -> { "#{fetch(:nginx_config_name)}.conf" }
 set :nginx_server_name, 'showtime.dragonhall.hu'
 
-set :foreman_roles, :all
-set :foreman_init_system, 'systemd'
+#set :foreman_roles, :all
+#set :foreman_init_system, 'systemd'

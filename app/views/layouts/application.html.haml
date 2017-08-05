@@ -6,6 +6,7 @@
     %title
       Showtime
     = stylesheet_link_tag :application
+    %link(rel="shortcut icon" href="http://dragonhall.hu/images/favicon.gif")
     = csrf_meta_tag
     - if Rails.env.production?
       %meta{name: 'Application-Version', content: Showtime::Version.version(Rails.root)}

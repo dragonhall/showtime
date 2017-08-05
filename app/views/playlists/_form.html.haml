@@ -22,26 +22,28 @@
         %tr
           %th Pozíció
           %th Cím
-          %th Hossz
           %th Várható kezdés
+          %th Hossz
           %th.actions Műveletek
       %tbody
         - f.object.tracks.each do |track|
           %tr{id: "track_#{track.id}"}
             %td= track.position
-            %td= track.title
-            %td= Time.at(track.length).utc.strftime('%H:%M:%S')
+            %td
+              = image_tag("icons/film_#{track.video.video_type}.png", title: track.video.video_type.titleize)
+              = track.title
             %td= track.start_time.strftime('%H:%M:%S')
+            %td= Time.at(track.length).utc.strftime('%H:%M:%S')
             %td.actions
-              = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
-              = link_to(image_tag('icons/cross.png'), [@channel, @playlist, track], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
+              -#= link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
+              = link_to(image_tag('icons/cross.png'), [@channel, @playlist, track], class: 'delete', method: :delete, data: {confirm: 'Biztosan törlöd?'}) if current_power.channels.include?(@channel) and !f.object.finalized?
         %tr#new-video(style="display: none")
           %td(data-property="position")
           %td(data-property="title")
-          %td(data-property="length")
           %td(data-property="start_time")
+          %td(data-property="length")
           %td.actions
-            = link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
+            -#= link_to(image_tag('icons/magnifier.png'), '#', class: 'popup-player')
             = link_to(image_tag('icons/cross.png'), [@channel, @playlist, :tracks], class: 'delete', method: :delete, confirm: 'Biztosan törlöd?') if current_power.channels.include?(@channel) and !f.object.finalized?
 
         %tr#line-form(style="display: none")

@@ -41,6 +41,7 @@
     <orderEntry type="library" scope="PROVIDED" name="binding_of_caller (v0.7.2, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="blueprint-rails (v0.2.0@a18ca1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="builder (v3.2.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="bundler (v1.15.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="byebug (v9.0.6, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="callsite (v0.0.11, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.8.2, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
@@ -76,6 +77,7 @@
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.2.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="google-analytics-rails (v1.1.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard (v2.14.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-bundler (v2.1.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard-compat (v1.2.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
@@ -134,6 +136,7 @@
     <orderEntry type="library" scope="PROVIDED" name="puma (v3.8.2, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack (v2.0.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-contrib (v1.2.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rack-dev-mark (v0.7.6, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-protection (v2.0.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rack-test (v0.6.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rails (v5.1.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />

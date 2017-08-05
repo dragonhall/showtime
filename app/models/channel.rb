@@ -1,8 +1,10 @@
 class Channel < ApplicationRecord
   has_many :playlists
   has_and_belongs_to_many :groups
-
   has_many :admins, through: :groups
+
+  has_many :recordings
+
 
   mount_uploader :icon, ChannelImageUploader
   mount_uploader :logo, ChannelImageUploader

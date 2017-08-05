@@ -1,32 +1,40 @@
-// Place all the styles related to the footages controller here.
+// Place all the styles related to the recordings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 //= require jquery-ui
 
-#footages-wrapper {
+#recordings-wrapper {
 
-  width: 1180px;
+  width: 1305px;
   overflow: hidden;
 
   margin: 10px auto;
 
 
 
-  .footage-selector {
+  .recording-selector {
     float: left;
-    margin-right: 5px;
+    margin-right: 10px;
     width: 280px;
     margin-bottom: 20px;
 
+    #series-button {
+      margin-bottom: 32px;
+    }
   }
 
   .ui-selectmenu-button {
     width: 248px;
   }
   //
-  #footages {
+  #recordings {
     //display: none;
 
   }
 
+}
+
+.lof-main-item-desc h3,
+.lof-navigator h3 {
+    margin: 0;
 }

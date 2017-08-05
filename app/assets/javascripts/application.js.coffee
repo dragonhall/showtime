@@ -11,15 +11,13 @@
 # about supported directives.
 #= require jquery
 #= require jquery-ui
+#= require jquery-ui/i18n/datepicker-hu
 #= require jquery_ujs
 ##= require rails-ujs
 #= require jquery.initialize
 #= require jquery.facebox
 #= require jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon
 #= require_tree .
-
-
-
 
 $('table#viewers a.kill, table#viewers a.block').on 'click', (e) ->
   e.preventDefault()

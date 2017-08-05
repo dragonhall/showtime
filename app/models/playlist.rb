@@ -2,7 +2,7 @@ class PlaylistHasNoTracksError < StandardError; end
 
 class Playlist < ApplicationRecord
   belongs_to :channel
-  has_many :tracks
+  has_many :tracks, dependent: :destroy
 
   scope :finalized, -> { where(finalized: true) }
   scope :wip, -> { where(finalized: false) }
@@ -10,6 +10,10 @@ class Playlist < ApplicationRecord
   # scope :active, -> { where ('playlists.start_time <= NOW() AND playlists.start_time + INTERVAL playlists.duration SECOND != NOW()') }
   scope :active, -> { joins(:tracks).where('tracks.playing = ?', true) }
   scope :upcoming, -> { where('playlists.start_time >= NOW()').where(finalized: true) }
+  scope :current, -> { where('playlists.start_time BETWEEN ? AND ?', Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
+
+  default_scope -> { includes(:tracks).order(start_time: 'ASC') }
+
 
   validates_presence_of :title
   validates_presence_of :start_time

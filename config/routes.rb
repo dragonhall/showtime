@@ -25,14 +25,20 @@ require 'resque/status/web'
 # end
 
 Rails.application.routes.draw do
-  constraints subdomain: 'showtime' do
+  constraints subdomain: /^showtime(\.teszt)?/ do
     devise_for :admins
 
     resources :channels do
       resources :playlists do
         member do
           get :play
+          get :program
         end
+
+        collection do
+          get :current_program
+        end
+
         resources :tracks do
           collection do
             post 'reorder'
@@ -64,8 +70,8 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
   end
 
-  constraints subdomain: 'tv' do
-    resources :footages
+  constraints subdomain: /^tv\./ do
+    resources :recordings
     root to: 'tv#index'
     get '/tv/index', to: 'tv#index'
   end
