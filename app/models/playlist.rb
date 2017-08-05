@@ -9,7 +9,7 @@ class Playlist < ApplicationRecord
   scope :at_today, -> { where('playlists.start_time >= ? AND playlists.start_time <= ?', Time.zone.now.at_beginning_of_day, Time.zone.now.at_end_of_day) }
   # scope :active, -> { where ('playlists.start_time <= NOW() AND playlists.start_time + INTERVAL playlists.duration SECOND != NOW()') }
   scope :active, -> { joins(:tracks).where('tracks.playing = ?', true) }
-  scope :upcoming, -> { .where(finalized: true) }
+  scope :upcoming, -> { where(finalized: true) }
   scope :current, -> { where('playlists.start_time BETWEEN ? AND ?', Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
 
   default_scope -> { includes(:tracks).order(start_time: 'ASC') }
