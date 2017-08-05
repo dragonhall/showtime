@@ -59,7 +59,7 @@ class RecordingJob < ApplicationJob
 
     transcoding_params = {}
 
-    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9]
+    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -r 23.976]
 
     if @recording.video.metadata[:deinterlace] != '0'
       transcoding_params[:custom].unshift '-deinterlace'
