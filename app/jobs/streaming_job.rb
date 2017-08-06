@@ -133,7 +133,9 @@ class StreamingJob # < ApplicationJob
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
       x264_preset: 'slow',
-      video_bitrate: bitrate
+      video_bitrate: bitrate,
+      audio_bitrate: '192k',
+      audio_sample_rate: 44100
     )
 
 
