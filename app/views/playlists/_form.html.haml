@@ -15,8 +15,9 @@
     %table#playlist_tracklist(style="margin-top: 10px")
       %caption
         Lejátszandó videók
-        %span.actions.right
-          = link_to image_tag('icons/add.png'), '#' , class: 'add'
+        - unless f.object.finalized?
+          %span.actions.right
+            = link_to image_tag('icons/add.png'), '#' , class: 'add'
 
       %thead
         %tr
