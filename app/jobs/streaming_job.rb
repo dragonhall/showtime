@@ -135,7 +135,7 @@ class StreamingJob # < ApplicationJob
       x264_preset: 'slow',
       video_bitrate: bitrate,
       audio_bitrate: '192k',
-      audio_sample_rate: 44100
+      audio_sample_rate: 48000
     )
 
 
