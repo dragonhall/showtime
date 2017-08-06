@@ -66,9 +66,11 @@ class RecordingJob < ApplicationJob
     end
 
     transcoding_params.merge!(
-        resolution: '720x404',
-        x264_preset: 'slow',
-        video_bitrate: bitrate
+      resolution: '720x404',
+      x264_preset: 'slow',
+      video_bitrate: bitrate,
+      audio_bitrate: '192k',
+      audio_sample_rate: 44100
     )
 
     transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?

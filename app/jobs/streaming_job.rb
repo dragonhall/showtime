@@ -93,7 +93,8 @@ class StreamingJob # < ApplicationJob
 
     filter_params = ''
 
-    if movie.width != 720 && movie.height != 404 then
+    # if movie.width != 720 && movie.height != 404 then
+    if ratio < 1.5
       filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
     end
 
@@ -110,7 +111,8 @@ class StreamingJob # < ApplicationJob
 
     filter_params.sub!(/\[scaled\];\Z/, '')
 
-    if movie.width != 720 && movie.height != 404
+    #if movie.width != 720 && movie.height != 404
+    if ratio > 1.5
       filter_params.sub!(/\[scaled\]/, '[in]')
     end
 
@@ -121,7 +123,8 @@ class StreamingJob # < ApplicationJob
 
     transcoding_params = {}
 
-    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -f flv]
+    transcoding_params[:custom] = ['-vf', filter_params] unless filter_params.blank?
+    transcoding_params[:custom] += %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -f flv]
 
     if video.metadata[:deinterlace] != '0'
       transcoding_params[:custom].unshift '-deinterlace'
@@ -130,10 +133,11 @@ class StreamingJob # < ApplicationJob
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
       x264_preset: 'slow',
-      video_bitrate: bitrate
+      video_bitrate: bitrate,
+      audio_bitrate: '192k',
+      audio_sample_rate: 44100
     )
 
-    transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
 
     other_params = { input_options: ['-re'], validate: false }
 
