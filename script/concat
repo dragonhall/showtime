@@ -19,5 +19,5 @@ echo "file '${LOGO_INTRO}'" > "$CONCAT"
 echo "file '${PEGI_INTRO}'" >> "$CONCAT"
 echo "file '${SOURCE}'" >> "$CONCAT"
 
-ffmpeg -safe 0 -f concat -i "$CONCAT" -b:v 2000k -f mp4 "${TARGET}"
+ffmpeg -safe 0 -f concat -i "$CONCAT" -ar 48000 -b:v 2000k -b:a 192k -f mp4 "${TARGET}"
 
