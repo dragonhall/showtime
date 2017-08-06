@@ -51,6 +51,8 @@ jQuery ->
     if $('.playlist_finalized input').is(':checked')
       console.log("Disable sorting")
       $(this).sortable('disable')
+      $(this).css('cursor', 'default')
+      $(this).css('user-select', 'none')
 #  jQuery.initialize 'table#playlist_tracklist input[type="submit]'
 
 

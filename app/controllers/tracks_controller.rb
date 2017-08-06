@@ -27,24 +27,31 @@ class TracksController < InheritedResources::Base
   end
 
   def reorder
+
+
     tracks = params[:tracks].map { |id| Track.find(id) }
 
-    tracks.each_with_index do |track, idx|
-      track.update_attribute :position, idx + 1 if track.position != idx + 1
-    end
+    if !tracks.first.playlist.finalized?
 
-    respond_to do |format|
-      format.json do
-        render json: {
-          tracks: tracks.map do |track|
-                    {
-                      id: "track_#{track.id}",
-                      position: track.position,
-                      start_time: track.start_time.strftime('%H:%M:%S')
-                    }
-                  end
-        }
+      tracks.each_with_index do |track, idx|
+        track.update_attribute :position, idx + 1 if track.position != idx + 1
       end
+
+      respond_to do |format|
+        format.json do
+          render json: {
+            tracks: tracks.map do |track|
+                      {
+                        id: "track_#{track.id}",
+                        position: track.position,
+                        start_time: track.start_time.strftime('%H:%M:%S')
+                      }
+                    end
+          }
+        end
+      end
+    else
+      render json: {error: "Tracks cannot moved when they're finalized"}, status: :forbidden
     end
   end
 
