@@ -30,7 +30,7 @@ class TracksController < InheritedResources::Base
     tracks = params[:tracks].map { |id| Track.find(id) }
 
     tracks.each_with_index do |track, idx|
-      track.update_attribute :position, idx + 1
+      track.update_attribute :position, idx + 1 if track.position != idx + 1
     end
 
     respond_to do |format|
