@@ -5,6 +5,7 @@ Array.prototype.clean = ->
 jQuery ->
   jQuery.initialize 'input.datepicker', ->
     $(this).datetimepicker(dateFormat: "yy-mm-dd", timeFormat: 'HH:mm')
+
   jQuery.initialize 'table#playlist_tracklist tbody', ->
     $(this).sortable
 

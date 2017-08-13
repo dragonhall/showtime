@@ -1,5 +1,7 @@
 %table#viewers.span-23
-  %caption Nézők
+  %caption
+    = "Nézők (<span id=\"viewer_counter\">#{@clients.size}</span>)".html_safe
+    = link_to image_tag('icons/refresh.png'), viewers_path, class: 'viewers_refresh'
   %thead
     %tr
       %th Felhasználó
@@ -12,8 +14,9 @@
   %tbody
     - @clients.each do |client|
       %tr
-        %td.userinfo{style: "#{client.user_id >= 0 && "background-image: url(#{client.user.avatar_url}"});"}
-          = client.user_id >= 0 ? link_to(client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : 'Anonymous'
+        -#%td.userinfo{style: "#{client.user_id >= 0 && "background-image: url(#{client.user.avatar_url}"});"}
+        -#  = client.user_id >= 0 ? link_to(client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : 'Anonymous'
+        %td.userinfo= !client.user.blank? ? image_tag(client.user.avatar_url, size: '16x16') + ' ' + link_to(client.user.name, "http://dragonhall.hu/profile.php?lookup=#{client.user_id}", target: :blank) : image_tag('icons/user.png') + ' Anonymous'
         %td= client.address
         %td= client.platform
         %td= client.flash_version

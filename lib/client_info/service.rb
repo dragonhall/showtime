@@ -9,7 +9,6 @@ module ClientInfo
       @config[:port] ||= @config[:scheme] == 'https' ? 443 : 80
       @config[:password] ||= Rails.application.secrets.control_api_password
 
-
       url_s = "#{@config[:scheme]}://#{@config[:hostname]}:#{@config[:port]}#{@config[:path]}"
       control_url_s = "#{@config[:scheme]}://#{@config[:hostname]}:#{@config[:port]}#{@config[:control_path]}"
       begin
@@ -39,12 +38,21 @@ module ClientInfo
       @clients = client_nodes.map do |node|
         cid = node.css('id').text
         cid = cid.to_s.empty? ? '0' : cid
+
+        address = node.css('address').text
+
+        url = node.css('pageurl').text
+
         begin
           Client.new(
                       client_id: cid,
-                      address: node.css('address').text,
-                      url: node.css('pageurl').text,
-                      flash_ver: node.css('flashver').text
+                      address: address,
+                      url: url,
+                      flash_ver: node.css('flashver').text,
+                      country: $geoip.country(address).country_name,
+                      flag: $geoip.country(address).country_code2.downcase,
+                      city: $geocity.city(address).city_name,
+                      user_id: parsed_query(url)['uid'].blank? ? -1 : parsed_query(url)['uid'].to_i
           )
         rescue
           nil
@@ -61,7 +69,7 @@ module ClientInfo
         params[:clientid] = cid_or_address
       end
 
-      qparams = params.map { |k,v| "#{k}=#{v}" }.join('&')
+      qparams = params.map { |k, v| "#{k}=#{v}" }.join('&')
       #
       # req = Net::HTTP::Get.new(@control_url.path + '/drop/client?' + qparams)
       # req.basic_auth @config[:username], @config[:password]
@@ -72,13 +80,19 @@ module ClientInfo
       #   http.request req
       # end
 
-      system "curl -ks #{@control_url.to_s}/drop/client?#{qparams}"
+      system "curl -ks #{@control_url}/drop/client?#{qparams}"
 
       # Rails.logger.info "#{rsp.body} client(s) with #{cid_or_address} killed"
     end
 
     def block_client(address)
       # BlockedIp.create(address: address)
+    end
+
+    private
+
+    def parsed_query(url)
+      Rack::Utils.parse_query(URI.parse(url).query)
     end
   end
 end
