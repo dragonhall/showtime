@@ -7,7 +7,8 @@ class Video < ApplicationRecord
 
   # serialize :metadata, JSON
   serialize :metadata, JsonWithIndifferentAccessSerializer
-  store_accessor :metadata, :title, :width, :height, :frame_rate, :bitrate, :deinterlace
+  store_accessor :metadata, :title, :width, :height,
+                 :frame_rate, :bitrate, :deinterlace, :length
 
   validates_presence_of :path
   validates_uniqueness_of :path
@@ -39,24 +40,28 @@ class Video < ApplicationRecord
     Recording.where(video_id: id).any? && Recording.where(video_id: id).first.recorded?
   end
 
+  # @return [Hash]
   def self.pegi_rating_titles
-    return @@pegi_ratings unless !defined?(@@pegi_ratings) || @@pegi_ratings.empty?
+    return @pegi_ratings unless !defined?(@pegi_ratings) || @pegi_ratings.empty?
     v = Video.pegi_ratings.map do |rating, i|
       ["#{rating.to_s.sub(/^pegi_/, '')}+", i]
     end
 
-    @@pegi_rating_titles = Hash[v]
+    @pegi_rating_titles = Hash[v]
   end
 
+
+  # @return [Hash]
   def self.pegi_icons
-    return @@pegi_icons unless !defined?(@@pegi_icons) || @@pegi_icons.empty?
+    return @pegi_icons unless !defined?(@pegi_icons) || @pegi_icons.empty?
     # v = Video.pegi_rating_titles.keys.each_with_index do |r, i|
     #   ["http://www.pegi.info/en/index/id/33/media/img/32#{i}.gif", r]
     # end
 
-    @@pegi_icons = Hash[v]
+    @pegi_icons = Hash[v]
   end
 
+  # @return [Array]
   def self.series
     @series ||= connection.exec_query(
         'SELECT DISTINCT series FROM videos'
@@ -68,10 +73,16 @@ class Video < ApplicationRecord
     recording = recordings.create!(valid_from: playlist.start_time, channel_id: playlist.channel.id)
   end
 
+  # @return [FFMPEG::Movie] FFMPEG movie
+  def to_movie
+    @movie ||= FFMPEG::Movie.new(path) if File.exist?(path)
+  end
+
   private
 
   def prepare_for_import
     VideoImportJob.perform_later path
+    VideoPreviewJob.perform_later id
   end
 
   def update_tracks
