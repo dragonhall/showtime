@@ -73,7 +73,7 @@ class StreamingJob # < ApplicationJob
   # @param [Channel] channel
 
   def stream_video(video, channel: nil)
-    movie = FFMPEG::Movie.new video.path
+    movie = video.to_movie
 
     ratio = movie.width / movie.height.to_f
 
@@ -93,10 +93,7 @@ class StreamingJob # < ApplicationJob
 
     filter_params = ''
 
-    # if movie.width != 720 && movie.height != 404 then
-    if ratio < 1.5
-      filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
-    end
+    filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
 
     if channel.logo? && video.video_type != 'intro'
@@ -105,37 +102,26 @@ class StreamingJob # < ApplicationJob
       else
         filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
       end
-    #else
-    #  filter_params += pegi_path.blank? ? '' : "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}" 
     end
 
     filter_params.sub!(/\[scaled\];\Z/, '')
 
-    #if movie.width != 720 && movie.height != 404
-    if ratio > 1.5
-      filter_params.sub!(/\[scaled\]/, '[in]')
-    end
-
-    # bitrate = movie.video_bitrate > 0 ? movie.video_bitrate : 30_000
-    #bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
     bitrate = 2_000_000
     bitrate = (bitrate / 1000.0).ceil
 
-    transcoding_params = {}
+    transcoding_params = {custom: %W[-t #{video.length}]}
 
     transcoding_params[:custom] = ['-vf', filter_params] unless filter_params.blank?
     transcoding_params[:custom] += %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -f flv]
 
-    if video.metadata[:deinterlace] != '0'
+    if !video.metadata[:deinterlace].blank? && video.metadata[:deinterlace] != '0'
       transcoding_params[:custom].unshift '-deinterlace'
     end
 
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
       x264_preset: 'slow',
-      video_bitrate: bitrate,
-      audio_bitrate: '192k',
-      audio_sample_rate: 48000
+      video_bitrate: bitrate
     )
 
 

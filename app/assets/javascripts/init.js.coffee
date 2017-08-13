@@ -5,11 +5,16 @@ Array.prototype.clean = ->
 jQuery ->
   jQuery.initialize 'input.datepicker', ->
     $(this).datetimepicker(dateFormat: "yy-mm-dd", timeFormat: 'HH:mm')
+
   jQuery.initialize 'table#playlist_tracklist tbody', ->
     $(this).sortable
 
       update: (event, ui) ->
 #        console.log $(this).sortable 'toArray'
+        $(this).sortable('disable')
+        $(this).css('color', '#999')
+        $(this).css('cursor', 'wait')
+        $(this).css('user-select', 'none')
         new_order = jQuery.map $(this).sortable('toArray'), (e) ->
           e.replace('track_', '')
         delete new_order[new_order.indexOf('line-form')]
@@ -37,6 +42,18 @@ jQuery ->
               elem.find('td:first-child').html(e.position)
               elem.find('td:nth-child(4)').html(e.start_time)
 
+            $('table#playlist_tracklist tbody').sortable('enable')
+            $('table#playlist_tracklist tbody').css('color', '#222')
+            $('table#playlist_tracklist tbody').css('cursor', 'crosshair')
+            $('table#playlist_tracklist tbody').css('user-select', 'auto')
+
+    $('table#playlist_tracklist tbody').css('cursor', 'crosshair')
+
+    if $('.playlist_finalized input').is(':checked')
+      console.log("Disable sorting")
+      $(this).sortable('disable')
+      $(this).css('cursor', 'default')
+      $(this).css('user-select', 'none')
 #  jQuery.initialize 'table#playlist_tracklist input[type="submit]'
 
 

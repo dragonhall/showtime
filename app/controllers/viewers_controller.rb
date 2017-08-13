@@ -1,8 +1,11 @@
 class ViewersController < ApplicationController
 
+  respond_to :html, :json
+
   def index
     # @type [Array<ClientInfo::Client>]
     @clients = client_service.clients
+    respond_with(@clients)
   end
 
   def show

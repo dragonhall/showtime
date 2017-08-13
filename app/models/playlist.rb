@@ -49,6 +49,14 @@ class Playlist < ApplicationRecord
     tracks.where(playing: true).each(&:stop!)
   end
 
+  def renumber!
+    tracks.each_with_index do |track, index|
+      if track.position != index then
+        track.update_attribute :position, index
+      end
+    end
+  end
+
   def stream_to_technical
     StreamingJob.perform_later clone_to_technical
   end
@@ -89,7 +97,7 @@ class Playlist < ApplicationRecord
   end
 
   def initialize_title
-    self.title ||= "#{channel ? channel.name : Playlist.model_name} ##{Playlist.last.blank? ? 1 : Playlist.last.id + 1}" if new_record?
+    self.title ||= "#{channel ? channel.name : Playlist.model_name} ##{channel.playlists.last.blank? ? 1 : channel.playlists.last.id + 1}" if new_record?
   end
 
   def postprocess_finalization

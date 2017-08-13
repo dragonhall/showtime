@@ -158,7 +158,8 @@ table caption {
 
   color: white;
   text-align: center;
-  padding: 3px 0;
+  //padding: 3px 0;
+  padding: 2px 0 3px 0;
 
   a {
     color: white;
@@ -175,19 +176,25 @@ table caption {
     float: right;
     padding: 2px 5px 0;
   }
+  .viewers_refresh {
+    float: right;
+    display: block;
+    padding: 2px 5px 0;
+
+  }
 }
 
 tbody tr td {
   padding: 2px 5px;
   background-color: white;
 
-  &.userinfo {
-    background-repeat: no-repeat;
-
-    padding-left: 24px;
-    background-size: 16px;
-    background-position: 3px 50%;
-  }
+  //&.userinfo {
+  //  background-repeat: no-repeat;
+  //
+  //  padding-left: 24px;
+  //  background-size: 16px;
+  //  background-position: 3px 50%;
+  //}
 }
 
 thead tr th {

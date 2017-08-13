@@ -1,15 +1,15 @@
 module ClientInfo
-
   class Client
     include ActiveModel::Model
 
-    attr_accessor :client_id, :address, :url, :flash_ver
+    attr_accessor :client_id, :address, :url, :flash_ver,
+                  :country, :city, :flag, :user_id
 
     validates_presence_of :client_id
     validates_presence_of :address
 
     validates_numericality_of :client_id, only_integer: true
-    validates_format_of :address, with: %r{\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\Z}
+    validates_format_of :address, with: /\A\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\Z/
 
     def platform
       parsed_flashver[:platform]
@@ -19,13 +19,30 @@ module ClientInfo
       parsed_flashver[:version]
     end
 
-    def user_id
-      qp = Rack::Utils.parse_query URI.parse(url).query
-      qp['uid'].blank? ? -1 : qp['uid'].to_i
+    # def user_id
+    #   @user_id ||= parsed_query['uid'].blank? ? -1 : parsed_query['uid'].to_i
+    # end
+
+    # @return [FusionUser]
+    def user
+      user_id >= 0 && FusionUser.where(user_id: user_id).any? ? ::FusionUser.find(user_id) : nil
     end
 
-    def user
-      user_id >= 0 ? ::FusionUser.find(user_id) : nil
+    def as_json(options = nil)
+      {
+        client_id: client_id,
+        address: address,
+        url: url,
+        flash_version: parsed_flashver[:version],
+        platform: parsed_flashver[:platform],
+        country: country,
+        city: city,
+        flag: ActionController::Base.helpers.asset_path("flags/#{flag}.png"),
+        user_id: user_id,
+        avatar: user.blank? ? ActionController::Base.helpers.asset_path('icons/user.png') : user.avatar_url,
+        user_name: user.blank? ? 'Anonymous' : user.name,
+
+      }
     end
 
     private
@@ -38,23 +55,22 @@ module ClientInfo
 
         case pcs[0]
 
-          when 'LNX'
-            @parsed_flashver[:platform] = 'Linux'
-          when 'WIN'
-            @parsed_flashver[:platform] = 'Windows'
-          when 'MAC'
-            @parsed_flashver[:platform] = 'Macintosh'
-          when 'FMLE'
-            @parsed_flashver[:platform] = 'FlashMediaEncoder'
-          else
-            @parsed_flashver[:platform] = "Unknown platform (#{pcs[0]})"
+        when 'LNX'
+          @parsed_flashver[:platform] = 'Linux'
+        when 'WIN'
+          @parsed_flashver[:platform] = 'Windows'
+        when 'MAC'
+          @parsed_flashver[:platform] = 'Macintosh'
+        when 'FMLE'
+          @parsed_flashver[:platform] = 'FlashMediaEncoder'
+        else
+          @parsed_flashver[:platform] = "Unknown platform (#{pcs[0]})"
         end
 
-        @parsed_flashver[:version] = pcs[1] ?  pcs[1].gsub(',', '.') : ""
+        @parsed_flashver[:version] = pcs[1] ? pcs[1].tr(',', '.') : ''
       end
 
       @parsed_flashver
     end
-
   end
 end

@@ -1,5 +1,4 @@
 class Track < ApplicationRecord
-
   belongs_to :playlist
   belongs_to :video
 
@@ -16,13 +15,15 @@ class Track < ApplicationRecord
   validates_presence_of :title
 
   validates_presence_of :position
-  validates_numericality_of :position, only_integer: true, :greater_than => 0
+  validates_numericality_of :position, only_integer: true, greater_than: 0
 
   after_initialize :initialize_title
   after_initialize :initialize_position
   before_validation :initialize_title
 
   after_save :recalc_playlist_duration
+
+  after_destroy :renumber_playlist
 
   def length
     video.metadata['length'] || 0
@@ -44,7 +45,7 @@ class Track < ApplicationRecord
 
   def down!
     return if position >= playlist.tracks.size
-    puts "LOFASZ"
+    puts 'LOFASZ'
 
     oldpos = position.nil? || position == 0 ? 1 : position
     nxtrack = playlist.tracks.where('tracks.position > ?', oldpos).order(position: 'ASC').first
@@ -63,19 +64,15 @@ class Track < ApplicationRecord
   private
 
   def playlist_not_finalized
-    errors.add(:base, 'A műsor nem lehet lezárva') if !playlist.blank? and playlist.finalized?
+    errors.add(:base, 'A műsor nem lehet lezárva') if !playlist.blank? && playlist.finalized?
   end
 
   def initialize_title
-    if title.blank? and video then
-      self.title = video.metadata['title']
-    end
+    self.title = video.metadata['title'] if title.blank? && video
   end
 
   def initialize_position
-    if position.nil? and playlist
-      self.position = playlist.tracks.size + 1
-    end
+    self.position = playlist.tracks.size + 1 if position.nil? && playlist
   end
 
   def before_me
@@ -83,11 +80,10 @@ class Track < ApplicationRecord
   end
 
   def recalc_playlist_duration
-
-    if self.playlist_id?
-      playlist.send :calculate_duration
-    end
-
+    playlist.send :calculate_duration if playlist_id?
   end
 
+  def renumber_playlist
+    playlist.renumber!
+  end
 end
