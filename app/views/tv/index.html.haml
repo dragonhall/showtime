@@ -2,8 +2,8 @@
   .post_header
     %h3 DragonHall+ TV Lejátszó
   .player
-    - if @playlist
-      .playlist
+    .playlist
+      - if @playlist
         = image_tag "/programs/channel_#{@channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png", size: '720x404'
     .viragjatekos{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') }}
       %video{autoplay: true}

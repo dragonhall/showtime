@@ -6,7 +6,7 @@ class TvController < ApplicationController
 
   def index
     @channel = Channel.where(domain: request.host).first
-    @playlist = @channel.playlists.active.any? ? @channel.playlists.active.first : nil
+    @playlist = @channel.playlists.at_today.any? ? @channel.playlists.at_today.first : nil
 
     respond_to do |format|
       format.html
