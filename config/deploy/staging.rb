@@ -17,7 +17,7 @@ set :nginx_sites_enabled_path, '/opt/nginx-with-rtmp/conf/sites-enabled'
 set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu/htdocs'
 set :nginx_server_name, 'showtime.teszt.dragonhall.hu'
 set :branch, 'develop'
-
+set :rails_env, 'staging'
 
 # role-based syntax
 # ==================
