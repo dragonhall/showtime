@@ -60,3 +60,5 @@ config/secrets.yml.key
 /public/recordings/
 /public/screenshots/
 public/streaming/channellogos/
+
+/.idea/.*

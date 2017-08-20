@@ -11,6 +11,7 @@
   </component>
   <component name="ModuleRunConfigurationManager">
     <shared />
+    <local />
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
@@ -76,6 +77,7 @@
     <orderEntry type="library" scope="PROVIDED" name="foreman (v0.84.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="formatador (v0.2.5, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="fuubar (v2.2.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="geoip (v1.6.3, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.4.0, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="google-analytics-rails (v1.1.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="guard (v2.14.1, RVM: ruby-2.4.1 [showtime]) [gem]" level="application" />
