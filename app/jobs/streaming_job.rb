@@ -111,7 +111,7 @@ class StreamingJob # < ApplicationJob
 
     transcoding_params = {custom: %W[-t #{video.length}]}
 
-    transcoding_params[:custom] = ['-vf', filter_params] unless filter_params.blank?
+    transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
     transcoding_params[:custom] += %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -f flv]
 
     if !video.metadata[:deinterlace].blank? && video.metadata[:deinterlace] != '0'
