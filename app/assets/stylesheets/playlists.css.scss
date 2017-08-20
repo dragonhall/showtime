@@ -1,51 +1,142 @@
+//body {
+//  width: 1280px;
+//  height: 720px;
+//  background-size: 1280px 720px;
+//  //width: 1024px;
+//  //height: 576px;
+//  //background-size: 1024px 576px;
+//  background-repeat: no-repeat;
+//}
+//
+//#wrapper {
+//  position: absolute;
+//  top: 0;
+//  left: 0;
+//  margin: 0;
+//  width: 1280px;
+//  height: 720px;
+//}
+//
+//#heading {
+//  font-size: 42pt;
+//  margin: 20px 0 120px 0;
+//  text-align: center;
+//}
+//
+//#schedule_wrapper {
+//  margin-left: 250px;
+//  //width: 780px;
+//}
+//
+//ul {
+//  list-style: none;
+//  margin: 0;
+//  padding: 0;
+//  width: 470px;
+//  float: left;
+//
+//
+//  &:first-child {
+//    margin-right: 40px;
+//  }
+//
+//  & > li {
+//    margin-top: 10px;
+//    &:first-child {
+//      margin-top: 0;
+//    }
+//  }
+//}
+//
+//
+//.time {
+//  color: #1564c6;
+//}
+//
+footer {
+  position: fixed;
+  bottom: 0.2em;
+  right: 0.2em;
+  width: 100%;
+  text-align: right;
+
+}
+
+//
+
+body, html {
+  min-height: 100%;
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: contain;
+  max-height: 720px;
+  max-width: 1280px;
+  //background-color: #fff;
+  //border: 1px solid red;
+
+}
+
 #wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  width: 1024px;
-  height: 576px;
-}
-
-#heading {
-  font-size: 42pt;
-  margin: 20px 0 120px 0;
   text-align: center;
-}
+  margin-top: 1.6em;
+  height: 100%;
 
-#schedule_wrapper {
-  margin-left: 130px;
-  width: 764px;
+  #schedule_wrapper {
+    //border: 1px solid purple;
+    text-align: left;
+    width: 70%;
+  }
+
 }
 
 ul {
   list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 355px;
+  //  margin: 0;
+  //  padding: 0;
+  //  width: 470px;
+  width: 42%;
   float: left;
+  //
+  //
+  //  &:first-child {
+  //    margin-right: 40px;
+  //  }
+  //
+  //  & > li {
+  //    margin-top: 10px;
+  //    &:first-child {
+  //      margin-top: 0;
+  //    }
+  //  }
+}
 
-
-  &:first-child {
-    margin-right: 40px;
+@media screen and (min-width: 800px) {
+  #heading {
+    font-size: 1.8em;
+    color: green !important;
   }
 
-  & > li {
-    margin-top: 10px;
-    &:first-child {
-      margin-top: 0;
+  #schedule_wrapper {
+    margin-left: 16%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  #heading {
+    font-size: 1.2em;
+    color: lightcoral;
+  }
+  #wrapper {
+    margin-top: 1.0em;
+    #schedule_wrapper {
+      margin-left: 14%;
+      font-size: 0.65em;
+    }
+
+    ul {
+      width: 40%;
     }
   }
 }
-
-
-.time {
-  color: #1564c6;
-}
-
-footer {
-  position: absolute;
-  bottom: 10px;
-  right: 80px;
-}
-

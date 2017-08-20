@@ -6,7 +6,9 @@ class Playlist < ApplicationRecord
 
   scope :finalized, -> { where(finalized: true) }
   scope :wip, -> { where(finalized: false) }
-  scope :at_today, -> { where('playlists.start_time >= ? AND playlists.start_time <= ?', Time.zone.now.at_beginning_of_day, Time.zone.now.at_end_of_day) }
+  scope :at_today, -> { where('playlists.start_time >= ? AND playlists.start_time <= ?', Time.zone.now.beginning_of_day, Time.zone.now.end_of_day) }
+  scope :at_week, -> { where('playlists.start_time >= ? AND playlists.start_time <= ?', Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
+
   # scope :active, -> { where ('playlists.start_time <= NOW() AND playlists.start_time + INTERVAL playlists.duration SECOND != NOW()') }
   scope :active, -> { joins(:tracks).where('tracks.playing = ?', true) }
   scope :upcoming, -> { where(finalized: true) }
@@ -23,6 +25,10 @@ class Playlist < ApplicationRecord
   after_initialize :initialize_title
 
   after_update :postprocess_finalization, if: :saved_change_to_finalized?
+
+  def active?
+    tracks.where(playing: true).any?
+  end
 
   def finalize!
     if tracks.count > 0 then
@@ -88,6 +94,14 @@ class Playlist < ApplicationRecord
 
       new_playlist
     end
+  end
+
+  def program_path
+    "/programs/channel_#{channel.id}/#{id}/#{start_time.strftime('%F_%H-%M')}.png"
+  end
+
+  def program?
+    Rails.public_dir.join(program_path.sub(%r{^/}, '')).exist?
   end
 
   private

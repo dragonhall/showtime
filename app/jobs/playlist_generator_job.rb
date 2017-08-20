@@ -25,13 +25,16 @@ class PlaylistGeneratorJob < ApplicationJob
         channel_playlist_tracks_url(
             playlist.channel,
             playlist.id
-        )
+        ),
+        width: 1280,
+        height: 720,
+        disable_smart_width: true
+
     )
 
-    FileUtils.mkdir_p(program_root.join("channel_#{playlist.channel_id}/#{playlist.id}"))
+    FileUtils.mkdir_p Rails.public_dir.join(File.dirname(playlist.program_path.sub(%r{^/}, ''))).to_s
 
-    File.open(program_root.join("channel_#{playlist.channel_id}/#{playlist_id}")
-         .join("#{playlist.start_time.to_date.strftime('%Y-%m-%d')}.png"), 'wb') do |fp|
+    File.open(Rails.public_dir.join(playlist.program_path.sub(%r{^/}, '')).to_s, 'wb') do |fp|
       fp.write kit.to_png.force_encoding(::Encoding::ASCII_8BIT)
     end
   end

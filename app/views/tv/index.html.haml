@@ -2,10 +2,12 @@
   .post_header
     %h3 DragonHall+ TV Lejátszó
   .player
-    .playlist
-      - if @playlist
-        = image_tag "/programs/channel_#{@channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png", size: '720x404'
-    .viragjatekos{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') }}
-      %video{autoplay: true}
-        -# TODO: Rewrite to dynamic src.
-        %source{type: 'video/flash', src: ""}
+    - if @playlist
+      .playlist
+        -#= image_tag @playlist.program_path, size: '720x404'
+        %iframe{src: channel_playlist_tracks_url(@playlist.channel, @playlist, subdomain: 'showtime'), width: 720, height: 404}
+    - if @playlist.active?
+      .viragjatekos{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') }}
+        %video{autoplay: true}
+          -# TODO: Rewrite to dynamic src.
+          %source{type: 'video/flash', src: ""}

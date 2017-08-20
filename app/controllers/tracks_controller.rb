@@ -1,3 +1,4 @@
+
 class TracksController < InheritedResources::Base
   belongs_to :playlist
 
