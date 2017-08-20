@@ -45,7 +45,6 @@ class Track < ApplicationRecord
 
   def down!
     return if position >= playlist.tracks.size
-    puts 'LOFASZ'
 
     oldpos = position.nil? || position == 0 ? 1 : position
     nxtrack = playlist.tracks.where('tracks.position > ?', oldpos).order(position: 'ASC').first

@@ -27,7 +27,7 @@ $('table#viewers a.kill, table#viewers a.block').on 'click', (e) ->
     method: 'GET'
     success: (data, status, xhr) ->
       alert('Gyilok/Blokk kesz')
-    error: (data, status, lofasz) ->
+    error: (xhr, status) ->
       alert('Tulelte!!!!')
 
 $('table caption .viewers_refresh').on 'click', (e) ->
