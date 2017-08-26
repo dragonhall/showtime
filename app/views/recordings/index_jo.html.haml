@@ -23,7 +23,7 @@
               = image_tag recording.video.screenshot_path, size: '720x404', title: 'LOFASZ'
 
               .lof-main-item-desc
-                %h3= link_to recording.video.title, recording
+                %h3= link_to recording.video.title, recording.path.sub(Rails.public_dir.to_s, '')
 
                 %p= l recording.valid_from, format: :long
 
