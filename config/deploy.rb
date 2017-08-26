@@ -33,7 +33,8 @@ append :linked_dirs, 'log',
        'public/system',
        'public/uploads',
        'public/programs',
-       'public/recordings'
+       'public/recordings',
+       'public/screenshots'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
