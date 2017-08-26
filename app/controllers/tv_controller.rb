@@ -13,7 +13,7 @@ class TvController < ApplicationController
                 elsif @channel.playlists.at_week.any?
                   @channel.playlists.at_week.first
                 else
-                  @channel.upcoming.first
+                  @channel.playlists.upcoming.first
                 end
 
 
