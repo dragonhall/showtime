@@ -8,7 +8,7 @@ class RecordingsController < ApplicationController
     if params[:series].blank?
       @recordings = Recording.available
     else
-      @recordings = Recording.available.joins(:video).where('videos.recordable' => true)
+      @recordings = Recording.available.joins(:video).where('videos.series' => params[:series])
     end
   end
 
