@@ -23,7 +23,7 @@ class TvController < ApplicationController
         if @playlist.active?
           render json: {src: "rtmp://tv.dragonhall.hu:1935/live/#{@channel.stream_path}"}
         else
-          render status: :forbidden
+          render status: :forbidden, json: {}
         end
       end
     end
