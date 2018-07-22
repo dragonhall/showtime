@@ -106,7 +106,7 @@ class RecordingJob < ApplicationJob
 
     ret = system("#{Rails.root}/script/concat", job_id, tmp_path.to_s, target_path.to_s, @recording.video.pegi_rating)
     if ret
-      @recording.update_attribute :path, target_path
+      @recording.update_attribute :path, target_path.to_s.sub(Rails.public_dir.to_s, '').sub(/^\//, '')
       completed "Video #{File.basename(target_path)} rendered successfully"
     else
       failed 'Final FFMPEG returned with non-zero status code'
