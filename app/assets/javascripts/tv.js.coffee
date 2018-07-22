@@ -20,6 +20,6 @@ jQuery ->
           console.log(data)
           $('.playlist').slideUp(500)
 
-          flowplayer('.viragjatekos', {clip: {sources: [type: 'video/flash', src: data.src]}, autoplay: true, live: true, swf: $('.viragjatekos').data('swf')})
+          flowplayer('.viragjatekos', {clip: {sources: [src: data.src]}, autoplay: true, live: true })
           $('.viragjatekos').show()
     ), 3000)

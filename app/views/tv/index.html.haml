@@ -7,7 +7,7 @@
         -#= image_tag @playlist.program_path, size: '720x404'
         %iframe{src: channel_playlist_tracks_url(@playlist.channel, @playlist, subdomain: 'showtime'), width: 720, height: 404}
     - if @playlist.active?
-      .viragjatekos{data: { debug: 'true', engine: :flash, swf: asset_url('flowplayer.swf') }}
+      .viragjatekos{data: { debug: 'true' }}
         %video{autoplay: true}
           -# TODO: Rewrite to dynamic src.
-          %source{type: 'video/flash', src: ""}
+          %source{type: 'application/x-mpegURL', src: ""}
