@@ -198,7 +198,7 @@ GEM
       guard (~> 2.0)
       guard-compat (~> 1.1)
       spring
-    haml (5.0.1)
+    haml (5.0.4)
       temple (>= 0.8.0)
       tilt
     haml-rails (1.0.0)
