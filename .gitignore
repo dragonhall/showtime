@@ -62,3 +62,4 @@ config/secrets.yml.key
 public/streaming/channellogos/
 
 /.idea/.*
+/spec/examples.txt

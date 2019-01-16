@@ -14,6 +14,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require 'fuubar' unless defined?(Fuubar)
+
 Dir.glob(File.expand_path('../../spec/support/*.rb', __FILE__)).each do |r|
   require r
 end
@@ -32,6 +34,7 @@ RSpec.configure do |config|
     #     # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
+
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
@@ -77,7 +80,7 @@ RSpec.configure do |config|
     # (e.g. via a command-line flag).
     config.default_formatter = 'doc'
   else
-    config.default_formattter = ENV['CI'] || ENV['TRAVIS_CI'] ? 'progress' : Fuubar
+    config.default_formatter = ENV['CI'] || ENV['TRAVIS_CI'] ? 'progress' : Fuubar
   end
 
   # Print the 10 slowest examples and example groups at the
