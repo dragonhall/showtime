@@ -21,7 +21,7 @@ class TvController < ApplicationController
       format.html
       format.json do
         if @playlist.active?
-          render json: {src: "rtmp://tv.dragonhall.hu:1935/live/#{@channel.stream_path}"}
+          render json: {src: "rtmp://tv.dragonhall.hu:1935/live/#{@channel.stream_path}.m3u8"}
         else
           render status: :forbidden, json: {}
         end

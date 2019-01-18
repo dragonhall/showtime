@@ -106,7 +106,7 @@ class StreamingJob # < ApplicationJob
 
     filter_params.sub!(/\[scaled\];\Z/, '')
 
-    bitrate = 2_000_000
+    bitrate = 1_000
     bitrate = (bitrate / 1000.0).ceil
 
     transcoding_params = {custom: %W[-t #{video.length}]}
@@ -120,8 +120,10 @@ class StreamingJob # < ApplicationJob
 
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
-      x264_preset: 'slow',
-      video_bitrate: bitrate
+      # x264_preset: 'slow',
+      video_bitrate: bitrate,
+      video_codec: 'libx264',
+      audio_codec: 'aac',
     )
 
 
