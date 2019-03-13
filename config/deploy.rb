@@ -1,7 +1,29 @@
 # frozen_string_literal: true
 
+def get_project_ruby
+  rbver = File.expand_path('../../.ruby-version', __FILE__)
+
+  if File.exists?(rbver)
+    File.read(rbver)
+  else
+    "ruby-2.5.3"
+  end
+end
+
+def get_project_gemset
+
+  rbgemset = File.expand_path('../../.ruby-gemset', __FILE__)
+
+  if File.exits?(rbgemset)
+    File.read(rbgemset)
+  else
+    File.basename(File.dirname(rbgemset))
+  end
+end
+
+
 # config valid only for current version of Capistrano
-lock '3.8.2'
+lock '~> 3.11.0'
 
 set :application, 'showtime'
 set :repo_url, 'git@github.com:dragonhall/showtime.git'
@@ -45,7 +67,8 @@ set :local_user, -> { `git config user.name`.chomp }
 set :keep_releases, 3
 
 set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.4.1@showtime'
+#set :rvm_ruby_version, 'ruby-2.4.1@showtime'
+set :rvm_ruby_version, "#{get_project_ruby}@#{get_ruby_gemset}"
 
 set :nginx_config_file, -> { "#{fetch(:nginx_config_name)}.conf" }
 set :nginx_server_name, 'showtime.dragonhall.hu'
