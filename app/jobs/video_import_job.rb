@@ -21,7 +21,7 @@ class VideoImportJob < ApplicationJob
       v.pegi_rating ||= pegi_rating.to_sym
     end
 
-    fv = FusionVideo.from_filepath(video_path) rescue nil
+    fv = Fusion::Video.from_filepath(video_path) rescue nil
 
     if fv && !fv.title.blank? then
       v.metadata[:title] = fv.title

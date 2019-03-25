@@ -1,5 +1,7 @@
-class FusionUser < ApplicationRecord
+class Fusion::User < ApplicationRecord
   establish_connection :dragonhall
+
+  self.table_name = :fusion_users
 
   default_scope { where(:user_status => 0) }
 
@@ -16,6 +18,4 @@ class FusionUser < ApplicationRecord
   def active?
     !user_status
   end
-
-
 end
