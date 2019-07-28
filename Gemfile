@@ -85,10 +85,11 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-rspec', require: false
   gem 'simplecov'
 end
 

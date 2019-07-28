@@ -1,5 +1,5 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :blocked_ip do
-    address "MyString"
+    address { "127.0.0.15" }
   end
 end
