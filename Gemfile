@@ -43,7 +43,7 @@ group :assets do
   gem 'jquery-easing-rails'
   gem 'jquery-rails'
   gem 'jquery-ui-rails'
-  gem 'sass-rails', '~> 5.0'
+  gem 'sassc-rails', '~> 2.1.0'
   gem 'uglifier', '>= 1.3.0'
 end
 
@@ -85,10 +85,11 @@ group :development do
 end
 
 group :test do
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'fuubar'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'rubocop-rspec', require: false
   gem 'simplecov'
 end
 

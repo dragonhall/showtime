@@ -14,5 +14,5 @@ Style/GuardClause:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Enabled: false

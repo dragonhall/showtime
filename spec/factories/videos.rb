@@ -1,6 +1,6 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :video do
-    path "MyString"
-    metadata ""
+    path { "MyString" }
+    metadata { "" }
   end
 end
