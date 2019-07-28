@@ -59,3 +59,8 @@
           %td.actions
             = link_to image_tag('icons/accept.png'), [@channel, @playlist, :tracks], class: 'accept'
             = link_to image_tag('icons/cancel.png'), '#', class: 'cancel'
+      %tfoot
+        %tr
+          %td(colspan="5")
+            %span.actions.right
+              = link_to image_tag('icons/add.png'), '#' , class: 'add'
