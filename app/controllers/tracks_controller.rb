@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class TracksController < InheritedResources::Base
   belongs_to :playlist
@@ -28,8 +29,6 @@ class TracksController < InheritedResources::Base
   end
 
   def reorder
-
-
     tracks = params[:tracks].map { |id| Track.find(id) }
 
     if !tracks.first.playlist.finalized?
@@ -52,7 +51,8 @@ class TracksController < InheritedResources::Base
         end
       end
     else
-      render json: {error: "Tracks cannot moved when they're finalized"}, status: :forbidden
+      render json: {error: "Tracks cannot moved when they're finalized"},
+             status: :forbidden
     end
   end
 

@@ -1,9 +1,8 @@
 FactoryBot.define do
   factory :playlist do
-    channel_id { 1 }
+    channel
     title { "MyString" }
-    start_time { "2017-07-01 14:14:46" }
-    duration { 1 }
+    start_time { Time.zone.now }
     finalized { false }
     published { false }
   end
