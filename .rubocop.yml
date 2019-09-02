@@ -1,3 +1,6 @@
+require: 
+  - rubocop-rspec
+
 Lint/HandleExceptions:
   Exclude:
     - spec/support/*.rb
@@ -16,3 +19,23 @@ Layout/SpaceInsideHashLiteralBraces:
 
 Layout/IndentFirstArgument:
   Enabled: false
+
+Layout/AlignArguments:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 25
+
+Style/Documentation:
+  Exclude:
+    - spec/**/*
+    - test/**/*
+    - features/**/*
+    - app/controllers/**/*
+    - app/models/**/*
+    - app/helpers/**/*
+    - app/controllers/**/*
+    - app/jobs/**/*
