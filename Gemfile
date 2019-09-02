@@ -91,6 +91,7 @@ group :test do
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
+  gem 'database_cleaner'
 end
 
 group :application do

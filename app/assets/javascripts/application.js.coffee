@@ -13,7 +13,7 @@
 #= require jquery-ui
 #= require jquery-ui/i18n/datepicker-hu
 #= require jquery_ujs
-##= require rails-ujs
+## require rails-ujs
 #= require jquery.initialize
 #= require jquery.facebox
 #= require jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon
