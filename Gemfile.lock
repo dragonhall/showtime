@@ -132,6 +132,7 @@ GEM
       memoized (>= 1.0.2)
       rails (>= 3.2)
     crass (1.0.4)
+    database_cleaner (1.7.0)
     debug_inspector (0.0.3)
     devise (4.6.2)
       bcrypt (~> 3.0)
@@ -502,6 +503,7 @@ DEPENDENCIES
   carrierwave
   coffee-rails (~> 4.2)
   consul
+  database_cleaner
   devise
   facebox-rails!
   factory_bot_rails
