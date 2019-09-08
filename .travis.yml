@@ -1,9 +1,5 @@
 language: ruby
 
-branches:
-  only:
-    - master
-    - develop
 services:
   - mysql
 before_install:
