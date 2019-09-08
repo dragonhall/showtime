@@ -1,0 +1,15 @@
+language: ruby
+
+branches:
+  only:
+    - master
+    - develop
+
+services:
+  - mysql
+before_install:
+  - mysqladmin create showtime_development
+  - mysqladmin create showtime_test
+  - mysqladmin create dragonhall
+  - cp config/database.yml.ci config/database.yml
+
