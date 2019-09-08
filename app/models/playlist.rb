@@ -149,7 +149,7 @@ class Playlist < ApplicationRecord
 
   def initialize_title
     # rubocop:disable Metrics/LineLength
-    self.title ||= "#{channel ? channel.name : Playlist.model_name} ##{channel.playlists.last.blank? ? 1 : channel.playlists.last.id + 1}" if new_record?
+    self.title ||= "#{channel ? channel.name : Playlist.model_name} ##{channel.blank? || channel.playlists.last.blank? ? 1 : channel.playlists.last.id + 1}" if new_record?
   end
 
   def postprocess_finalization

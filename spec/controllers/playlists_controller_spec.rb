@@ -29,11 +29,27 @@ RSpec.describe PlaylistsController, type: :controller do
   # Playlist. As you add validations to Playlist, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    { 
+      channel_id: create(:channel).id,
+      title: Faker::Lorem.sentence,
+      start_time: Faker::Time.forward(days: 30),
+      intro_id: create(:intro).id,
+      finalized: false,
+      published: false
+    }
+
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      title: nil,
+      channel_id: Channel.find_or_create_by(name: Faker::Name.first_name),
+      start_time: Time.zone.now,
+      intro_id: nil,
+      finalized: false,
+      published: false,
+    }
+    #skip("Add a hash of attributes invalid for your model")
   }
 
   # This should return the minimal set of values that should be in the session
@@ -41,10 +57,13 @@ RSpec.describe PlaylistsController, type: :controller do
   # PlaylistsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  login_admin
+
   describe "GET #index" do
     it "returns a success response" do
       playlist = Playlist.create! valid_attributes
-      get :index, params: {}, session: valid_session
+      channel = playlist.channel
+      get :index, params: {channel_id: channel.id}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -52,14 +71,16 @@ RSpec.describe PlaylistsController, type: :controller do
   describe "GET #show" do
     it "returns a success response" do
       playlist = Playlist.create! valid_attributes
-      get :show, params: {id: playlist.to_param}, session: valid_session
+      channel = playlist.channel
+      get :show, params: {channel_id: channel.id, id: playlist.to_param}, session: valid_session
       expect(response).to be_success
     end
   end
 
   describe "GET #new" do
     it "returns a success response" do
-      get :new, params: {}, session: valid_session
+      channel = create :channel
+      get :new, params: {channel_id: channel.id}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -67,7 +88,8 @@ RSpec.describe PlaylistsController, type: :controller do
   describe "GET #edit" do
     it "returns a success response" do
       playlist = Playlist.create! valid_attributes
-      get :edit, params: {id: playlist.to_param}, session: valid_session
+      channel = playlist.channel
+      get :edit, params: {channel_id: channel.id, id: playlist.to_param}, session: valid_session
       expect(response).to be_success
     end
   end
@@ -76,19 +98,19 @@ RSpec.describe PlaylistsController, type: :controller do
     context "with valid params" do
       it "creates a new Playlist" do
         expect {
-          post :create, params: {playlist: valid_attributes}, session: valid_session
+          post :create, params: {playlist: valid_attributes, channel_id: valid_attributes[:channel_id]}, session: valid_session
         }.to change(Playlist, :count).by(1)
       end
 
       it "redirects to the created playlist" do
-        post :create, params: {playlist: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Playlist.last)
+        post :create, params: {playlist: valid_attributes, channel_id: valid_attributes[:channel_id]}, session: valid_session
+        expect(response).to redirect_to root_url
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'new' template)" do
-        post :create, params: {playlist: invalid_attributes}, session: valid_session
+        post :create, params: {playlist: invalid_attributes, channel_id: valid_attributes[:channel_id]}, session: valid_session
         expect(response).to be_success
       end
     end
@@ -97,27 +119,32 @@ RSpec.describe PlaylistsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { title: 'Lorem ipsum dolor sit amet 123!' }
+        #skip("Add a hash of attributes valid for your model")
       }
 
       it "updates the requested playlist" do
         playlist = Playlist.create! valid_attributes
-        put :update, params: {id: playlist.to_param, playlist: new_attributes}, session: valid_session
+        channel = playlist.channel
+        put :update, params: {channel_id: channel.id, id: playlist.to_param, playlist: new_attributes}, session: valid_session
         playlist.reload
-        skip("Add assertions for updated state")
+        #skip("Add assertions for updated state")
+        expect(playlist.title).to eq 'Lorem ipsum dolor sit amet 123!'
       end
 
       it "redirects to the playlist" do
         playlist = Playlist.create! valid_attributes
-        put :update, params: {id: playlist.to_param, playlist: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(playlist)
+        channel = playlist.channel
+        put :update, params: {channel_id: channel.id, id: playlist.to_param, playlist: valid_attributes}, session: valid_session
+        expect(response).to redirect_to root_url
       end
     end
 
     context "with invalid params" do
       it "returns a success response (i.e. to display the 'edit' template)" do
         playlist = Playlist.create! valid_attributes
-        put :update, params: {id: playlist.to_param, playlist: invalid_attributes}, session: valid_session
+        channel = playlist.channel
+        put :update, params: {channel_id: channel.id, id: playlist.to_param, playlist: invalid_attributes}, session: valid_session
         expect(response).to be_success
       end
     end
@@ -126,15 +153,17 @@ RSpec.describe PlaylistsController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested playlist" do
       playlist = Playlist.create! valid_attributes
+      channel = playlist.channel
       expect {
-        delete :destroy, params: {id: playlist.to_param}, session: valid_session
+        delete :destroy, params: {channel_id: channel.id, id: playlist.to_param}, session: valid_session
       }.to change(Playlist, :count).by(-1)
     end
 
     it "redirects to the playlists list" do
       playlist = Playlist.create! valid_attributes
-      delete :destroy, params: {id: playlist.to_param}, session: valid_session
-      expect(response).to redirect_to(playlists_url)
+      channel = playlist.channel
+      delete :destroy, params: {channel_id: channel.id, id: playlist.to_param}, session: valid_session
+      expect(response).to redirect_to root_url
     end
   end
 

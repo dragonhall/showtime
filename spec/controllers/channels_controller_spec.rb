@@ -41,6 +41,8 @@ RSpec.describe ChannelsController, type: :controller do
   # ChannelsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  login_admin
+
   describe "GET #index" do
     it "returns a success response" do
       channel = Channel.create! valid_attributes
