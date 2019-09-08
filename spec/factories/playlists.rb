@@ -1,8 +1,11 @@
+require 'faker'
+
 FactoryBot.define do
   factory :playlist do
     channel
-    title { "MyString" }
-    start_time { Time.zone.now }
+    title { Faker::Lorem.sentence }
+    start_time { Faker::Time.forward(days: 30) }
+    intro 
     finalized { false }
     published { false }
   end

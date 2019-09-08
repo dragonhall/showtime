@@ -36,6 +36,8 @@ RSpec.describe VideosController, type: :controller do
     skip("Add a hash of attributes invalid for your model")
   }
 
+  login_admin
+
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # VideosController. Be sure to keep this updated too.
