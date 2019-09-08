@@ -1,0 +1,9 @@
+language: ruby
+
+branches:
+  only:
+    - master
+    - develop
+
+
+
