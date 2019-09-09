@@ -70,7 +70,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#index'
   end
 
-  constraints subdomain: /^tv\./ do
+  constraints subdomain: /\Atv(\..*)?\Z/ do
     resources :recordings
     root to: 'tv#index'
     get '/tv/index', to: 'tv#index'

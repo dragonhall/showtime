@@ -14,7 +14,7 @@
       }
 
       body {
-        background: url(#{asset_path 'musorhatter.png'}) no-repeat;
+        background-image: url(#{image_path 'musorhatter.png'});
         font-family: Discognatehacka;
         font-weight: bold;
         color: #1e9edf;
@@ -24,8 +24,9 @@
     = stylesheet_link_tag :playlists
   %body
     #wrapper
-      #heading= content_for?(:title) ? content_for(:title) : "Műsor"
+      #heading= content_for?(:title) ? content_for(:title) : 'Műsor'
       #schedule_wrapper
         = yield
+        %br(style="clear: both;")
       %footer
         = @playlist.start_time.strftime('%Y.%m.%d.')

@@ -1,13 +1,23 @@
+# frozen_string_literal: true
+
 class PlaylistHasNoTracksError < StandardError; end
 
 class Playlist < ApplicationRecord
   belongs_to :channel
   has_many :tracks, dependent: :destroy
 
+  belongs_to :intro, class_name: 'Video'
+
   scope :finalized, -> { where(finalized: true) }
   scope :wip, -> { where(finalized: false) }
-  scope :at_today, -> { where('playlists.start_time >= ? AND playlists.start_time <= ?', Time.zone.now.at_beginning_of_day, Time.zone.now.at_end_of_day) }
-  # scope :active, -> { where ('playlists.start_time <= NOW() AND playlists.start_time + INTERVAL playlists.duration SECOND != NOW()') }
+  
+  scope :at_today, lambda {
+                     where('playlists.start_time >= ? AND playlists.start_time <= ?',
+                              Time.zone.now.beginning_of_day, Time.zone.now.end_of_day) }
+  scope :at_week, lambda {
+                    where('playlists.start_time >= ? AND playlists.start_time <= ?',
+                             Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
+
   scope :active, -> { joins(:tracks).where('tracks.playing = ?', true) }
   scope :upcoming, -> { where(finalized: true) }
   scope :current, -> { where('playlists.start_time BETWEEN ? AND ?', Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
@@ -22,11 +32,45 @@ class Playlist < ApplicationRecord
   before_save :calculate_duration
   after_initialize :initialize_title
 
+  before_update :finalize!, if: :finalized?
   after_update :postprocess_finalization, if: :saved_change_to_finalized?
 
+  def active?
+    tracks.where(playing: true).any?
+  end
+
   def finalize!
-    if tracks.count > 0 then
-      update_attribute :finalized, true
+    logger.debug 'Finalizing playlist ' + self.title
+
+    if tracks.any? then
+      # First we make sure all tracks contain continuous positions. It's needed because next
+      # calculations are based on there is no gap between position ids
+      renumber!
+
+      tracks.each do |track|
+        if track.video.video_type == 'film' and self.intro_id? and !self.intro.blank?
+          # We add intro tracks before ...
+          logger.debug "Expanding #{track.title}"
+          intropos = track.position
+          shift_from! track.position - 1
+          track.reload
+          begin
+            tracks.create!(video_id: self.intro_id, position: intropos)
+          rescue StandardError => e
+            logger.error e.message
+            raise e
+          end
+          # ... and after the video
+          shift_from! track.position
+
+          begin
+            tracks.create!(video_id: self.intro_id, position: track.position + 1)
+          rescue StandardError => e
+            logger.error e.message
+            raise e
+          end
+        end
+      end
     else
       raise PlaylistHasNoTracksError, 'No tracks added to the tracklist'
     end
@@ -50,10 +94,18 @@ class Playlist < ApplicationRecord
   end
 
   def renumber!
-    tracks.each_with_index do |track, index|
-      if track.position != index then
-        track.update_attribute :position, index
+    tracks.each_with_index do |track, i|
+      index = i + 1 # Start numbering from 1
+      unless track.position == index then
+        track.update_attributes position: index
       end
+    end
+  end
+
+  def shift_from!(position)
+    tracks.where('position > ?', position).each do |track|
+      logger.debug "Shifting '#{track.title}' (#{track.position} => #{track.position + 1})"
+      track.update_attributes position: track.position + 1
     end
   end
 
@@ -90,6 +142,14 @@ class Playlist < ApplicationRecord
     end
   end
 
+  def program_path
+    "/programs/channel_#{channel.id}/#{id}/#{start_time.strftime('%F_%H-%M')}.png"
+  end
+
+  def program?
+    Rails.public_dir.join(program_path.sub(%r{^/}, '')).exist?
+  end
+
   private
 
   def calculate_duration
@@ -97,11 +157,15 @@ class Playlist < ApplicationRecord
   end
 
   def initialize_title
+    # rubocop:disable Metrics/LineLength
     self.title ||= "#{channel ? channel.name : Playlist.model_name} ##{channel.playlists.last.blank? ? 1 : channel.playlists.last.id + 1}" if new_record?
   end
 
   def postprocess_finalization
+    return unless self.finalized?
     PlaylistGeneratorJob.perform_later id
+    # There was multiple issues when self was not used here
+    # rubocop:disable Style/RedundantSelf
     Resque.enqueue_at self.start_time, StreamingJob, playlist_id: id
   end
 end

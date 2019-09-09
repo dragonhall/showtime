@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # config valid only for current version of Capistrano
-lock '3.8.2'
+lock '~> 3.11.0'
 
 set :application, 'showtime'
 set :repo_url, 'git@github.com:dragonhall/showtime.git'
@@ -18,6 +18,7 @@ set :deploy_to, '/srv/www/showtime.dragonhall.hu/htdocs'
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
+set :format_options, command_output: true, truncate: false, color: :auto
 
 # Default value for :pty is false
 # set :pty, true
@@ -44,11 +45,29 @@ set :local_user, -> { `git config user.name`.chomp }
 # Default value for keep_releases is 5
 set :keep_releases, 3
 
-set :rvm_type, :user
-set :rvm_ruby_version, 'ruby-2.4.1@showtime'
-
 set :nginx_config_file, -> { "#{fetch(:nginx_config_name)}.conf" }
 set :nginx_server_name, 'showtime.dragonhall.hu'
 
+set :rvm1_roles, :all
+
+append :rvm_map_bins, 'gem', 'ruby', 'bundle', 'rake'
+
 #set :foreman_roles, :all
 #set :foreman_init_system, 'systemd'
+
+namespace :deploy do
+  desc 'Run things before deploy'
+  task :setup
+  on roles :all do
+    rvm_ver=capture('rvm --verson || true').strip
+
+    invoke 'rvm1:install:rvm' if rvm_ver.empty?
+  end
+end
+
+after 'bundler:map_bins', 'rvm1:hook'
+
+before 'deploy:assets:precompile', 'rvm1:hook'
+
+before 'deploy', 'deploy:setup'
+before 'deploy', 'rvm1:install:ruby'

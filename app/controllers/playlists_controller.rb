@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PlaylistsController < InheritedResources::Base
   belongs_to :channel
 
@@ -9,12 +11,10 @@ class PlaylistsController < InheritedResources::Base
 
   def create
     create! { root_url }
-
   end
 
   def update
     update!  { root_url }
-
   end
 
   def destroy
@@ -22,8 +22,11 @@ class PlaylistsController < InheritedResources::Base
   end
 
   def play
-
-    @playlist ||= Playlist.find(params[:id]) rescue nil
+    @playlist ||= begin
+                    Playlist.find(params[:id])
+                  rescue StandardError
+                    nil
+                  end
     @channel = Channel.where(domain: '#technical').first
 
     if @playlist
@@ -32,14 +35,20 @@ class PlaylistsController < InheritedResources::Base
     else
       redirect_to root_url
     end
-
   end
 
   def program
-    @playlist ||= Playlist.find(params[:id]) rescue nil
+    @playlist ||= begin
+                    Playlist.find(params[:id])
+                  rescue StandardError
+                    nil
+                  end
 
     if @playlist # && @playlist.finalized?
-      redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png", status: :found
+      # rubocop:disable Metrics/LineLength
+      redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
+                  status: :found
+      # rubocop:enable Metrics/LineLength
     else
       render 'public/404.html', status: :not_found
     end
@@ -51,7 +60,10 @@ class PlaylistsController < InheritedResources::Base
         if Playlist.current.any?
 
           @playlist = Playlist.current.first
-          redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png", status: :found
+          # rubocop:disable Metrics/LineLength
+          redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
+                      status: :found
+          # rubocop:enable Metrics/LineLength
         else
           render file: 'public/404.html', status: :not_found
         end
@@ -73,7 +85,7 @@ class PlaylistsController < InheritedResources::Base
   private
 
   def playlist_params
-    params.require(:playlist).permit(:channel_id, :start_time, :title, :finalized)
+    params.require(:playlist)
+          .permit(:channel_id, :start_time, :title, :finalized, :intro_id)
   end
 end
-

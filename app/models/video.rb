@@ -1,7 +1,7 @@
 class Video < ApplicationRecord
   # PEGI_RATINGS = [3,7,12,16,18]
 
-  enum video_type: %i[film trailer advert intro]
+  enum video_type: %i[film trailer advert intro rollover]
 
   enum pegi_rating: [3, 7, 12, 16, 18].map { |r| "pegi_#{r}".to_sym }
 
@@ -31,6 +31,7 @@ class Video < ApplicationRecord
   scope :adverts, -> { where(video_type: :advert) }
   scope :films, -> { where(video_type: :film) }
   scope :intros, -> { where(video_type: :intro) }
+  scope :rollovers, -> { where(video_type: :rollovers) }
 
   def imported?
     !metadata.blank?
@@ -41,8 +42,9 @@ class Video < ApplicationRecord
   end
 
   # @return [Hash]
+  # TODO move to a helper
   def self.pegi_rating_titles
-    return @pegi_ratings unless !defined?(@pegi_ratings) || @pegi_ratings.empty?
+    return @pegi_rating_titles unless !defined?(@pegi_rating_titles) || @pegi_rating_titles.empty?
     v = Video.pegi_ratings.map do |rating, i|
       ["#{rating.to_s.sub(/^pegi_/, '')}+", i]
     end
@@ -52,6 +54,7 @@ class Video < ApplicationRecord
 
 
   # @return [Hash]
+  # TODO move to a helper
   def self.pegi_icons
     return @pegi_icons unless !defined?(@pegi_icons) || @pegi_icons.empty?
     # v = Video.pegi_rating_titles.keys.each_with_index do |r, i|
@@ -87,7 +90,7 @@ class Video < ApplicationRecord
 
   def update_tracks
     tracks.each do |track|
-      next if track.playlist && track.playlist.finalized?
+      next if track.playlist&.finalized?
       track.title = metadata[:title]
       track.save
     end

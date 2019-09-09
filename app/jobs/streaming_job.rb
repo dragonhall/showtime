@@ -96,7 +96,7 @@ class StreamingJob # < ApplicationJob
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
 
-    if channel.logo? && video.video_type != 'intro'
+    if channel.logo? && !%w[intro rollover].include?(video.video_type)
       if video.video_type == 'film' && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path
         filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
       else
@@ -106,7 +106,7 @@ class StreamingJob # < ApplicationJob
 
     filter_params.sub!(/\[scaled\];\Z/, '')
 
-    bitrate = 2_000_000
+    bitrate = 1_000
     bitrate = (bitrate / 1000.0).ceil
 
     transcoding_params = {custom: %W[-t #{video.length}]}
@@ -120,8 +120,10 @@ class StreamingJob # < ApplicationJob
 
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
-      x264_preset: 'slow',
-      video_bitrate: bitrate
+      # x264_preset: 'slow',
+      video_bitrate: bitrate,
+      video_codec: 'libx264',
+      audio_codec: 'aac',
     )
 
 

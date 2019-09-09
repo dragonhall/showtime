@@ -16,7 +16,7 @@ class VideoPreviewJob < ApplicationJob
                   1 + rand(movie.duration - 2)
                 end
 
-    movie.screenshot Rails.root.join('public', screenshot_path),
+    movie.screenshot Rails.root.join('public', screenshot_path).to_s,
                      seek_time: seek_time,
                      resolution: '720x404',
                      custom:
