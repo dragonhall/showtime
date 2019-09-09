@@ -2,7 +2,8 @@ jQuery ->
   jQuery.initialize 'table#playlist_tracklist a.add', ->
     $('table#playlist_tracklist a.add').on 'click', (e) ->
       e.preventDefault()
-      tbody = $(this).parent().parent().parent().find('tbody')
+      # tbody = $(this).parent().parent().parent().find('tbody')
+      tbody = $('table#playlist_tracklist tbody')
 
       # form = $('<tr id="line-form"><td>&nbsp;</td><td class="autocomplete-target video">
       # <input type="text" placeholder="Videó címe" id="video_title" name="video_title" class="autocomplete" />
@@ -59,6 +60,7 @@ jQuery ->
     $('input#video_title').on 'keypress', (e) ->
       if e.which == 13
         e.preventDefault()
+        console.log('Triggering keypress')
         $('#line-form a.accept').trigger('click')
 
     $('#line-form a.cancel').on 'click', (e) ->
@@ -67,6 +69,9 @@ jQuery ->
 
     $('#line-form a.accept').on 'click', (e) ->
       e.preventDefault()
+      e.stopImmediatePropagation()
+
+      console.log({message: 'Accepted line-form', source: this})
 
       jQuery.ajax
         url: $(this).attr('href')
@@ -77,7 +82,7 @@ jQuery ->
             video_id: $('input#video_id').val()
             playlist_id: $('input#playlist_id').val()
         success: (data, status, jqXHR) ->
-          console.log([data, status])
+          console.log({data: data, status: status})
           track = data.track
 
           delete_track_href = $('table#playlist_tracklist').parent().attr('action') + '/tracks/' + track.id

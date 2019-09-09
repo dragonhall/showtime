@@ -14,5 +14,5 @@
     = f.input :deinterlace, as: :boolean, input_html: { value: !!f.object.deinterlace }
     - if f.object.screenshot_path?
       = f.input :screenshot_path, input_html: { disabled: true }
-      = image_tag f.object.screenshot_path
+      = video_screenshot_tag f.object
   = f.submit

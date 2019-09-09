@@ -14,7 +14,7 @@
       %th.actions Műveletek
 
   %tbody
-    - collection.each do |video|
+    - collection.sort_by { |v| [v.video_type, v.title, v.created_at] }.each do |video|
       %tr
         %td= (video.metadata.blank? || video.metadata['title'].blank?) ? "[ #{File.basename(video.path)} ]" : video.metadata['title']
         %td= video.video_type.to_s.titleize
