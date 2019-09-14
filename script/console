@@ -1,9 +1,14 @@
 #!/bin/sh
 
-ME=$(basename "$0")
+
+ME="$(readlink -f "$0")"
+MYDIR=$(dirname "${ME}")
+
 
 hostname="$(hostname -s)"
 RAILS_ENV="${RAILS_ENV:-development}"
+RAILS_ROOT=$(dirname "${MYDIR}")
+RAILS_CMD=$(basename "${ME}")
 
 if [ "$1" = "-e" ]; then
   RAILS_ENV=$2
@@ -14,8 +19,8 @@ fi
 export RAILS_ENV
 
 if [ "${RAILS_ENV}" != "production" ]; then
-  exec spring rails "$ME" "$@"
+  exec spring rails "${RAILS_CMD}" "$@"
 else
-  exec rails "$ME" "$@"
+  exec bundle exec rails "${RAILS_CMD}" "$@"
   :;
 fi
