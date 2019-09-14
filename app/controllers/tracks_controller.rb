@@ -35,6 +35,7 @@ class TracksController < InheritedResources::Base
 
       tracks.each_with_index do |track, idx|
         track.update_attribute :position, idx + 1 if track.position != idx + 1
+        track.reload
       end
 
       respond_to do |format|
@@ -54,6 +55,12 @@ class TracksController < InheritedResources::Base
       render json: {error: "Tracks cannot moved when they're finalized"},
              status: :forbidden
     end
+  end
+
+  def wrap
+    _playlist = Playlist.find(params[:playlist_id])
+    _playlist.wrap_films!
+    redirect_to root_path
   end
 
   private

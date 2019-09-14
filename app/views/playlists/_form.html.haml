@@ -18,6 +18,7 @@
         - unless f.object.finalized?
           %span.actions.right
             = link_to image_tag('icons/add.png'), '#' , class: 'add'
+            = link_to image_tag('icons/film_intro.png'), wrap_channel_playlist_tracks_path(playlist_id: f.object.id), class: 'wrap-intros', title: 'Wrap films with intro', method: :post
 
       %thead
         %tr
@@ -62,5 +63,6 @@
       %tfoot
         %tr
           %td(colspan="5")
-            %span.actions.right
-              = link_to image_tag('icons/add.png'), '#' , class: 'add'
+            - unless f.object.finalized?
+              %span.actions.right
+                = link_to image_tag('icons/add.png'), '#' , class: 'add'

@@ -40,7 +40,7 @@ jQuery ->
 #              console.log(elem)
 
               elem.find('td:first-child').html(e.position)
-              elem.find('td:nth-child(4)').html(e.start_time)
+              elem.find('td:nth-child(3)').html(e.start_time)
 
             $('table#playlist_tracklist tbody').sortable('enable')
             $('table#playlist_tracklist tbody').css('color', '#222')
