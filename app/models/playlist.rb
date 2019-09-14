@@ -41,34 +41,25 @@ class Playlist < ApplicationRecord
 
   def finalize!
     logger.debug 'Finalizing playlist ' + self.title
+  end
 
+  def wrap_films!
     if tracks.any? then
       # First we make sure all tracks contain continuous positions. It's needed because next
       # calculations are based on there is no gap between position ids
       renumber!
 
-      tracks.each do |track|
-        if track.video.video_type == 'film' and self.intro_id? and !self.intro.blank?
-          # We add intro tracks before ...
-          logger.debug "Expanding #{track.title}"
-          intropos = track.position
-          shift_from! track.position - 1
-          track.reload
-          begin
-            tracks.create!(video_id: self.intro_id, position: intropos)
-          rescue StandardError => e
-            logger.error e.message
-            raise e
-          end
-          # ... and after the video
-          shift_from! track.position
+      video_list = self.tracks.collect(&:video)
 
-          begin
-            tracks.create!(video_id: self.intro_id, position: track.position + 1)
-          rescue StandardError => e
-            logger.error e.message
-            raise e
-          end
+      self.tracks.delete_all
+
+      video_list.each_with_index do |video|
+        if video.film?
+          self.tracks.create!(video_id: self.intro_id)
+          self.tracks.create!(video_id: video.id)
+          self.tracks.create!(video_id: self.intro_id)
+        else
+          self.tracks.create!(video_id: video.id)
         end
       end
     else
