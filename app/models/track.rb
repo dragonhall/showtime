@@ -67,9 +67,10 @@ class Track < ApplicationRecord
   private
 
   def playlist_not_finalized
-    # XXX Warning: we SHOULD check the database state instead of real state to work around validation error during
+    # XXX Warning: we MUST check the database state instead of real state to work around validation error during
     # finalizing the playlist
-    errors.add(:base, 'A műsor nem lehet lezárva') if !playlist.blank? && playlist.finalized_in_database
+    # TODO Create tests for this
+    errors.add(:playlist, 'A műsor nem lehet lezárva') if !playlist.blank? && playlist.finalized_in_database
   end
 
   def initialize_title
