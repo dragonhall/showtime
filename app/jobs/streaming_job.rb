@@ -96,11 +96,20 @@ class StreamingJob # < ApplicationJob
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
 
-    if channel.logo? && !%w[intro rollover].include?(video.video_type)
-      if video.video_type == 'film' && %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path
-        filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    if channel.logo?
+      case video.video_type
+      when 'film'
+        if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
+          filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+        else
+          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}" if logo_path
+        end
+      when 'trailer'
+        if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
+          filter_params += "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
+        end
       else
-        filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
+        # nothing to do
       end
     end
 
