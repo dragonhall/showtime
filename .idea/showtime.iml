@@ -33,7 +33,7 @@
     <orderEntry type="library" scope="PROVIDED" name="activemodel (v5.1.7, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activerecord (v5.1.7, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="activesupport (v5.1.7, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="airbrussh (v1.3.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="airbrussh (v1.3.3, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="arel (v8.0.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ast (v2.4.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="bcrypt (v3.1.13, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
@@ -44,12 +44,11 @@
     <orderEntry type="library" scope="PROVIDED" name="bundler (v1.16.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="byebug (v11.0.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="callsite (v0.0.11, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.11.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capistrano (v3.11.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.6.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-foreman (v1.4.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-linked-files (v1.2.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.4.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="capistrano-rvm (v0.1.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano3-puma (v3.1.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="carrierwave (v1.3.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coderay (v1.1.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
@@ -73,6 +72,7 @@
     <orderEntry type="library" scope="PROVIDED" name="facebox-rails (v0.2.0@bfcc45, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot (v5.0.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="factory_bot_rails (v5.0.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="faker (v2.2.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ffi (v1.11.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="font-awesome-sass (v5.9.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="foreman (v0.85.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
@@ -170,12 +170,14 @@
     <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.8.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v3.8.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.8.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec_junit_formatter (v0.4.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop (v0.73.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rubocop-rspec (v1.34.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby-progressbar (v1.10.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_dep (v1.5.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="ruby_parser (v3.13.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="rufus-scheduler (v3.6.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rvm1-capistrano3 (v1.4.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.7.4, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-listen (v4.0.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.0.7, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
@@ -192,7 +194,7 @@
     <orderEntry type="library" scope="PROVIDED" name="spring-watcher-listen (v2.0.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets (v3.7.2, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sprockets-rails (v3.2.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
-    <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.19.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="sshkit (v1.20.0, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="streamio-ffmpeg (v3.0.2@aca5ba, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="temple (v0.8.1, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="thor (v0.19.4, RVM: ruby-2.5.6 [showtime]) [gem]" level="application" />
