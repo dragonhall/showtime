@@ -28,9 +28,7 @@ class Track < ApplicationRecord
   # @return [Integer] Returns length (in seconds) of the contained video
   #                   plus - if set - the length of the intro/outro of the playlist
   def length
-    @length ||= (video.metadata['length'] || 0) +
-        (!self.playlist.finalized? && self.playlist.intro_id? && !self.playlist.intro.blank? ?
-             self.playlist.intro.length * 2 : 0)
+    @length ||= video.metadata['length'] || 0
   end
 
   def stop!
