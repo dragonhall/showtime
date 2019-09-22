@@ -68,13 +68,18 @@ class TracksController < InheritedResources::Base
   def set_title
     playlist = Playlist.find(params[:playlist_id])
 
-    @title = if playlist.start_time.to_date == Time.zone.now.to_date
+    @title = if playlist.start_time.to_date == Time.zone.now.to_date then
                'Mai'
+             elsif playlist.start_time.to_date == (Time.zone.now - 1.day).to_date then
+               'Tegnapi'
+             elsif playlist.start_time.to_date == (Time.zone.now + 1.day).to_date then
+               'Holnapi'
              elsif playlist.start_time >= Time.zone.now.to_date.beginning_of_week &&
-                   playlist.start_time <= Time.zone.now.to_date.end_of_week
-               'Heti'
+                   playlist.start_time <= Time.zone.now.to_date.end_of_week then
+               # 'Heti'
+               I18n.l(playlist.start_time, format: '%Ai').titleize
              elsif playlist.start_time >= 7.days.from_now.to_date.beginning_of_week &&
-                   playlist.start_time <= 7.days.from_now.to_date.end_of_week
+                   playlist.start_time <= 7.days.from_now.to_date.end_of_week then
                'Jövő Heti'
              else
                'Következő'

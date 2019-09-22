@@ -1,58 +1,17 @@
-//body {
-//  width: 1280px;
-//  height: 720px;
-//  background-size: 1280px 720px;
-//  //width: 1024px;
-//  //height: 576px;
-//  //background-size: 1024px 576px;
-//  background-repeat: no-repeat;
-//}
-//
-//#wrapper {
-//  position: absolute;
-//  top: 0;
-//  left: 0;
-//  margin: 0;
-//  width: 1280px;
-//  height: 720px;
-//}
-//
-//#heading {
-//  font-size: 42pt;
-//  margin: 20px 0 120px 0;
-//  text-align: center;
-//}
-//
-//#schedule_wrapper {
-//  margin-left: 250px;
-//  //width: 780px;
-//}
-//
-//ul {
-//  list-style: none;
-//  margin: 0;
-//  padding: 0;
-//  width: 470px;
-//  float: left;
-//
-//
-//  &:first-child {
-//    margin-right: 40px;
-//  }
-//
-//  & > li {
-//    margin-top: 10px;
-//    &:first-child {
-//      margin-top: 0;
-//    }
-//  }
-//}
-//
-//
-//.time {
-//  color: #1564c6;
-//}
-//
+body, html {
+  min-height: 100%;
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  //background-color: #fff;
+  //border: 1px solid red;
+  padding: 0;
+  margin: 0;
+}
+
 footer {
   position: fixed;
   bottom: 0.2em;
@@ -62,81 +21,72 @@ footer {
 
 }
 
-//
 
-body, html {
-  min-height: 100%;
-}
+ul {
+  list-style: none;
+  //float: left;
+  //li { background: yellow; }
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 
-body {
-  background-repeat: no-repeat;
-  background-size: contain;
-  max-height: 720px;
-  max-width: 1280px;
-  //background-color: #fff;
-  //border: 1px solid red;
-
+  li {
+    padding-bottom: 0.2em;
+  }
 }
 
 #wrapper {
   text-align: center;
-  margin-top: 1.6em;
+  margin: 1.6em auto;
   height: 100%;
+  //background: purple;
 
   #schedule_wrapper {
-    //border: 1px solid purple;
+    background: rgba(151, 204, 237, 0.5);
+    border-radius: 10px;
+    margin: 0 auto;
     text-align: left;
     width: 70%;
   }
-
 }
 
-ul {
-  list-style: none;
-  //  margin: 0;
-  //  padding: 0;
-  //  width: 470px;
-  width: 42%;
-  float: left;
-  //
-  //
-  //  &:first-child {
-  //    margin-right: 40px;
-  //  }
-  //
-  //  & > li {
-  //    margin-top: 10px;
-  //    &:first-child {
-  //      margin-top: 0;
-  //    }
-  //  }
-}
-
+// DESKTOP LAYOUT
 @media screen and (min-width: 800px) {
   #heading {
-    font-size: 1.8em;
-    color: green !important;
+    font-size: 2em;
+    //color: green !important;
   }
 
-  #schedule_wrapper {
-    margin-left: 16%;
+  #wrapper {
+    font-size: 1.2em;
+
+    #schedule_wrapper {
+      //margin-left: 16%;
+      width: 65%;
+      letter-spacing: 1px;
+    }
   }
 }
 
+// MOBILE LAYOUT
 @media screen and (max-width: 800px) {
   #heading {
     font-size: 1.2em;
-    color: lightcoral;
+    //color: lightcoral;
   }
   #wrapper {
-    margin-top: 1.0em;
+    //margin-top: 1.0em;
+
     #schedule_wrapper {
-      margin-left: 14%;
+      //margin-left: 14%;
+      margin-top: 2em;
       font-size: 0.65em;
     }
 
     ul {
-      width: 40%;
+      //  width: 40%;
+      li {
+        padding-bottom: 0.5em;
+      }
     }
   }
 }

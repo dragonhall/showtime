@@ -27,6 +27,6 @@
       #heading= content_for?(:title) ? content_for(:title) : 'Műsor'
       #schedule_wrapper
         = yield
-        %br(style="clear: both;")
+        -#%br(style="clear: both;")
       %footer
         = @playlist.start_time.strftime('%Y.%m.%d.')

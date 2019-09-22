@@ -1,11 +1,5 @@
 %ul
-  - @playlist.tracks.films.all[0..(@playlist.tracks.films.count / 2 - 1)].each do |track|
+  - @playlist.tracks.films.each do |track|
     %li
       %span.time= track.start_time.strftime('%H:%M&nbsp;').html_safe;
-      = track.title.size > 19 ? track.title[0..15] + '...' : track.title
-- if @playlist.tracks.films.count > 1
-  %ul
-    - @playlist.tracks.films.all[(@playlist.tracks.films.count / 2)..-1].each do |track|
-      %li
-        %span.time= track.start_time.strftime('%H:%M&nbsp;').html_safe
-        = track.title.size > 19 ? track.title[0..15] + '...' : track.title
+      = track.title.size > 80 ? track.title[0..76] + '...' : track.title
