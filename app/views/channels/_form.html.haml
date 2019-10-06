@@ -2,6 +2,8 @@
   = f.input :name
   = f.input :icon, as: :file
   = f.input :logo, as: :file
+  = f.input :trailer_before_id, collection: Video.rollovers, label_method: :title, value_method: :id, selected: @channel.trailer_before_id
+  = f.input :trailer_after_id, collection: Video.rollovers, label_method: :title, value_method: :id, selected: @channel.trailer_after_id
   = f.input :domain
   = f.input :stream_path
 

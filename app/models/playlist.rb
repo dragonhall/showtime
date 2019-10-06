@@ -55,9 +55,11 @@ class Playlist < ApplicationRecord
 
       video_list.each_with_index do |video|
         if video.film?
+          self.tracks.create!(video_id: self.channel.trailer_after_id) if self.channel.trailer_after_id?
           self.tracks.create!(video_id: self.intro_id)
           self.tracks.create!(video_id: video.id)
           self.tracks.create!(video_id: self.intro_id)
+          self.tracks.create!(video_id: self.channel.trailer_before_id) if self.channel.trailer_before_id?
         else
           self.tracks.create!(video_id: video.id)
         end
