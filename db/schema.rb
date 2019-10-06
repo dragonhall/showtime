@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190901151100) do
+ActiveRecord::Schema.define(version: 20191006174902) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
     t.string "name"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 20190901151100) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stream_path"
+    t.integer "trailer_before_id"
+    t.integer "trailer_after_id"
   end
 
   create_table "channels_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
@@ -94,9 +96,9 @@ ActiveRecord::Schema.define(version: 20190901151100) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "videos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
-    t.string "path"
-    t.text "metadata"
+  create_table "videos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
+    t.string "path", collation: "utf8_general_ci"
+    t.text "metadata", collation: "utf8_general_ci"
     t.integer "video_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

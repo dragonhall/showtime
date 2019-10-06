@@ -31,7 +31,7 @@ class Video < ApplicationRecord
   scope :adverts,   -> { where.not(metadata: nil).where(video_type: :advert) }
   scope :films,     -> { where.not(metadata: nil).where(video_type: :film) }
   scope :intros,    -> { where.not(metadata: nil).where(video_type: :intro) }
-  scope :rollovers, -> { where.not(metadata: nil).where(video_type: :rollovers) }
+  scope :rollovers, -> { where.not(metadata: nil).where(video_type: :rollover) }
 
   def imported?
     !metadata.blank?
