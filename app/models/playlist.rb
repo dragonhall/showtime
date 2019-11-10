@@ -156,9 +156,16 @@ class Playlist < ApplicationRecord
 
   def postprocess_finalization
     return unless self.finalized?
+
     PlaylistGeneratorJob.perform_later id
     # There was multiple issues when self was not used here
     # rubocop:disable Style/RedundantSelf
     Resque.enqueue_at self.start_time, StreamingJob, playlist_id: id
+
+    tracks.collect(&:video).find_all(&:recordable?).each do |v|
+      unless Recording.where(video_id: v.id).any?
+        Recording.create(video_id: v.id, channel: channel, valid_from: end_time, expires_at: nil)
+      end
+    end
   end
 end
