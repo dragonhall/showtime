@@ -46,7 +46,7 @@
 
 %br.span-24.clearfix
 
-%table#playlists_last_edited.span-23
+%table#playlists_upcoming.span-23
   %caption
     Lejátszásra kész műsorok
   %thead
@@ -59,7 +59,7 @@
       %th.actions Muveletek
   %tbody
     - @upcoming_playlists.each do |playlist|
-      %tr
+      %tr{class: playlist.start_time.to_date == Time.zone.now.to_date ? 'today' : ''}
         %td= playlist.title
         %td= playlist.channel.name
         %td= playlist.start_time.strftime('%F %T')
@@ -70,6 +70,11 @@
           -#= link_to image_tag('icons/magnifier.png'), [playlist.channel, playlist]
           = link_to image_tag('icons/pencil.png'), [:edit, playlist.channel, playlist], class: 'edit'
           -#= link_to image_tag('icons/cross.png'), [playlist.channel, playlist], method: :delete, confirm: 'Biztosan törlöd ezt a műsort?'
+  %tfoot
+    %tr
+      %td(colspan=6)
+        -# TODO Cannot select channel, currently only 1 channel handled
+        = link_to 'Regebbiek', [current_power.channels.first, :playlists], target: '_blank'
 
 
 %table#playlists_editables.span-23
@@ -89,7 +94,7 @@
       %th.actions Muveletek
   %tbody
     - @wip_playlists.each do |playlist|
-      %tr
+      %tr{class: playlist.start_time.to_date == Time.zone.now.to_date ? 'today' : ''}
         %td= playlist.title
         %td= playlist.channel.name
         -#%td= l playlist.start_time, format: :long
