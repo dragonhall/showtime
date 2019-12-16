@@ -110,6 +110,7 @@ group :application do
   gem 'haml-rails'
   gem 'inherited_resources'
   gem 'kaminari'
+  gem 'kaminari-i18n'
 
   gem 'mini_magick'
 
