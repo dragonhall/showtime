@@ -8,7 +8,9 @@ class DashboardController < ApplicationController
     @channels = current_power.channels
     @wip_playlists = Playlist.wip.where('playlists.channel_id IN(?)',
                                         current_power.channels.map(&:id))
-    @upcoming_playlists = Playlist.upcoming
+    @upcoming_playlists = Playlist.where('playlists.channel_id IN(?)',
+                                         current_power.channels.map(&:id)).upcoming
+
   end
 
   private

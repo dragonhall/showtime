@@ -1,19 +1,28 @@
-%h1 Listing playlists
-
-%table
+%table#playlists_upcoming.span-23
+  %caption
+    Lejátszásra kész műsorok
   %thead
     %tr
-      %th
-      %th
-      %th
-
+      %th Cim
+      %th Csatorna
+      %th Kezdes
+      %th Vege
+      %th Szamok
+      %th.actions Muveletek
   %tbody
     - @playlists.each do |playlist|
-      %tr
-        %td= link_to 'Show', playlist
-        %td= link_to 'Edit', edit_playlist_path(playlist)
-        %td= link_to 'Destroy', playlist, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Playlist', new_playlist_path
+      %tr{class: playlist.start_time.to_date == Time.zone.now.to_date ? 'today' : ''}
+        %td= playlist.title
+        %td= playlist.channel.name
+        %td= playlist.start_time.strftime('%F %T')
+        %td= playlist.end_time.strftime('%F %T')
+        %td= "#{playlist.tracks.count} db (#{playlist.tracks.films.count} film)"
+        %td.actions
+          = link_to image_tag('icons/magnifier.png'), [playlist.channel, playlist, :tracks], target: '_blank'
+          -#= link_to image_tag('icons/magnifier.png'), [playlist.channel, playlist]
+          = link_to image_tag('icons/pencil.png'), [:edit, playlist.channel, playlist], class: 'edit'
+          -#= link_to image_tag('icons/cross.png'), [playlist.channel, playlist], method: :delete, confirm: 'Biztosan törlöd ezt a műsort?'
+  %tfoot
+    %tr
+      %td(colspan=6)
+        = paginate @playlists

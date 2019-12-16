@@ -7,7 +7,7 @@ class PlaylistsController < InheritedResources::Base
 
   skip_before_action :authenticate_admin!, only: :program
 
-  layout false
+  layout false, except: ['index']
 
   def create
     create! { root_url }
@@ -71,16 +71,15 @@ class PlaylistsController < InheritedResources::Base
     end
   end
 
-  #
-  # def reorder
-  #   tracks = params[:track]
-  #   tracks.each_with_index do |id, idx|
-  #     track = @playlist.tracks.find id
-  #     track.update_attribute :position, idx + 1
-  #   end
-  #
-  #   head :ok
-  # end
+  protected
+
+  def begin_of_association_chain
+    current_power
+  end
+
+  def collection
+    get_collection_ivar || set_collection_ivar(end_of_association_chain.where(finalized: true).page(params[:page]).per(20))
+  end
 
   private
 

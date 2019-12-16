@@ -16,6 +16,17 @@ class Power
     else
       (@user.group.blank? ? [] : @user.group.channels)
     end
+  end
 
+  power :playlists do
+    if @user.super_admin? then
+      Playlist.all
+    else
+      if @user.group.any?
+        Playlist.where('playlists.channel_id IN(?)', @user.group.channels.map(&:id))
+      else
+        []
+      end
+    end
   end
 end
