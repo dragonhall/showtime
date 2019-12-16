@@ -65,3 +65,4 @@ public/streaming/channellogos/
 
 /.idea/.*
 /spec/examples.txt
+config/redis.yml
