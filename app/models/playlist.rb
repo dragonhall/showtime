@@ -189,7 +189,7 @@ class Playlist < ApplicationRecord
 
     tracks.collect(&:video).find_all(&:recordable?).each do |v|
       unless Recording.where(video_id: v.id).any?
-        Recording.create(video_id: v.id, channel: channel, valid_from: end_time, expires_at: nil)
+        Recording.create(video_id: v.id, channel: channel, valid_from: end_time + 4.days, expires_at: nil)
       end
     end
   end
