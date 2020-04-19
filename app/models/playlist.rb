@@ -19,7 +19,7 @@ class Playlist < ApplicationRecord
                              Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
 
   scope :active, -> { joins(:tracks).where('tracks.playing = ?', true) }
-  scope :upcoming, -> { where(finalized: true) }
+  scope :upcoming, -> { where(finalized: true).where('playlists.start_time >= ?', Time.zone.now - 2.weeks) }
   scope :current, -> { where('playlists.start_time BETWEEN ? AND ?', Time.zone.now.beginning_of_week, Time.zone.now.end_of_week) }
 
   default_scope -> { includes(:tracks).order(start_time: 'ASC') }
@@ -41,34 +41,27 @@ class Playlist < ApplicationRecord
 
   def finalize!
     logger.debug 'Finalizing playlist ' + self.title
+  end
 
+  def wrap_films!
     if tracks.any? then
       # First we make sure all tracks contain continuous positions. It's needed because next
       # calculations are based on there is no gap between position ids
       renumber!
 
-      tracks.each do |track|
-        if track.video.video_type == 'film' and self.intro_id? and !self.intro.blank?
-          # We add intro tracks before ...
-          logger.debug "Expanding #{track.title}"
-          intropos = track.position
-          shift_from! track.position - 1
-          track.reload
-          begin
-            tracks.create!(video_id: self.intro_id, position: intropos)
-          rescue StandardError => e
-            logger.error e.message
-            raise e
-          end
-          # ... and after the video
-          shift_from! track.position
+      video_list = self.tracks.collect(&:video)
 
-          begin
-            tracks.create!(video_id: self.intro_id, position: track.position + 1)
-          rescue StandardError => e
-            logger.error e.message
-            raise e
-          end
+      self.tracks.delete_all
+
+      video_list.each_with_index do |video|
+        if video.film?
+          self.tracks.create!(video_id: self.channel.trailer_after_id) if self.channel.trailer_after_id?
+          self.tracks.create!(video_id: self.intro_id)
+          self.tracks.create!(video_id: video.id)
+          self.tracks.create!(video_id: self.intro_id)
+          self.tracks.create!(video_id: self.channel.trailer_before_id) if self.channel.trailer_before_id?
+        else
+          self.tracks.create!(video_id: video.id)
         end
       end
     else
@@ -81,7 +74,7 @@ class Playlist < ApplicationRecord
   end
 
   def program_as_json
-    program = {
+    return {
       title: title,
       start_time: start_time,
       end_time: end_time,
@@ -150,6 +143,31 @@ class Playlist < ApplicationRecord
     Rails.public_dir.join(program_path.sub(%r{^/}, '')).exist?
   end
 
+
+  def human_title
+    if !defined?(@human_title) or @human_title.blank?
+      @human_title = if start_time.to_date == Time.zone.now.to_date then
+                       'Mai'
+                     elsif start_time.to_date == (Time.zone.now - 1.day).to_date then
+                       'Tegnapi'
+                     elsif start_time.to_date == (Time.zone.now + 1.day).to_date then
+                       'Holnapi'
+                     elsif start_time >= Time.zone.now.to_date.beginning_of_week &&
+                       start_time <= Time.zone.now.to_date.end_of_week then
+                       # 'Heti'
+                       I18n.l(start_time, format: '%Ai').titleize
+                     elsif start_time >= 7.days.from_now.to_date.beginning_of_week &&
+                       start_time <= 7.days.from_now.to_date.end_of_week then
+                       'Jövő Heti'
+                     else
+                       start_time > Time.now.end_of_day ? 'Következő' : 'Előző'
+                     end
+      @human_title = 'Mai' if Rails.application.class.name.downcase.match?(/showtime/)
+      @human_title += ' Műsor'
+    end
+    @human_title
+  end
+
   private
 
   def calculate_duration
@@ -163,9 +181,16 @@ class Playlist < ApplicationRecord
 
   def postprocess_finalization
     return unless self.finalized?
+
     PlaylistGeneratorJob.perform_later id
     # There was multiple issues when self was not used here
     # rubocop:disable Style/RedundantSelf
     Resque.enqueue_at self.start_time, StreamingJob, playlist_id: id
+
+    tracks.collect(&:video).find_all(&:recordable?).each do |v|
+      unless Recording.where(video_id: v.id).any?
+        Recording.create(video_id: v.id, channel: channel, valid_from: end_time + 4.days, expires_at: nil)
+      end
+    end
   end
 end

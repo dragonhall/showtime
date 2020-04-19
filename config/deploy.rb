@@ -24,7 +24,7 @@ set :format_options, command_output: true, truncate: false, color: :auto
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, 'config/database.yml', 'config/secrets.yml'
+append :linked_files, 'config/database.yml', 'config/secrets.yml', 'config/redis.yml'
 
 # Default value for linked_dirs is []
 append :linked_dirs, 'log',
@@ -34,7 +34,8 @@ append :linked_dirs, 'log',
        'public/system',
        'public/uploads',
        'public/programs',
-       'public/recordings'
+       'public/recordings',
+       'public/screenshots'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

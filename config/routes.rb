@@ -42,6 +42,7 @@ Rails.application.routes.draw do
         resources :tracks do
           collection do
             post 'reorder'
+            post 'wrap'
           end
         end
       end

@@ -6,9 +6,16 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Group.create!(name: 'FullAdmin')
+puts " >> Creating group 'FullAdmin'"
+group = Group.find_or_create_by!(name: 'FullAdmin')
 
-Admin.create!(name: 'Atyauristen', email: 'admin@dragonhall.hu', password: 'Helloka123', password_confirmation: 'Helloka123', group: Group.where(:name => 'FullAdmin').first)
+unless group.admins.any?
+  puts " >> Creating user admin@dragonhall.hu with password 'Helloka123'"
+  Admin.create!(name: 'Atyauristen', email: 'admin@dragonhall.hu', password: 'Helloka123', password_confirmation: 'Helloka123', group: group)
+end
 
-Channel.create!(name: 'DragonHall+ SD', domain: 'tv.dragonhall.hu')
-Channel.create!(name: 'DragonHall+ HD', domain: 'tv.dragonhall.hu')
+unless Channel.any?
+  puts " >> Creating channels"
+  Channel.create!(name: 'DragonHall+ SD', domain: 'tv.dragonhall.hu')
+  Channel.create!(name: 'DragonHall+ HD', domain: 'tv.dragonhall.hu')
+end

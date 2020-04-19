@@ -27,11 +27,11 @@ class Video < ApplicationRecord
 
   after_save :update_tracks, if: :saved_change_to_metadata?
 
-  scope :trailers, -> { where(video_type: :trailer) }
-  scope :adverts, -> { where(video_type: :advert) }
-  scope :films, -> { where(video_type: :film) }
-  scope :intros, -> { where(video_type: :intro) }
-  scope :rollovers, -> { where(video_type: :rollovers) }
+  scope :trailers,  -> { where.not(metadata: nil).where(video_type: :trailer) }
+  scope :adverts,   -> { where.not(metadata: nil).where(video_type: :advert) }
+  scope :films,     -> { where.not(metadata: nil).where(video_type: :film) }
+  scope :intros,    -> { where.not(metadata: nil).where(video_type: :intro) }
+  scope :rollovers, -> { where.not(metadata: nil).where(video_type: :rollover) }
 
   def imported?
     !metadata.blank?

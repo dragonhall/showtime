@@ -28,9 +28,7 @@ class Track < ApplicationRecord
   # @return [Integer] Returns length (in seconds) of the contained video
   #                   plus - if set - the length of the intro/outro of the playlist
   def length
-    @length ||= (video.metadata['length'] || 0) +
-        (!self.playlist.finalized? && self.playlist.intro_id? && !self.playlist.intro.blank? ?
-             self.playlist.intro.length * 2 : 0)
+    @length ||= video.metadata['length'] || 0
   end
 
   def stop!
@@ -67,9 +65,10 @@ class Track < ApplicationRecord
   private
 
   def playlist_not_finalized
-    # XXX Warning: we SHOULD check the database state instead of real state to work around validation error during
+    # XXX Warning: we MUST check the database state instead of real state to work around validation error during
     # finalizing the playlist
-    errors.add(:base, 'A műsor nem lehet lezárva') if !playlist.blank? && playlist.finalized_in_database
+    # TODO Create tests for this
+    errors.add(:playlist, 'A műsor nem lehet lezárva') if !playlist.blank? && playlist.finalized_in_database
   end
 
   def initialize_title

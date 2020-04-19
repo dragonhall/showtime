@@ -35,6 +35,7 @@ class TracksController < InheritedResources::Base
 
       tracks.each_with_index do |track, idx|
         track.update_attribute :position, idx + 1 if track.position != idx + 1
+        track.reload
       end
 
       respond_to do |format|
@@ -56,24 +57,18 @@ class TracksController < InheritedResources::Base
     end
   end
 
+  def wrap
+    _playlist = Playlist.find(params[:playlist_id])
+    _playlist.wrap_films!
+    redirect_to root_path
+  end
+
   private
 
   def set_title
     playlist = Playlist.find(params[:playlist_id])
 
-    @title = if playlist.start_time.to_date == Time.zone.now.to_date
-               'Mai'
-             elsif playlist.start_time >= Time.zone.now.to_date.beginning_of_week &&
-                   playlist.start_time <= Time.zone.now.to_date.end_of_week
-               'Heti'
-             elsif playlist.start_time >= 7.days.from_now.to_date.beginning_of_week &&
-                   playlist.start_time <= 7.days.from_now.to_date.end_of_week
-               'Jövő Heti'
-             else
-               'Következő'
-             end
-
-    @title += ' Műsor'
+    @title = playlist.human_title
   end
 
   def track_params

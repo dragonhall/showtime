@@ -88,11 +88,14 @@ end
 group :test do
   gem 'factory_bot_rails'
   gem 'fuubar'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
   gem 'database_cleaner'
+
+  gem 'faker'
 end
 
 group :application do
@@ -107,6 +110,7 @@ group :application do
   gem 'haml-rails'
   gem 'inherited_resources'
   gem 'kaminari'
+  gem 'kaminari-i18n'
 
   gem 'mini_magick'
 

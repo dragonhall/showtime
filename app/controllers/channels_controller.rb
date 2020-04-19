@@ -7,6 +7,7 @@ class ChannelsController < InheritedResources::Base
 
   def channel_params
     params.require(:channel).permit(:name, :logo,
-                                    :icon, :domain, :stream_path)
+                                    :icon, :domain, :stream_path, 
+                                    :trailer_before_id, :trailer_after_id)
   end
 end
