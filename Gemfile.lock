@@ -289,7 +289,7 @@ GEM
       net-ssh (>= 2.6.5, < 6.0.0)
     net-ssh (5.2.0)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -303,9 +303,9 @@ GEM
       method_source (~> 0.9.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    puma (3.12.2)
+    puma (3.12.4)
     raabro (1.1.6)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-contrib (2.1.0)
       rack (~> 2.0)
     rack-dev-mark (0.7.8)
@@ -541,7 +541,7 @@ DEPENDENCIES
   mini_magick
   mysql2 (>= 0.3.18, < 0.5)
   pry-rails
-  puma (= 3.12.2)
+  puma (= 3.12.4)
   rack-dev-mark
   rails (~> 5.1.0)
   rails-i18n
