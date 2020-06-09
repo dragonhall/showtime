@@ -59,11 +59,11 @@ group :development do
   gem 'binding_of_caller'
 
   gem 'capistrano-bundler', require: false
+  gem 'capistrano-foreman', require: false
   gem 'capistrano-linked-files', require: false
   gem 'capistrano-rails', require: false
-  gem 'rvm1-capistrano3', require: false
   gem 'capistrano3-puma', require: false
-  gem 'capistrano-foreman', require: false
+  gem 'rvm1-capistrano3', require: false
 
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'
@@ -89,14 +89,14 @@ group :development do
 end
 
 group :test do
+  gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'fuubar'
-  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
-  gem 'database_cleaner'
 
   gem 'faker'
 end

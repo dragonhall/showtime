@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 class StreamingJob # < ApplicationJob
   include Resque::Plugins::Status
@@ -5,13 +7,13 @@ class StreamingJob # < ApplicationJob
   # queue_as :streaming
   @queue = 'streaming'
 
-  #before_perform do
+  # before_perform do
   #  FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
-  #end
+  # end
 
-  #after_perform do
+  # after_perform do
   #  FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
-  #end
+  # end
 
   def perform
     playlist_id = options['playlist_id']
@@ -95,7 +97,6 @@ class StreamingJob # < ApplicationJob
 
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
-
     if channel.logo?
       case video.video_type
       when 'film'
@@ -132,9 +133,8 @@ class StreamingJob # < ApplicationJob
       # x264_preset: 'slow',
       video_bitrate: bitrate,
       video_codec: 'libx264',
-      audio_codec: 'aac',
+      audio_codec: 'aac'
     )
-
 
     other_params = { input_options: ['-re'], validate: false }
 
@@ -228,5 +228,4 @@ class StreamingJob # < ApplicationJob
   def job_id
     @uuid
   end
-
 end

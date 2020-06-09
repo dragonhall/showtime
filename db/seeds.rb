@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 #
@@ -15,7 +17,7 @@ unless group.admins.any?
 end
 
 unless Channel.any?
-  puts " >> Creating channels"
+  puts ' >> Creating channels'
   Channel.create!(name: 'DragonHall+ SD', domain: 'tv.dragonhall.hu')
   Channel.create!(name: 'DragonHall+ HD', domain: 'tv.dragonhall.hu')
 end

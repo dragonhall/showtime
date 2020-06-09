@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Video < ApplicationRecord
   # PEGI_RATINGS = [3,7,12,16,18]
 
@@ -45,6 +47,7 @@ class Video < ApplicationRecord
   # TODO move to a helper
   def self.pegi_rating_titles
     return @pegi_rating_titles unless !defined?(@pegi_rating_titles) || @pegi_rating_titles.empty?
+
     v = Video.pegi_ratings.map do |rating, i|
       ["#{rating.to_s.sub(/^pegi_/, '')}+", i]
     end
@@ -52,11 +55,11 @@ class Video < ApplicationRecord
     @pegi_rating_titles = Hash[v]
   end
 
-
   # @return [Hash]
   # TODO move to a helper
   def self.pegi_icons
     return @pegi_icons unless !defined?(@pegi_icons) || @pegi_icons.empty?
+
     # v = Video.pegi_rating_titles.keys.each_with_index do |r, i|
     #   ["http://www.pegi.info/en/index/id/33/media/img/32#{i}.gif", r]
     # end
@@ -68,7 +71,7 @@ class Video < ApplicationRecord
   def self.series
     @series ||= connection.exec_query(
         'SELECT DISTINCT series FROM videos'
-    ).rows.flatten.compact
+      ).rows.flatten.compact
   end
 
   # @param [Playlist] playlist
@@ -91,6 +94,7 @@ class Video < ApplicationRecord
   def update_tracks
     tracks.each do |track|
       next if track.playlist&.finalized?
+
       track.title = metadata[:title]
       track.save
     end

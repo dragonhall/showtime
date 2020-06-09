@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'securerandom'
 
@@ -70,7 +72,7 @@ class RecordingJob < ApplicationJob
       x264_preset: 'slow',
       video_bitrate: bitrate,
       audio_bitrate: '192k',
-      audio_sample_rate: 48000
+      audio_sample_rate: 48_000
     )
 
     transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
@@ -89,14 +91,14 @@ class RecordingJob < ApplicationJob
         'recordings',
         job_id,
         File.basename(@recording.video.path).sub(/\.\w+$/, '.mpg')
-    )
+      )
 
     target_path = Rails.root.join(
         'public',
         'recordings',
         @recording.id.to_s,
         "#{SecureRandom.urlsafe_base64(11)}.mp4"
-    )
+      )
 
     FileUtils.mkdir_p(Rails.root.join('public', 'recordings', @recording.id.to_s))
     movie.transcode(tmp_path.to_s,
@@ -106,7 +108,7 @@ class RecordingJob < ApplicationJob
 
     ret = system("#{Rails.root}/script/concat", job_id, tmp_path.to_s, target_path.to_s, @recording.video.pegi_rating)
     if ret
-      @recording.update_attribute :path, target_path.to_s.sub(Rails.public_dir.to_s, '').sub(/^\//, '')
+      @recording.update_attribute :path, target_path.to_s.sub(Rails.public_dir.to_s, '').sub(%r{^/}, '')
       completed "Video #{File.basename(target_path)} rendered successfully"
     else
       failed 'Final FFMPEG returned with non-zero status code'

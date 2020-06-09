@@ -1,6 +1,12 @@
 require: 
   - rubocop-rspec
 
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'bin/{rails,rake}'
+
 Lint/SuppressedException:
   Exclude:
     - spec/support/*.rb

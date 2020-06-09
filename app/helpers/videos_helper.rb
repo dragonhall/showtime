@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module VideosHelper
   def video_screenshot_tag(video)
     screenshot_path = "//#{video.screenshot_path}".sub(%r{^//}, '/')

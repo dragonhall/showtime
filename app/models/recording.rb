@@ -1,5 +1,6 @@
-class Recording < ApplicationRecord
+# frozen_string_literal: true
 
+class Recording < ApplicationRecord
   scope :available, -> { where('recordings.valid_from <= NOW()').where('recordings.expires_at IS NULL OR recordings.expires_at >= ?', Time.zone.tomorrow.midnight) }
 
   default_scope -> { includes(:video).order(valid_from: 'DESC') }
@@ -21,9 +22,9 @@ class Recording < ApplicationRecord
   end
 
   def self.series
-    @series ||=     connection.exec_query(
+    @series ||= connection.exec_query(
         'SELECT DISTINCT series FROM videos  WHERE `videos`.`video_type` = 0 AND `videos`.`recordable` = 1'
-    ).rows.flatten.compact
+      ).rows.flatten.compact
   end
 
   private
@@ -31,5 +32,4 @@ class Recording < ApplicationRecord
   def enqueue_recording_job
     RecordingJob.perform_later id
   end
-
 end

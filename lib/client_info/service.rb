@@ -53,8 +53,8 @@ module ClientInfo
                       flag: $geoip.country(address).country_code2.downcase,
                       city: $geocity.city(address).city_name,
                       user_id: parsed_query(url)['uid'].blank? ? -1 : parsed_query(url)['uid'].to_i
-          )
-        rescue
+                    )
+        rescue StandardError
           nil
         end
       end.compact

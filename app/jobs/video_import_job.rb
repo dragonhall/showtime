@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VideoImportJob < ApplicationJob
   def perform(video_path, video_type: :film, pegi_rating: :pegi_3)
     unless File.exist?(video_path)
@@ -21,19 +23,23 @@ class VideoImportJob < ApplicationJob
       v.pegi_rating ||= pegi_rating.to_sym
     end
 
-    fv = FusionVideo.from_filepath(video_path) rescue nil
+    fv = begin
+           FusionVideo.from_filepath(video_path)
+         rescue StandardError
+           nil
+         end
 
-    if fv && !fv.title.blank? then
-      v.metadata[:title] = fv.title
-    elsif !movie.format_tags.blank? && !movie.format_tags[:title].blank?
-      v.metadata[:title] = movie.format_tags[:title]
-    else
-      # fallback title creation mechanism
-      v.metadata[:title] = File.basename(video_path).sub(/\.[a-z0-9]+$/, '')
+    v.metadata[:title] = if fv && !fv.title.blank? then
+                           fv.title
+                         elsif !movie.format_tags.blank? && !movie.format_tags[:title].blank?
+                           movie.format_tags[:title]
+                         else
+                           # fallback title creation mechanism
+                           File.basename(video_path).sub(/\.[a-z0-9]+$/, '')
                                .split(/[\s_]/).find_all do |e|
-        !e.match(/(dummet|izzy|brolly|x264|\[(dragonhall|dh)\+\])/i)
-      end.join(' ').gsub(/\[.+?\]/, '').strip
-    end
+                             !e.match(/(dummet|izzy|brolly|x264|\[(dragonhall|dh)\+\])/i)
+                           end.join(' ').gsub(/\[.+?\]/, '').strip
+                         end
 
     v.metadata[:title] = v.metadata[:title]
 

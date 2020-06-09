@@ -1,5 +1,6 @@
-class ViewersController < ApplicationController
+# frozen_string_literal: true
 
+class ViewersController < ApplicationController
   respond_to :html, :json
 
   def index
@@ -19,15 +20,13 @@ class ViewersController < ApplicationController
     client_service.kill_client params[:id]
     respond_to do |format|
       format.html { redirect_to viewers_path }
-      format.json { render status: :ok}
+      format.json { render status: :ok }
     end
-
   end
 
   def block
     BlockedIp.find_or_create_by address: params[:address]
   end
-
 
   protected
 

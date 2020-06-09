@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails'
@@ -19,7 +21,7 @@ Bundler.require(*Rails.groups, :assets, :application)
 module Showtime
   class Version
     def self.version(root_path)
-      @@version ||= if File.exists?("#{root_path}/REVISION") then
+      @@version ||= if File.exist?("#{root_path}/REVISION") then
                       File.read("#{root_path}/REVISION")
                     else
                       %x(cd #{Rails.root} && git rev-parse HEAD).chomp
@@ -54,7 +56,6 @@ module Showtime
         "#{Rails.env} (#{Showtime::Version.version(Rails.root)})"
     end
 
-
     config.active_job.queue_adapter = :resque
 
     # config.active_job.default_url_options = { host: 'localhost' }
@@ -76,4 +77,4 @@ module Showtime
   end
 end
 
-Dir.glob(Rails.root.join('app', 'renderers', '*.rb').to_s).each { |f| require f }
+Dir.glob(Rails.root.join('app', 'renderers', '*.rb').to_s).sort.each { |f| require f }

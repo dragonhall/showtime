@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 
 class PlaylistGeneratorJob < ApplicationJob
@@ -12,7 +14,7 @@ class PlaylistGeneratorJob < ApplicationJob
 
     playlist = begin
                  playlist_id.is_a?(Playlist) ? playlist_id : Playlist.find(playlist_id)
-               rescue
+               rescue StandardError
                  nil
                end
     unless playlist
@@ -25,12 +27,11 @@ class PlaylistGeneratorJob < ApplicationJob
         channel_playlist_tracks_url(
             playlist.channel,
             playlist.id
-        ),
+          ),
         width: 1280,
         height: 720,
         disable_smart_width: true
-
-    )
+      )
 
     FileUtils.mkdir_p Rails.public_dir.join(File.dirname(playlist.program_path.sub(%r{^/}, ''))).to_s
 

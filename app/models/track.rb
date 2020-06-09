@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Track < ApplicationRecord
   belongs_to :playlist
   belongs_to :video
@@ -77,7 +79,7 @@ class Track < ApplicationRecord
 
   def initialize_position
     self.position = playlist.tracks.count + 1 if position.nil? && playlist
-    self.position = 1 if self.position == 0
+    self.position = 1 if position == 0
   end
 
   def before_me

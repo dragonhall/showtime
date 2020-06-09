@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :assets do
   desc 'Create soft links for non-digested assets'
   task soft_links: 'assets:precompile' do

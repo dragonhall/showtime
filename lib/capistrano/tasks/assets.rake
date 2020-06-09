@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :deploy do
   after :compile_assets, :symlink_assets
 

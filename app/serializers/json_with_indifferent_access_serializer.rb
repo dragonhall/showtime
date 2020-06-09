@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class JsonWithIndifferentAccessSerializer
   def self.dump(hash)
     hash.to_json
@@ -8,5 +10,4 @@ class JsonWithIndifferentAccessSerializer
     # obj.freeze
     obj
   end
-
 end

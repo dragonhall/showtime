@@ -53,14 +53,14 @@ set :rvm1_roles, :all
 
 append :rvm_map_bins, 'gem', 'ruby', 'bundle', 'rake'
 
-#set :foreman_roles, :all
-#set :foreman_init_system, 'systemd'
+# set :foreman_roles, :all
+# set :foreman_init_system, 'systemd'
 
 namespace :deploy do
   desc 'Run things before deploy'
   task :setup
   on roles :all do
-    rvm_ver=capture('rvm --verson || true').strip
+    rvm_ver = capture('rvm --verson || true').strip
 
     invoke 'rvm1:install:rvm' if rvm_ver.empty?
   end

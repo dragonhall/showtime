@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ResqueStatusAdapter
   extend Forwardable
   extend ActiveSupport::Concern
@@ -8,11 +10,11 @@ module ResqueStatusAdapter
   STATUS_FAILED = 'failed'
   STATUS_KILLED = 'killed'
   STATUSES = [
-      STATUS_QUEUED,
-      STATUS_WORKING,
-      STATUS_COMPLETED,
-      STATUS_FAILED,
-      STATUS_KILLED
+    STATUS_QUEUED,
+    STATUS_WORKING,
+    STATUS_COMPLETED,
+    STATUS_FAILED,
+    STATUS_KILLED
   ].freeze
 
   # The error class raised when a job is killed
@@ -27,7 +29,7 @@ module ResqueStatusAdapter
   end
 
   def create_status_hash
-    Resque::Plugins::Status::Hash.create(self.job_id)
+    Resque::Plugins::Status::Hash.create(job_id)
   end
 
   def mark_status_working
@@ -35,22 +37,22 @@ module ResqueStatusAdapter
   end
 
   def status=(new_status)
-    Resque::Plugins::Status::Hash.set(self.job_id, *new_status)
+    Resque::Plugins::Status::Hash.set(job_id, *new_status)
   end
 
   # get the Resque::Plugins::Status::Hash object for the current uuid
   def status
-    Resque::Plugins::Status::Hash.get(self.job_id)
+    Resque::Plugins::Status::Hash.get(job_id)
   end
 
   def name
-    "#{self.class.name}"
+    self.class.name.to_s
   end
 
   # Checks against the kill list if this specific job instance should be killed
   # on the next iteration
   def should_kill?
-    Resque::Plugins::Status::Hash.should_kill?(self.job_id)
+    Resque::Plugins::Status::Hash.should_kill?(job_id)
   end
 
   # set the status of the job for the current itteration. <tt>num</tt> and
@@ -61,6 +63,7 @@ module ResqueStatusAdapter
     if total.to_f <= 0.0
       raise(NotANumber, "Called at() with total=#{total} which is not a number")
     end
+
     tick({'num' => num, 'total' => total}, *messages)
   end
 
@@ -91,7 +94,8 @@ module ResqueStatusAdapter
   end
 
   private
+
   def set_status(*args)
-    self.status = [status, {'name' => self.name}, args].flatten
+    self.status = [status, {'name' => name}, args].flatten
   end
 end
