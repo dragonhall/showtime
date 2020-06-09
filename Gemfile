@@ -68,6 +68,9 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'
 
+  # Rubocop YAML update helper
+  gem 'mry'
+
   # Spring speeds up development by keeping your application
   # running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
