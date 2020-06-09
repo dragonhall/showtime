@@ -45,10 +45,10 @@ class PlaylistsController < InheritedResources::Base
                   end
 
     if @playlist # && @playlist.finalized?
-      # rubocop:disable Metrics/LineLength
+      # rubocop:disable Layout/LineLength
       redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
                   status: :found
-      # rubocop:enable Metrics/LineLength
+      # rubocop:enable Layout/LineLength
     else
       render 'public/404.html', status: :not_found
     end
@@ -60,10 +60,10 @@ class PlaylistsController < InheritedResources::Base
         if Playlist.current.any?
 
           @playlist = Playlist.current.first
-          # rubocop:disable Metrics/LineLength
+          # rubocop:disable Layout/LineLength
           redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
                       status: :found
-          # rubocop:enable Metrics/LineLength
+          # rubocop:enable Layout/LineLength
         else
           render file: 'public/404.html', status: :not_found
         end
