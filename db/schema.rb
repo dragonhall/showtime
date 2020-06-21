@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20191006174902) do
 
-  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.string "name"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -31,14 +31,14 @@ ActiveRecord::Schema.define(version: 20191006174902) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "blocked_ips", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "blocked_ips", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["address"], name: "index_blocked_ips_on_address", unique: true
   end
 
-  create_table "channels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "channels", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.string "name"
     t.string "icon"
     t.string "logo"
@@ -50,18 +50,18 @@ ActiveRecord::Schema.define(version: 20191006174902) do
     t.integer "trailer_after_id"
   end
 
-  create_table "channels_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "channels_groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.integer "channel_id"
     t.integer "group_id"
   end
 
-  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "groups", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "playlists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "playlists", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.integer "channel_id"
     t.string "title", null: false
     t.datetime "start_time", null: false
@@ -74,7 +74,7 @@ ActiveRecord::Schema.define(version: 20191006174902) do
     t.index ["start_time"], name: "index_playlists_on_start_time", unique: true
   end
 
-  create_table "recordings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "recordings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.string "path"
     t.integer "video_id", null: false
     t.datetime "valid_from", null: false
@@ -86,7 +86,7 @@ ActiveRecord::Schema.define(version: 20191006174902) do
     t.index ["valid_from"], name: "index_recordings_on_valid_from"
   end
 
-  create_table "tracks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_hungarian_ci" do |t|
+  create_table "tracks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
     t.integer "playlist_id", null: false
     t.integer "video_id", null: false
     t.string "title", null: false
@@ -96,9 +96,9 @@ ActiveRecord::Schema.define(version: 20191006174902) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "videos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci" do |t|
-    t.string "path", collation: "utf8_general_ci"
-    t.text "metadata", collation: "utf8_general_ci"
+  create_table "videos", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci" do |t|
+    t.string "path"
+    t.text "metadata"
     t.integer "video_type", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
