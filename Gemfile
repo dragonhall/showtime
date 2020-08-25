@@ -30,7 +30,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.0'
 
-gem 'puma', '3.12.2'
+gem 'puma', '3.12.6'
 
 group :assets do
   gem 'blueprint-rails', github: 'hron84/blueprint-rails',
@@ -64,6 +64,7 @@ group :development do
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano3-puma', require: false
   gem 'capistrano-foreman', require: false
+  gem 'capistrano3-monit', require: false
 
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'

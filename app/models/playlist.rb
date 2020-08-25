@@ -187,9 +187,11 @@ class Playlist < ApplicationRecord
     # rubocop:disable Style/RedundantSelf
     Resque.enqueue_at self.start_time, StreamingJob, playlist_id: id
 
+    recording_valid = (start_time + 4.days).to_date.to_time
+
     tracks.collect(&:video).find_all(&:recordable?).each do |v|
       unless Recording.where(video_id: v.id).any?
-        Recording.create(video_id: v.id, channel: channel, valid_from: end_time, expires_at: nil)
+        Recording.create(video_id: v.id, channel: channel, valid_from: recording_valid, expires_at: nil)
       end
     end
   end
