@@ -79,7 +79,7 @@ class VideosController < InheritedResources::Base
     logger.debug 'Params incoming: ' + params.to_json
 
     params.require(:video).permit(:path, :video_type, :title, :pegi_rating, :recordable,
-                                  :deinterlace, :series)
+                                  :logo, :deinterlace, :series)
   end
 end
 

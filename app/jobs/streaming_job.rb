@@ -85,7 +85,7 @@ class StreamingJob # < ApplicationJob
     # wspacing = ratio < (16.0 / 9.0) ? 22 + 91 : 22
     wspacing = ratio < 1.5 ? 22 + 91 : 22
 
-    channel_logo = channel.logo.path if channel.logo?
+    channel_logo = channel.logo.path if video.logo? and channel.logo?
 
     logo_path, logo_params = build_logo(channel_logo, target_width, target_height, wspacing) if channel.logo?
 
@@ -100,9 +100,13 @@ class StreamingJob # < ApplicationJob
       case video.video_type
       when 'film'
         if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
-          filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+          if video.logo?
+            filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+          else
+            filter_params += "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
+          end
         else
-          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}" if logo_path
+          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}" if video.logo? and logo_path
         end
       when 'trailer'
         if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
@@ -186,6 +190,8 @@ class StreamingJob # < ApplicationJob
 
   def build_logo(logo, w, _h, wspacing)
     logger.debug 'Building LOGO'
+
+    return ['', ''] if logo.nil? or logo.empty?
 
     image = MiniMagick::Image.open logo
 
