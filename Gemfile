@@ -64,6 +64,7 @@ group :development do
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano3-puma', require: false
   gem 'capistrano-foreman', require: false
+  gem 'capistrano3-monit', require: false
 
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'meta_request'
