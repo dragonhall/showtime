@@ -45,9 +45,12 @@ class RecordingJob < ApplicationJob
     filter_params = ''
 
     filter_params += '[in]scale=720:404:force_original_aspect_ratio=decrease,pad=720:404:(ow-iw)/2:(oh-ih)/2[scaled];'
-    source = 'scaled'
 
-    filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[#{source}][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    if pegi_path then
+      filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    else
+      filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
+    end
 
     # bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
     bitrate = 2_000_000
