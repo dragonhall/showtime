@@ -33,41 +33,45 @@ class RecordingJob < ApplicationJob
     movie = FFMPEG::Movie.new(@recording.video.path)
     ratio = movie.width.to_f / movie.height.to_f
 
-    target_width = 720
-    target_height = 404
-
     wspacing = ratio < 1.5 ? 22 + 91 : 22
 
-    channel_logo = @recording.channel.logo.path if @recording.channel.logo?
-    logo_path, logo_params = build_logo(channel_logo, target_width, target_height, wspacing)
+    if @recording.channel.logo?
+      channel_logo = @recording.channel.logo.path if @recording.channel.logo?
+      logo_path, logo_params = build_logo(channel_logo, 720, 404, wspacing)
+    end
 
-    pegi_path, pegi_params = build_pegi(@recording.video.pegi_rating.sub(/^pegi_/, '').to_i, target_width, target_height, wspacing)
+    pegi_path, pegi_params = build_pegi(@recording.video.pegi_rating.sub(/^pegi_/, '').to_i, 720, 404, wspacing)
 
     filter_params = ''
 
-    filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
+    filter_params += '[in]scale=720:404:force_original_aspect_ratio=decrease,pad=720:404:(ow-iw)/2:(oh-ih)/2[scaled];'
 
-    filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    if pegi_path then
+      filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    else
+      filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
+    end
 
     # bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
     bitrate = 2_000_000
     bitrate = (bitrate / 1000.0).ceil
 
-
     transcoding_params = {}
-    transcoding_params[:video_bitrate] = bitrate 
-    transcoding_params[:x264_preset] = 'slow'
 
-    transcoding_params[:custom] = %W[-qmin 4 -qmax 10 -subq 9 -r 23.976  -bsf:v h264_mp4toannexb -f mpegts]
+    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -bsf:v h264_mp4toannexb]
 
     if @recording.video.metadata[:deinterlace] != '0'
-      transcoding_params[:custom].unshift '-deinterlace '
+      transcoding_params[:custom].unshift '-deinterlace'
     end
 
     transcoding_params.merge!(
       resolution: '720x404',
+      x264_preset: 'slow',
+      video_bitrate: bitrate,
       video_codec: 'libx264',
       audio_codec: 'aac',
+      audio_bitrate: '192k',
+      audio_sample_rate: 48000
     )
 
     transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
@@ -79,7 +83,7 @@ class RecordingJob < ApplicationJob
     logger.debug 'transcoding will be started with following options: ' \
                  "#{transcoding_params}"
 
-    at(0, 2, "Transcoding #{@recording.video.title} to MPEG")
+    at(0, 2, "Transcoding #{@recording.video.title} to MPEGTS")
 
     tmp_path = Rails.root.join(
         'tmp',

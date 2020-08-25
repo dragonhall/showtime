@@ -13,9 +13,9 @@ fi
 
 export RAILS_ENV
 
-if [ "${RAILS_ENV}" != "production" ]; then
-  exec spring rails "$ME" "$@"
+if [ "${RAILS_ENV}" = "development" ]; then
+  exec spring rails "$ME" -e "${RAILS_ENV}" "$@"
 else
-  exec rails "$ME" "$@"
+  exec rails "$ME" -e "${RAILS_ENV}" "$@"
   :;
 fi

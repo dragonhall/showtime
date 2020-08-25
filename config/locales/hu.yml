@@ -8,4 +8,6 @@ hu:
       track:
         title: Cím
         duration: Hossz
+      video:
+        logo: Csatornalogo
         
