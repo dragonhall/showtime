@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # config valid only for current version of Capistrano
-lock '~> 3.11.0'
+lock '~> 3.11'
 
 set :application, 'showtime'
 set :repo_url, 'git@github.com:dragonhall/showtime.git'
@@ -66,9 +66,11 @@ namespace :deploy do
   end
 end
 
+Rake::Task["rvm1:install:ruby"].clear_prerequisites
+before "bundler:install", "rvm1:install:ruby"
+before "rvm1:install:ruby", "rvm1:hook"
+
 after 'bundler:map_bins', 'rvm1:hook'
 
-before 'deploy:assets:precompile', 'rvm1:hook'
-
 before 'deploy', 'deploy:setup'
-before 'deploy', 'rvm1:install:ruby'
+
