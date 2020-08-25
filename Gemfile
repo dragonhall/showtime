@@ -28,16 +28,12 @@ end
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.2.4'
 
-gem 'puma', '3.12.6'
+gem 'puma'
 
 group :assets do
-  gem 'blueprint-rails', github: 'hron84/blueprint-rails',
-                         branch: 'hron84/rails-5-upgrade'
   gem 'coffee-rails', '~> 4.2'
-  gem 'facebox-rails', github: 'hron84/facebox-rails',
-                       branch: 'hron84/feature-rails5'
   gem 'jbuilder', '~> 2.5'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails'
@@ -45,6 +41,11 @@ group :assets do
   gem 'jquery-ui-rails'
   gem 'sassc-rails', '~> 2.1.0'
   gem 'uglifier', '>= 1.3.0'
+
+  gem 'blueprint-rails', github: 'hron84/blueprint-rails',
+                         branch: 'hron84/rails-5-upgrade'
+  gem 'facebox-rails', github: 'hron84/facebox-rails',
+                       branch: 'hron84/feature-rails5'
 end
 
 group :development, :test do
@@ -103,8 +104,6 @@ group :application do
   gem 'active_scheduler'
   gem 'pry-rails'
 
-  gem 'foreman'
-
   gem 'carrierwave'
   gem 'consul'
   gem 'devise' # , github: 'plataformatec/devise'
@@ -130,8 +129,6 @@ group :application do
   gem 'simple_form'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
-
-  # gem 'blueprint-rails', path: '/home/hron/Projects/contrib/blueprint-rails'
 
   gem 'twitter-bootstrap-rails'
 
