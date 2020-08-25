@@ -12,7 +12,7 @@ namespace :monit do
           monit_do :restart, "showtime_resque_#{svc}"
         end
 
-        ffmpeg_pids = capture(:pidof, 'ffmpeg').strip.split(/\s+/)
+        ffmpeg_pids = capture(:pidof, 'ffmpeg', raise_on_non_zero_exit: false).strip.split(/\s+/)
         if ffmpeg_pids.empty? then
           %w[streaming recording].each do |svc|
             monit_do :restart, "showtime_resque_#{svc}"
