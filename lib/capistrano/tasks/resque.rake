@@ -7,7 +7,7 @@ end
 namespace :monit do
   namespace :resque do
     task :restart do
-      if fetch(:stage) == :production do
+      if fetch(:stage) == :production then
         on roles(:app) do
           %w[workers scheduler].each do |svc| 
             monit_do :restart, "showtime_resque_#{svc}"
