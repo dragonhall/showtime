@@ -7,15 +7,17 @@ end
 namespace :monit do
   namespace :resque do
     task :restart do
-      on roles(:app) do
-        %w[workers scheduler].each do |svc| 
-          monit_do :restart, "showtime_resque_#{svc}"
-        end
-
-        ffmpeg_pids = capture(:pidof, 'ffmpeg', raise_on_non_zero_exit: false).strip.split(/\s+/)
-        if ffmpeg_pids.empty? then
-          %w[streaming recording].each do |svc|
+      if fetch(:stage) == :production do
+        on roles(:app) do
+          %w[workers scheduler].each do |svc| 
             monit_do :restart, "showtime_resque_#{svc}"
+          end
+
+          ffmpeg_pids = capture(:pidof, 'ffmpeg', raise_on_non_zero_exit: false).strip.split(/\s+/)
+          if ffmpeg_pids.empty? then
+            %w[streaming recording].each do |svc|
+              monit_do :restart, "showtime_resque_#{svc}"
+            end
           end
         end
       end
