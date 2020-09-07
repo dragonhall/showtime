@@ -15,4 +15,5 @@
     - if f.object.screenshot_path?
       = f.input :screenshot_path, input_html: { disabled: true }
       = video_screenshot_tag f.object
+  = f.input :logo
   = f.submit

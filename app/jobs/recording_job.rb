@@ -44,14 +44,13 @@ class RecordingJob < ApplicationJob
 
     filter_params = ''
 
-    if (movie.width != 720 || movie.height != 404) && ratio < 1.5
-      filter_params += '[in]scale=720:404:force_original_aspect_ratio=decrease,pad=720:404:(ow-iw)/2:(oh-ih)/2[scaled];'
-      source = 'scaled'
-    else
-      source = 'in'
-    end
+    filter_params += '[in]scale=720:404:force_original_aspect_ratio=decrease,pad=720:404:(ow-iw)/2:(oh-ih)/2[scaled];'
 
-    filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[#{source}][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    if pegi_path then
+      filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
+    else
+      filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
+    end
 
     # bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
     bitrate = 2_000_000
@@ -59,7 +58,7 @@ class RecordingJob < ApplicationJob
 
     transcoding_params = {}
 
-    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -r 23.976]
+    transcoding_params[:custom] = %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -bsf:v h264_mp4toannexb]
 
     if @recording.video.metadata[:deinterlace] != '0'
       transcoding_params[:custom].unshift '-deinterlace'
@@ -69,6 +68,8 @@ class RecordingJob < ApplicationJob
       resolution: '720x404',
       x264_preset: 'slow',
       video_bitrate: bitrate,
+      video_codec: 'libx264',
+      audio_codec: 'aac',
       audio_bitrate: '192k',
       audio_sample_rate: 48000
     )
@@ -82,13 +83,13 @@ class RecordingJob < ApplicationJob
     logger.debug 'transcoding will be started with following options: ' \
                  "#{transcoding_params}"
 
-    at(0, 2, "Transcoding #{@recording.video.title} to MPEG")
+    at(0, 2, "Transcoding #{@recording.video.title} to MPEGTS")
 
     tmp_path = Rails.root.join(
         'tmp',
         'recordings',
         job_id,
-        File.basename(@recording.video.path).sub(/\.\w+$/, '.mpg')
+        File.basename(@recording.video.path).sub(/\.\w+$/, '.ts')
     )
 
     target_path = Rails.root.join(
