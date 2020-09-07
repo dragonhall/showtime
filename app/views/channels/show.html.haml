@@ -7,7 +7,7 @@
     %dt Stream útvonal
     %dd= "rtmp://tv.dragonhall.hu/live/#{@channel.stream_path}"
     %dt Overlay kép
-    %dd= image_tag @channel.logo, size: '75x25'
+    %dd= image_tag @channel.logo.url, size: '75x25'
     %dt Ajánlók előtt
     %dd= @channel.trailer_before.title
     %dt Ajánlók után
