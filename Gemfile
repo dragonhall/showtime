@@ -104,7 +104,7 @@ group :application do
   gem 'active_scheduler'
   gem 'pry-rails'
 
-  gem 'carrierwave'
+  gem 'carrierwave', '>= 2.1.0'
   gem 'consul'
   gem 'devise' # , github: 'plataformatec/devise'
   gem 'haml-rails'
