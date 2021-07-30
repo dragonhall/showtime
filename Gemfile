@@ -28,7 +28,7 @@ end
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 
 gem 'puma'
 
@@ -104,13 +104,13 @@ group :application do
   gem 'active_scheduler'
   gem 'pry-rails'
 
-  gem 'carrierwave'
-  gem 'consul'
+  gem 'carrierwave', '>= 2.1.0'
+  gem 'consul', '>= 1.0.3'
   gem 'devise' # , github: 'plataformatec/devise'
   gem 'haml-rails'
   gem 'inherited_resources'
   gem 'kaminari'
-  gem 'kaminari-i18n'
+  gem 'kaminari-i18n', '>= 0.5.0'
 
   gem 'mini_magick'
 
