@@ -62,7 +62,7 @@ RSpec.describe Playlist, type: :model do
         expect(wrapped_playlist.tracks.collect(&:position)).to eq [1, 2, 3]
       end
 
-      it 'adds intro around the film' do
+      it 'adds videos around the film' do
         expect(wrapped_playlist.tracks.first.video_id).to eq intro.id
         expect(wrapped_playlist.tracks.first.position).to eq 1
 
