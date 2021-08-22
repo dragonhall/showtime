@@ -1,7 +1,7 @@
 require: 
   - rubocop-rspec
 
-Lint/HandleExceptions:
+Lint/SuppressedException:
   Exclude:
     - spec/support/*.rb
 
@@ -17,10 +17,10 @@ Style/GuardClause:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-Layout/IndentFirstArgument:
+Layout/FirstArgumentIndentation:
   Enabled: false
 
-Layout/AlignArguments:
+Layout/ArgumentAlignment:
   Enabled: false
 
 Style/IfUnlessModifier:
