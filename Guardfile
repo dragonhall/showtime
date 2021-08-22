@@ -21,6 +21,7 @@ guard :spring, bundler: true do
   watch(%r{^config/})
   watch(%r{^config.ru$})
   watch(%r{^spec/(support|factories)/})
+  watch(%r{^app/assets/config/manifest.js})
 end
 
 
@@ -55,6 +56,7 @@ end
 guard :rails, server: :puma, host: '0.0.0.0' do
   watch('Gemfile.lock')
   watch(%r{^config/.*})
+  watch(%r{^app/assets/config/manifest.js})
 end
 
 # Note: The cmd option is now required due to the increasing number of ways
