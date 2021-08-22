@@ -2,6 +2,9 @@ require 'fileutils'
 class StreamingJob # < ApplicationJob
   include Resque::Plugins::Status
 
+  # We do not stream content to prod servers if we aren't running in prod mode
+  UPSTREAM_HOSTS = !Rails.env.production? ? ['127.0.0.1'] : %w[87.229.7.176 79.172.195.48]
+
   # queue_as :streaming
   @queue = 'streaming'
 
@@ -148,9 +151,17 @@ class StreamingJob # < ApplicationJob
     start_time = Time.zone.now
     # movie.transcode("rtmp://127.0.0.1:1935/dragonhall/#{channel.stream_path}")
 
-    movie.transcode("rtmp://dragonhall.hu:1935/live/#{channel.stream_path}",
-                    transcoding_params,
-                    other_params)
+    # movie.transcode("rtmp://dragonhall.hu:1935/live/#{channel.stream_path}",
+    #                 transcoding_params,
+    #                 other_params)
+
+    UPSTREAM_HOSTS.each do |host|
+      Process.fork do
+        movie.transcode("rtmp://#{host}:1935/live/#{channel.stream_path}",
+                        transcoding_params,
+                        other_params)
+        end
+    end
 
     stop_time = Time.zone.now
 
