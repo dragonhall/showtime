@@ -66,3 +66,6 @@ public/streaming/channellogos/
 /.idea/.*
 /spec/examples.txt
 config/redis.yml
+/.docker/data/
+# TODO create script for downloading corresponding SQL's from prod
+/.docker/initdb.d/*.sql 

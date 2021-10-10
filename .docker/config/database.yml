@@ -1,0 +1,24 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch('SHOWTIME_DATABASE_USER') { 'showtime' } %>
+  #socket: /var/run/mysqld/mysqld.sock
+  password: <%= ENV.fetch('SHOWTIME_DATABASE_PASSWORD') { 'Sh0wT!me' } %>
+
+development:
+  <<: *default
+  url: <%= ENV.fetch('SHOWTIME_DATABASE_URL') { "mysql://#{ENV['SHOWTIME_DATABASE_HOST']}/showtime_development" } %>
+
+test:
+  <<: *default
+  url: <%= ENV.fetch('SHOWTIME_DATABASE_URL') { "mysql://#{ENV['SHOWTIME_DATABASE_HOST']}/showtime_test" } %>
+
+production:
+  <<: *default
+  url: <%= ENV.fetch('SHOWTIME_DATABASE_URL') { "mysql://#{ENV['SHOWTIME_DATABASE_HOST']}/showtime_production" } %>
+
+
+dragonhall:
+  <<: *default
+  url: <%= ENV.fetch('SHOWTIME_FUSIONDB_URL') { "mysql://#{ENV['SHOWTIME_DATABASE_HOST']}/dragonhall_utf8" } %>
