@@ -106,6 +106,7 @@
           = link_to image_tag('icons/play.png'), [:play, playlist.channel, playlist], class: 'play'
           = link_to image_tag('icons/magnifier.png'), [playlist.channel, playlist, :tracks], target: '_blank'
           = link_to image_tag('icons/pencil.png'), [:edit, playlist.channel, playlist], class: 'edit' if !playlist.finalized
-          = link_to image_tag('icons/cross.png'), [playlist.channel, playlist], method: :delete, confirm: 'Biztosan törlöd ezt a műsort?'
+          = link_to(image_tag('icons/cross.png'), [playlist.channel, playlist], method: :delete, data: {confirm: 'Biztosan törlöd ezt a műsort?'})
+          
 
 
