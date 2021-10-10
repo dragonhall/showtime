@@ -2,6 +2,8 @@ require 'fileutils'
 class StreamingJob # < ApplicationJob
   include Resque::Plugins::Status
 
+  MULTI_SERVERS = %w[94.199.181.111 79.172.195.48]
+
   # queue_as :streaming
   @queue = 'streaming'
 
@@ -142,15 +144,26 @@ class StreamingJob # < ApplicationJob
 
     other_params = { input_options: ['-re'], validate: false }
 
-    logger.debug 'streaming will be started with following options: ' \
-                 "#{transcoding_params} and #{other_params}"
 
     start_time = Time.zone.now
     # movie.transcode("rtmp://127.0.0.1:1935/dragonhall/#{channel.stream_path}")
 
-    movie.transcode("rtmp://dragonhall.hu:1935/live/#{channel.stream_path}",
-                    transcoding_params,
-                    other_params)
+    if channel.multi and Process.respond_to?(:fork) then
+      MULTI_SERVERS.each do |server|
+        Process.fork do
+          logger.debug 'streaming will be started with following options: ' \
+                       "#{transcoding_params} and #{other_params} with PID #{Process.pid}"
+          movie.transcode("rtmp://#{server}:1935/live/#{channel.stream_path}",
+                          transcoding_params,
+                          other_params)
+        end
+        Process.wait
+      end
+    else
+      movie.transcode("rtmp://94.199.181.111:1935/live/#{channel.stream_path}",
+                      transcoding_params,
+                      other_params)
+    end
 
     stop_time = Time.zone.now
 

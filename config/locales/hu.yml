@@ -10,4 +10,5 @@ hu:
         duration: Hossz
       video:
         logo: Csatornalogo
-        
+      channel:
+        multi: Több szerveres kimenet

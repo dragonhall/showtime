@@ -35,3 +35,5 @@ en:
     attributes:
       video:
         logo: Channel logo
+      channel:
+        multi: Multi-server output

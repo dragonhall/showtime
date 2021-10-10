@@ -5,6 +5,7 @@
   = f.input :trailer_before_id, collection: Video.rollovers, label_method: :title, value_method: :id, selected: @channel.trailer_before_id
   = f.input :trailer_after_id, collection: Video.rollovers, label_method: :title, value_method: :id, selected: @channel.trailer_after_id
   = f.input :domain
+  = f.input :multi
   = f.input :stream_path
 
   
