@@ -9,10 +9,8 @@
 
 server '87.229.7.176', user: 'showtime', roles: %w[app db web], port: 15_412
 
-
 set :nginx_sites_available_path, '/opt/nginx-with-rtmp/conf/sites-available'
 set :nginx_sites_enabled_path, '/opt/nginx-with-rtmp/conf/sites-enabled'
-
 
 set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu/htdocs'
 set :nginx_server_name, 'showtime.teszt.dragonhall.hu'
@@ -53,7 +51,7 @@ set :rails_env, 'staging'
 #    auth_methods: %w(password)
 #  }
 
-set :ssh_options, keys: %W[#{ENV['HOME']}/.ssh/id_rsa], auth_methods: %w[publickey] #, verbose: :debug
+set :ssh_options, keys: %W[#{ENV['HOME']}/.ssh/id_rsa], auth_methods: %w[publickey] # , verbose: :debug
 
 #
 # The server-based syntax can be used to override options:

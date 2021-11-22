@@ -53,24 +53,23 @@ set :rvm1_roles, :all
 
 append :rvm_map_bins, 'gem', 'ruby', 'bundle', 'rake'
 
-#set :foreman_roles, :all
-#set :foreman_init_system, 'systemd'
+# set :foreman_roles, :all
+# set :foreman_init_system, 'systemd'
 
 namespace :deploy do
   desc 'Run things before deploy'
   task :setup
   on roles :all do
-    rvm_ver=capture('rvm --verson || true').strip
+    rvm_ver = capture('rvm --verson || true').strip
 
     invoke 'rvm1:install:rvm' if rvm_ver.empty?
   end
 end
 
-Rake::Task["rvm1:install:ruby"].clear_prerequisites
-before "bundler:install", "rvm1:install:ruby"
-before "rvm1:install:ruby", "rvm1:hook"
+Rake::Task['rvm1:install:ruby'].clear_prerequisites
+before 'bundler:install', 'rvm1:install:ruby'
+before 'rvm1:install:ruby', 'rvm1:hook'
 
 after 'bundler:map_bins', 'rvm1:hook'
 
 before 'deploy', 'deploy:setup'
-
