@@ -28,9 +28,9 @@ end
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
+gem 'rails', '~> 5.2.6', '>= 5.2.6.2'
 
-gem 'puma'
+gem 'puma', '>= 4.3.11'
 
 group :assets do
   gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
@@ -63,7 +63,7 @@ group :development do
   gem 'capistrano-linked-files', require: false
   gem 'capistrano-rails', require: false
   gem 'rvm1-capistrano3', require: false
-  gem 'capistrano3-puma', require: false
+  gem 'capistrano3-puma', '>= 4.0.0', require: false
   gem 'capistrano-foreman', require: false
   gem 'capistrano3-monit', require: false
 
