@@ -30,7 +30,7 @@ gem 'mysql2', '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 
-gem 'puma'
+gem 'puma', '>= 4.3.12'
 
 group :assets do
   gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
