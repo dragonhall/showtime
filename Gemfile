@@ -28,13 +28,13 @@ end
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.7', '>= 5.2.7.1'
+gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 
 gem 'puma'
 
 group :assets do
   gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
-  gem 'jbuilder', '~> 2.5'
+  gem 'jbuilder', '~> 2.10', '>= 2.10.0'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
   gem 'jquery-rails', '>= 4.4.0'
