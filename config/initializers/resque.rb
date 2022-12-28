@@ -13,7 +13,7 @@ puts " >> Initializing Redis at #{redis_url}"
 redis = Redis.new(url: redis_url)
 redis_ns = Redis::Namespace.new(REDIS_APPKEY.to_sym, redis: redis)
 
-Redis.current = redis_ns
+Redis.current = redis_ns if Redis.respond_to?(:current)
 
 yaml_schedule    = YAML.load_file(Rails.root.join('config', 'resque_schedule.yaml')) || {}
 wrapped_schedule = ActiveScheduler::ResqueWrapper.wrap yaml_schedule

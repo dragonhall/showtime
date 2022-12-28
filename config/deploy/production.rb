@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server '87.229.7.176', user: 'showtime', roles: %w[app db web], port: 15_412
+server '92.119.122.184', user: 'showtime', roles: %w[app db web], port: 15_412
 set :branch, ENV.fetch('DEPLOY_BRANCH') { 'master' }.to_sym
 
 set :nginx_sites_available_path, '/opt/nginx-with-rtmp/conf/sites-available'

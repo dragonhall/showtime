@@ -1,6 +1,7 @@
 def monit_do(*args)
   on roles :app do
-    execute :sudo, :monit, *args
+    execute :echo 
+    # execute :sudo, :monit, *args
   end
 end
 
