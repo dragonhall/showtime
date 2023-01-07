@@ -1,4 +1,5 @@
-class BlockedIp < ApplicationRecord
+# frozen_string_literal: true
 
-  validates_uniqueness_of :address, allow_blank: false
+class BlockedIp < ApplicationRecord
+  validates_uniqueness_of :address, allow_blank: false, case_sensitive: false
 end

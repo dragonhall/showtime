@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 require 'resque/server'
 require 'resque/scheduler/server'
@@ -9,7 +11,7 @@ REDIS_APPKEY = Rails.application.class.name.underscore.split('/').first
 
 puts " >> Initializing Redis at #{redis_url}"
 # Resque.redis = Redis::Namespace.new(REDIS_APPKEY.to_sym, redis: Redis::Client.new(url: redis_url))
-#redis = Redis::Namespace.new(REDIS_APPKEY.to_sym, redis: Redis::Client.new(url: redis_url))
+# redis = Redis::Namespace.new(REDIS_APPKEY.to_sym, redis: Redis::Client.new(url: redis_url))
 redis = Redis.new(url: redis_url)
 redis_ns = Redis::Namespace.new(REDIS_APPKEY.to_sym, redis: redis)
 

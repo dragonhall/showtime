@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require_relative '../config/environment.rb'
+
+class VideoImportCLI < Thor
+  desc 'import', 'Import one or multiple videos'
+  method_option :type, type: :string, aliases: '-t', default: 'film', enum: Video.video_types.keys.map(&:to_s)
+  method_option :pegi, type: :string, aliases: '-p', default: 'pegi_3', enum: Video.pegi_ratings.keys.map(&:to_s)
+
+  def import(*filesarg)
+    files = filesarg.map { |a| Dir.glob(a) }.flatten.sort.uniq
+
+    res = files.find_all { |f| !File.exists?(f) }
+    if res.size > 0
+      puts " !! Not all files are present you specified. I honestly do not know what to do"
+      exit 1
+    end
+
+    files.each do |file|
+      VideoImportJob.perform_later File.expand_path(file)
+    end
+  end
+end
+
+VideoImportCLI.start(ARGV.dup.unshift('import'))

@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 namespace :videos do
   task guess_series: :environment do
     Video.films.each do |v|
       next unless v.series.blank? && v.metadata[:title]
+
       series = v.metadata[:title].scan(/\A(.+?)\s+\d+/).flatten.first
       unless series.blank?
-        $stderr.puts " * Detected #{series} for [#{v.metadata[:title]}]"
+        warn " * Detected #{series} for [#{v.metadata[:title]}]"
         v.update_attribute :series, series
       end
     end
@@ -18,7 +21,7 @@ namespace :videos do
       video = Video.find(ENV['VIDEO_ID'].to_i)
       video.update_attribute :metadata, {}
       VideoImportJob.perform_later video.path
-      $stderr.puts " * Video [#{File.basename(video.path)}] enqueued to reimport"
+      warn " * Video [#{File.basename(video.path)}] enqueued to reimport"
     end
   end
 end

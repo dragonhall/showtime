@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -9,14 +11,12 @@
 
 server '92.119.122.184', user: 'showtime', roles: %w[app db web], port: 15_412
 
-
 set :nginx_sites_available_path, '/opt/nginx-with-rtmp/conf/sites-available'
 set :nginx_sites_enabled_path, '/opt/nginx-with-rtmp/conf/sites-enabled'
 
-
 set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu'
 set :nginx_server_name, 'showtime.teszt.dragonhall.hu'
-set :branch, ENV.fetch('DEPLOY_BRANCH') { 'develop' }.to_sym
+set :branch, ENV.fetch('DEPLOY_BRANCH', 'develop').to_sym
 set :rails_env, 'staging'
 
 # role-based syntax

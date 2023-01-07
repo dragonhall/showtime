@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
@@ -5,7 +7,6 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_admin!
   before_action :set_correct_format, if: proc { request.xhr? }
-
 
   include Consul::Controller
 
@@ -26,5 +27,4 @@ class ApplicationController < ActionController::Base
       render status: :forbidden
     end
   end
-
 end
