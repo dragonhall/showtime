@@ -345,6 +345,9 @@ GEM
     public_suffix (5.0.1)
     puma (6.0.2)
       nio4r (~> 2.0)
+    puma-daemon (0.1.2)
+      puma (>= 5.0)
+      rack
     raabro (1.4.0)
     racc (1.6.2)
     rack (2.2.5)
@@ -568,7 +571,8 @@ DEPENDENCIES
   mini_magick
   mysql2
   pry-rails
-  puma
+  puma (>= 5.0)
+  puma-daemon
   rack-dev-mark
   rails (~> 6.0)
   rails-i18n (>= 5.1.3)

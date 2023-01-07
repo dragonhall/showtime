@@ -31,7 +31,9 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 gem 'rails', '~> 6.0'
 
-gem 'puma'
+gem 'puma', '>= 5.0'
+gem 'puma-daemon', require: false
+
 
 group :assets do
   gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
