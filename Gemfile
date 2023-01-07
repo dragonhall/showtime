@@ -32,10 +32,8 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 gem 'rails', '~> 6.0'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
-gem 'puma', '~> 5'
-gem 'puma-daemon', require: false
-
-gem 'listen'
+gem 'puma', '~> 4'
+# gem 'puma-daemon', require: false
 
 group :assets do
   gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
@@ -65,9 +63,9 @@ group :development do
   #   gem 'binding_of_caller'
   #
   gem 'capistrano3-monit', require: false
-  # gem 'capistrano3-puma', '~> 5.2.0', require: false
-  gem 'capistrano3-puma', github: 'hron84/capistrano-puma',
-                          branch: 'v5.x', require: false
+  gem 'capistrano3-puma', '~> 5.2.0', require: false
+  # gem 'capistrano3-puma', github: 'hron84/capistrano-puma',
+  #                         branch: 'v5.x', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-foreman', require: false
   gem 'capistrano-linked-files', require: false
