@@ -22,7 +22,7 @@ GIT
 
 GIT
   remote: https://github.com/hron84/facebox-rails.git
-  revision: 14a7323d2eaf0687d21a02b0ee930e00971b2d4b
+  revision: ef5851859c2dc66bd389769fecaa0a6352a38824
   branch: hron84/feature-rails6
   specs:
     facebox-rails (0.2.0)
