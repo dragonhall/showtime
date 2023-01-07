@@ -61,7 +61,7 @@ group :development do
   #   gem 'binding_of_caller'
   #
   gem 'capistrano3-monit', require: false
-  gem 'capistrano3-puma', require: false
+  gem 'capistrano3-puma', '6.0.0.beta.1', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-foreman', require: false
   gem 'capistrano-linked-files', require: false
