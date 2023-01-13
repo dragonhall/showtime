@@ -29,7 +29,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 6.0', '>= 6.0.6'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 4'
@@ -110,7 +110,7 @@ group :application do
   gem 'pry-rails'
 
   gem 'carrierwave', '>= 2.1.1'
-  gem 'consul', '>= 1.0.3'
+  gem 'consul', '>= 1.1.2'
   gem 'devise', '>= 4.7.2' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.11.0'
