@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :playlist do
     channel
-    title { "MyString" }
+    title { 'MyString' }
     start_time { Time.zone.now }
     finalized { false }
     published { false }

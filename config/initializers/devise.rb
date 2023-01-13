@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = "please-change-me-at-config-initializers-devise@example.com"
+  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -35,12 +37,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [:email]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [:email]
 
   # Tell if authentication through request.params is enabled. True by default.
   # config.params_authenticatable = true
@@ -68,8 +70,10 @@ Devise.setup do |config|
   # a value less than 10 in other environments.
   config.stretches = Rails.env.test? ? 1 : 10
 
+  # rubocop:disable Layout/LineLength
   # Setup a pepper to generate the encrypted password.
   # config.pepper = "0cae42c113a54e5a31568738b40948c89620ab3d47fc2288f134465522894d0436c3c789ea7e519549b10064d07b7760fd74f44048894dfa1238b4b0ef92a4e6"
+  # rubocop:enable Layout/LineLength
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without

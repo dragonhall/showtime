@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'fileutils'
 require 'securerandom'
 
@@ -31,7 +33,7 @@ class RecordingJob < ApplicationJob
 
   def render_video
     movie = FFMPEG::Movie.new(@recording.video.path)
-    ratio = movie.width.to_f / movie.height.to_f
+    ratio = movie.width.to_f / movie.height
 
     wspacing = ratio < 1.5 ? 22 + 91 : 22
 
@@ -44,6 +46,7 @@ class RecordingJob < ApplicationJob
 
     filter_params = ''
 
+    # rubocop:disable Layout/LineLength
     filter_params += '[in]scale=720:404:force_original_aspect_ratio=decrease,pad=720:404:(ow-iw)/2:(oh-ih)/2[scaled];'
 
     if pegi_path then
@@ -51,6 +54,7 @@ class RecordingJob < ApplicationJob
     else
       filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
     end
+    # rubocop:enable Layout/LineLength
 
     # bitrate = movie.video_bitrate > 3_000_000 ? 3_000_000 : movie.video_bitrate
     bitrate = 2_000_000
@@ -71,7 +75,7 @@ class RecordingJob < ApplicationJob
       video_codec: 'libx264',
       audio_codec: 'aac',
       audio_bitrate: '192k',
-      audio_sample_rate: 48000
+      audio_sample_rate: 48_000
     )
 
     transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
@@ -90,14 +94,14 @@ class RecordingJob < ApplicationJob
         'recordings',
         job_id,
         File.basename(@recording.video.path).sub(/\.\w+$/, '.ts')
-    )
+      )
 
     target_path = Rails.root.join(
         'public',
         'recordings',
         @recording.id.to_s,
         "#{SecureRandom.urlsafe_base64(11)}.mp4"
-    )
+      )
 
     FileUtils.mkdir_p(Rails.root.join('public', 'recordings', @recording.id.to_s))
     movie.transcode(tmp_path.to_s,
@@ -107,7 +111,7 @@ class RecordingJob < ApplicationJob
 
     ret = system("#{Rails.root}/script/concat", job_id, tmp_path.to_s, target_path.to_s, @recording.video.pegi_rating)
     if ret
-      @recording.update_attribute :path, target_path.to_s.sub(Rails.public_dir.to_s, '').sub(/^\//, '')
+      @recording.update_attribute :path, target_path.to_s.sub(Rails.public_dir.to_s, '').sub(%r{^/}, '')
       completed "Video #{File.basename(target_path)} rendered successfully"
     else
       failed 'Final FFMPEG returned with non-zero status code'
@@ -123,7 +127,7 @@ class RecordingJob < ApplicationJob
 
     image = MiniMagick::Image.open rating_image
 
-    ratio = image.width.to_f / image.height.to_f
+    ratio = image.width.to_f / image.height
     target_width = w * 0.05
     target_height = target_width / ratio
 
@@ -146,7 +150,7 @@ class RecordingJob < ApplicationJob
     image = MiniMagick::Image.open logo
 
     # Calculate new image sizes
-    ratio = image.width.to_f / image.height.to_f
+    ratio = image.width.to_f / image.height
     target_width = w * 0.16
     target_height = target_width / ratio
 

@@ -31,7 +31,10 @@ class TracksController < InheritedResources::Base
   def reorder
     tracks = params[:tracks].map { |id| Track.find(id) }
 
-    if !tracks.first.playlist.finalized?
+    if tracks.first.playlist.finalized?
+      render json: {error: "Tracks cannot moved when they're finalized"},
+             status: :forbidden
+    else
 
       tracks.each_with_index do |track, idx|
         track.update_attribute :position, idx + 1 if track.position != idx + 1
@@ -51,15 +54,12 @@ class TracksController < InheritedResources::Base
           }
         end
       end
-    else
-      render json: {error: "Tracks cannot moved when they're finalized"},
-             status: :forbidden
     end
   end
 
   def wrap
-    _playlist = Playlist.find(params[:playlist_id])
-    _playlist.wrap_films!
+    a_playlist = Playlist.find(params[:playlist_id])
+    a_playlist.wrap_films!
     redirect_to root_path
   end
 

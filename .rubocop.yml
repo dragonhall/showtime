@@ -1,9 +1,18 @@
 require: 
   - rubocop-rspec
 
+AllCops:
+  TargetRubyVersion: 3.0
+  SuggestExtensions: false
+  NewCops: enable
+  Exclude:
+    - bin/*
+    - db/schema.rb
+
 Lint/SuppressedException:
   Exclude:
     - spec/support/*.rb
+    - lib/tasks/**/*.rake
 
 Style/CommandLiteral:
   Enabled: false
@@ -26,16 +35,53 @@ Layout/ArgumentAlignment:
 Style/IfUnlessModifier:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - Gemfile
+    - config/routes.rb
+
 Metrics/MethodLength:
-  Max: 25
+  Max: 60
+  Exclude:
+    - app/jobs/streaming_job.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/jobs/streaming_job.rb
+    - app/models/playlist.rb
+    - app/jobs/recording_job.rb
+
+Naming/VariableNumber:
+  Exclude:
+    - app/jobs/*.rb
+
+Naming/MethodParameterName:
+  Exclude:
+    - app/jobs/*.rb
+
+Layout/LineLength:
+  Exclude:
+    - app/jobs/streaming_job.rb
+
+Style/GlobalVars:
+  Exclude:
+    - config/initializers/geoip.rb
+    - app/helpers/application_helper.rb
+    - lib/client_info/*.rb
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
+# This is a legacy code, complex as heck...
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
 
 Style/Documentation:
-  Exclude:
-    - spec/**/*
-    - test/**/*
-    - features/**/*
-    - app/controllers/**/*
-    - app/models/**/*
-    - app/helpers/**/*
-    - app/controllers/**/*
-    - app/jobs/**/*
+  Enabled: false

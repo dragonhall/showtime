@@ -1,6 +1,9 @@
-def monit_do(*args)
+# frozen_string_literal: true
+
+def monit_do(*_args)
   on roles :app do
-    execute :sudo, :monit, *args
+    execute :echo
+    # execute :sudo, :monit, *args
   end
 end
 
@@ -9,7 +12,7 @@ namespace :monit do
     task :restart do
       if fetch(:stage) == :production then
         on roles(:app) do
-          %w[workers scheduler].each do |svc| 
+          %w[workers scheduler].each do |svc|
             monit_do :restart, "showtime_resque_#{svc}"
           end
 

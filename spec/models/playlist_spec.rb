@@ -2,40 +2,39 @@
 
 require 'rails_helper'
 
-# rubocop:disable Metrics/BlockLength
-RSpec.describe Playlist, type: :model do
+RSpec.describe Playlist do
   # Simulate db/seeds.rb
-  let(:group) { create :group, name: 'FullAdmin' }
+  let(:group) { create(:group, name: 'FullAdmin') }
   let(:admin) do
-    create :admin, name: 'Atyauristen',
+    create(:admin, name: 'Atyauristen',
                    email: 'admin@example.com',
                    password: 'secret',
                    password_confirmation: 'secret',
-                   group_id: group.id
+                   group_id: group.id)
   end
   let(:video) do
-    create :video, path: '/var/film.mpg',
+    create(:video, path: '/var/film.mpg',
                    metadata: {
                      'title' => 'Foobar',
                      'length' => 45.minutes
                    },
                    pegi_rating: 'pegi_3',
-                   video_type: 'film'
+                   video_type: 'film')
   end
   let(:intro) do
-    create :video, path: '/var/intro.mpg',
+    create(:video, path: '/var/intro.mpg',
                    metadata: {
                      'title' => 'Intro foo',
                      'length' => 1.minutes
                    },
                    pegi_rating: 'pegi_3',
-                   video_type: 'intro'
+                   video_type: 'intro')
   end
 
   context :finalize! do
     let(:channel) do
       group.save!
-      create :channel
+      create(:channel)
     end
 
     let(:playlist) do
@@ -60,6 +59,7 @@ RSpec.describe Playlist, type: :model do
       expect(finalized_playlist.tracks.collect(&:position)).to eq [1, 2, 3]
     end
 
+    # rubocop:disable RSpec/MultipleExpectations
     it 'adds intro around the film' do
       expect(finalized_playlist.tracks.first.video_id).to eq intro.id
       expect(finalized_playlist.tracks.first.position).to eq 1
@@ -69,5 +69,6 @@ RSpec.describe Playlist, type: :model do
       expect(finalized_playlist.tracks.last.video_id).to eq intro.id
       expect(finalized_playlist.tracks.last.position).to eq 3
     end
+    # rubocop:enable RSpec/MultipleExpectations
   end
 end

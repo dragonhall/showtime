@@ -1,17 +1,20 @@
+# frozen_string_literal: true
+
 require 'fileutils'
-class StreamingJob # < ApplicationJob
+# < ApplicationJob
+class StreamingJob
   include Resque::Plugins::Status
 
   # queue_as :streaming
   @queue = 'streaming'
 
-  #before_perform do
+  # before_perform do
   #  FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
-  #end
+  # end
 
-  #after_perform do
+  # after_perform do
   #  FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
-  #end
+  # end
 
   def perform
     playlist_id = options['playlist_id']
@@ -85,7 +88,7 @@ class StreamingJob # < ApplicationJob
     # wspacing = ratio < (16.0 / 9.0) ? 22 + 91 : 22
     wspacing = ratio < 1.5 ? 22 + 91 : 22
 
-    channel_logo = channel.logo.path if video.logo? and channel.logo?
+    channel_logo = channel.logo.path if video.logo? && channel.logo?
 
     logo_path, logo_params = build_logo(channel_logo, target_width, target_height, wspacing) if channel.logo?
 
@@ -95,7 +98,8 @@ class StreamingJob # < ApplicationJob
 
     filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
 
-
+    # rubocop:disable Style/EmptyElse
+    # rubocop:disable Metrics/BlockNesting
     if channel.logo?
       case video.video_type
       when 'film'
@@ -105,8 +109,8 @@ class StreamingJob # < ApplicationJob
           else
             filter_params += "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
           end
-        else
-          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}" if video.logo? and logo_path
+        elsif video.logo? && logo_path
+          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
         end
       when 'trailer'
         if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
@@ -116,6 +120,8 @@ class StreamingJob # < ApplicationJob
         # nothing to do
       end
     end
+    # rubocop:enable Metrics/BlockNesting
+    # rubocop:enable Style/EmptyElse
 
     filter_params.sub!(/\[scaled\];\Z/, '')
 
@@ -136,9 +142,8 @@ class StreamingJob # < ApplicationJob
       # x264_preset: 'slow',
       video_bitrate: bitrate,
       video_codec: 'libx264',
-      audio_codec: 'aac',
+      audio_codec: 'aac'
     )
-
 
     other_params = { input_options: ['-re'], validate: false }
 
@@ -156,7 +161,7 @@ class StreamingJob # < ApplicationJob
 
     elapsed = (stop_time - start_time).ceil
     timediff = video.metadata[:length] - elapsed
-    if timediff > 0
+    if timediff.positive?
       logger.fatal "Playing #{video.path} ended too early. Expected end time: " +
                    (start_time + video.metadata[:length]).to_s
       sleep(timediff) # TODO:  replace it with looping monoscope/error video
@@ -172,7 +177,7 @@ class StreamingJob # < ApplicationJob
 
     image = MiniMagick::Image.open rating_image
 
-    ratio = image.width.to_f / image.height.to_f
+    ratio = image.width.to_f / image.height
     target_width = w * 0.05
     target_height = target_width / ratio
 
@@ -191,12 +196,12 @@ class StreamingJob # < ApplicationJob
   def build_logo(logo, w, _h, wspacing)
     logger.debug 'Building LOGO'
 
-    return ['', ''] if logo.nil? or logo.empty?
+    return ['', ''] if logo.nil? || logo.empty?
 
     image = MiniMagick::Image.open logo
 
     # Calculate new image sizes
-    ratio = image.width.to_f / image.height.to_f
+    ratio = image.width.to_f / image.height
     target_width = w * 0.16
     target_height = target_width / ratio
 
@@ -222,11 +227,15 @@ class StreamingJob # < ApplicationJob
     target_width = 720
     target_height = 404
     vf = "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
-    cmd1 = %W[/usr/bin/ffmpeg -y -loglevel 0 -re -stream_loop -1 -i #{Rails.root.join('public', 'streaming', music)} -f mp3 -]
-    cmd2 = %W[/usr/bin/ffmpeg -y -re -i pipe:0 -loop 1 -i #{image} -vf #{vf} -t #{secs} -f flv rtmp://tv.dragonhall.hu:1935/live/#{channel.stream_path}]
+    cmd1 = %W[/usr/bin/ffmpeg -y -loglevel 0 -re -stream_loop -1 -i #{Rails.root.join('public', 'streaming', music)} -f
+              mp3 -]
+    cmd2 = %W[/usr/bin/ffmpeg -y -re -i pipe:0 -loop 1 -i #{image} -vf #{vf} -t #{secs} -f flv
+              rtmp://tv.dragonhall.hu:1935/live/#{channel.stream_path}]
 
+    # rubocop:disable Style/StringConcatenation
     pipecmd = cmd1.map { |e| "'#{e}'" }.join(' ') + ' | ' +
               cmd2.map { |e| "'#{e}'" }.join(' ')
+    # rubocop:enable Style/StringConcatenation
 
     system(pipecmd)
   end
@@ -234,5 +243,4 @@ class StreamingJob # < ApplicationJob
   def job_id
     @uuid
   end
-
 end

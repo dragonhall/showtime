@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 class TvController < ApplicationController
   layout 'tv'
 
   skip_before_action :authenticate_admin!
-
 
   def index
     @channel = Channel.where(domain: request.host).first
@@ -16,7 +17,6 @@ class TvController < ApplicationController
                   @channel.upcoming.first
                 end
 
-
     respond_to do |format|
       format.html
       format.json do
@@ -29,4 +29,3 @@ class TvController < ApplicationController
     end
   end
 end
-

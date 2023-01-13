@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe VideoPreviewJob, type: :job do
+RSpec.describe VideoPreviewJob do
   pending "add some examples to (or delete) #{__FILE__}"
 end
