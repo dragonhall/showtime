@@ -40,7 +40,7 @@ group :assets do
   gem 'jbuilder', '~> 2.5'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
-  gem 'jquery-rails', '>= 4.4.0'
+  gem 'jquery-rails', '>= 4.5.1'
   gem 'jquery-ui-rails', '>= 6.0.1'
   gem 'sassc-rails', '~> 2.1.2'
   gem 'uglifier', '>= 1.3.0'
@@ -72,7 +72,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'rvm1-capistrano3', require: false
   #
-  gem 'meta_request', '>= 0.7.2'
+  gem 'meta_request', '>= 0.7.3'
   #
   #   # Spring speeds up development by keeping your application
   #   # running in the background. Read more: https://github.com/rails/spring
@@ -94,7 +94,7 @@ end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_bot_rails', '>= 6.1.0'
+  gem 'factory_bot_rails', '>= 6.2.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails'
@@ -111,9 +111,9 @@ group :application do
 
   gem 'carrierwave', '>= 2.1.1'
   gem 'consul', '>= 1.1.2'
-  gem 'devise', '>= 4.7.2' # , github: 'plataformatec/devise'
-  gem 'haml-rails', '>= 2.0.1'
-  gem 'inherited_resources', '>= 1.11.0'
+  gem 'devise', '>= 4.8.1' # , github: 'plataformatec/devise'
+  gem 'haml-rails', '>= 2.1.0'
+  gem 'inherited_resources', '>= 1.13.1'
   gem 'kaminari', '>= 1.2.1'
   gem 'kaminari-i18n', '>= 0.5.0'
 
@@ -121,7 +121,7 @@ group :application do
 
   gem 'rack-dev-mark'
 
-  gem 'rails-i18n', '>= 5.1.3'
+  gem 'rails-i18n', '>= 7.0.6'
 
   gem 'redis', '< 4.3'
   gem 'resque'
@@ -133,11 +133,11 @@ group :application do
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 
   gem 'rollbar'
-  gem 'simple_form', '>= 5.0.2'
+  gem 'simple_form', '>= 5.1.0'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
-  gem 'twitter-bootstrap-rails', '>= 3.2.2'
+  gem 'twitter-bootstrap-rails', '>= 5.0.0'
 
   gem 'imgkit'
   gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
