@@ -40,7 +40,7 @@ group :assets do
   gem 'jbuilder', '~> 2.5'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
-  gem 'jquery-rails', '>= 4.4.0'
+  gem 'jquery-rails', '>= 4.6.0'
   gem 'jquery-ui-rails', '>= 6.0.1'
   gem 'sassc-rails', '~> 2.1.2'
   gem 'uglifier', '>= 1.3.0'
