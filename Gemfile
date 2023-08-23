@@ -29,18 +29,18 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
-gem 'rails', '~> 6.0', '>= 6.0.6'
+gem 'rails', '~> 6.1', '>= 6.1.7.5'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 4'
 # gem 'puma-daemon', require: false
 
 group :assets do
-  gem 'coffee-rails', '~> 4.2', '>= 4.2.2'
+  gem 'coffee-rails', '~> 5.0', '>= 5.0.0'
   gem 'jbuilder', '~> 2.5'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
-  gem 'jquery-rails', '>= 4.4.0'
+  gem 'jquery-rails', '>= 4.6.0'
   gem 'jquery-ui-rails', '>= 6.0.1'
   gem 'sassc-rails', '~> 2.1.2'
   gem 'uglifier', '>= 1.3.0'
@@ -72,7 +72,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'rvm1-capistrano3', require: false
   #
-  gem 'meta_request', '>= 0.7.2'
+  gem 'meta_request', '>= 0.7.4'
   #
   #   # Spring speeds up development by keeping your application
   #   # running in the background. Read more: https://github.com/rails/spring
@@ -93,11 +93,11 @@ group :development do
 end
 
 group :test do
-  gem 'database_cleaner'
+  gem 'database_cleaner', '>= 2.0.2'
   gem 'factory_bot_rails', '>= 6.1.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '>= 6.0.0'
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
@@ -109,9 +109,9 @@ group :application do
   gem 'active_scheduler'
   gem 'pry-rails'
 
-  gem 'carrierwave', '>= 2.1.1'
-  gem 'consul', '>= 1.1.2'
-  gem 'devise', '>= 4.7.2' # , github: 'plataformatec/devise'
+  gem 'carrierwave', '>= 2.2.4'
+  gem 'consul', '>= 1.2.0'
+  gem 'devise', '>= 4.9.0' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.11.0'
   gem 'kaminari', '>= 1.2.1'
@@ -121,7 +121,7 @@ group :application do
 
   gem 'rack-dev-mark'
 
-  gem 'rails-i18n', '>= 5.1.3'
+  gem 'rails-i18n', '>= 7.0.7'
 
   gem 'redis', '< 4.3'
   gem 'resque'
@@ -133,7 +133,7 @@ group :application do
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 
   gem 'rollbar'
-  gem 'simple_form', '>= 5.0.2'
+  gem 'simple_form', '>= 5.2.0'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
