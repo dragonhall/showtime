@@ -22,7 +22,7 @@ class Video < ApplicationRecord
 
   validates_inclusion_of :video_type, in: Video.video_types.keys
 
-  validates :validate_recordable
+  validate :validate_recordable
 
   # validates_length_of :title, maximum: 20
 
