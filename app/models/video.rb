@@ -93,7 +93,9 @@ class Video < ApplicationRecord
   end
 
   def validate_recordable
-    !(@video_type != :film && @recordable)
+    if video_type != 'film' && recordable
+      errors.add(:recordable, 'should not enabled for non-films')
+    end
   end
 
   private
