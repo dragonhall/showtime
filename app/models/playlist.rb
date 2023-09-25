@@ -32,7 +32,7 @@ class Playlist < ApplicationRecord
 
   validates_presence_of :title
   validates_presence_of :start_time
-  validates_uniqueness_of :start_time, case_sensitive: false
+  validates_uniqueness_of :start_time, case_sensitive: false, scope: :channel
 
   before_save :calculate_duration
   after_initialize :initialize_title

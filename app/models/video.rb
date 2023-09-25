@@ -22,6 +22,8 @@ class Video < ApplicationRecord
 
   validates_inclusion_of :video_type, in: Video.video_types.keys
 
+  validates :validate_recordable
+
   # validates_length_of :title, maximum: 20
 
   has_many :tracks
@@ -88,6 +90,10 @@ class Video < ApplicationRecord
 
   def metadata_sym
     metadata.with_indifferent_access
+  end
+
+  def validate_recordable
+    !(@video_type != :film && @recordable)
   end
 
   private
