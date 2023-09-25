@@ -119,7 +119,7 @@ group :application do
 
   gem 'mini_magick'
 
-  gem 'rack-dev-mark'
+  gem 'rack-dev-mark', '>= 0.7.11'
 
   gem 'rails-i18n', '>= 5.1.3'
 
