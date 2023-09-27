@@ -6,7 +6,7 @@ jquery-ui-timepicker-addon@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/jquery-ui-timepicker-addon/-/jquery-ui-timepicker-addon-1.6.3.tgz#8037c39b0b630282dd0b37dd8ad7fc5e1163377f"
 
-jquery.initialize@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/jquery.initialize/-/jquery.initialize-1.3.1.tgz#96c6da43dbc555b615513639b971c7d0b5332dc1"
-  integrity sha512-jQzVQaUi89m0J1tJS9USY13JIaSE/qxcYzvd+Gi1Prum9q8FOdxLGkHLktdqgJ1R1MWlFKhscIkG9K2BJKZ2ag==
+jquery.initialize@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/jquery.initialize/-/jquery.initialize-1.3.2.tgz#46297c636104b3df53d6b16a7d766f38892737fc"
+  integrity sha512-SmuziUDtYYvu3ARjudZ/UpupL94LqjqhxjVjjIHUzD6XvyF/cOPk03b94SnE8u26CQ6g8lQRQK0H2SDa02IPYQ==
