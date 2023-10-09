@@ -114,7 +114,7 @@ group :application do
   gem 'consul', '>= 1.2.0'
   gem 'devise', '>= 4.9.0' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
-  gem 'inherited_resources', '>= 1.11.0'
+  gem 'inherited_resources', '>= 1.14.0'
   gem 'kaminari', '>= 1.2.1'
   gem 'kaminari-i18n', '>= 0.5.0'
 
