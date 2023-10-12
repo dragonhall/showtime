@@ -112,7 +112,7 @@ group :application do
 
   gem 'carrierwave', '>= 2.2.4'
   gem 'consul', '>= 1.2.0'
-  gem 'devise', '>= 4.9.0' # , github: 'plataformatec/devise'
+  gem 'devise', '>= 4.9.3' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.11.0'
   gem 'kaminari', '>= 1.2.1'
@@ -134,7 +134,7 @@ group :application do
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 
   gem 'rollbar'
-  gem 'simple_form', '>= 5.2.0'
+  gem 'simple_form', '>= 5.3.0'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
