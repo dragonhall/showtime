@@ -95,7 +95,7 @@ end
 
 group :test do
   gem 'database_cleaner', '>= 2.0.2'
-  gem 'factory_bot_rails', '>= 6.1.0'
+  gem 'factory_bot_rails', '>= 6.3.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.0.0'
