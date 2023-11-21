@@ -98,7 +98,7 @@ group :test do
   gem 'factory_bot_rails', '>= 6.1.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.0.0'
+  gem 'rspec-rails', '>= 6.0.4'
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
   gem 'simplecov'
