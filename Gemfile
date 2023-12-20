@@ -126,7 +126,7 @@ group :application do
 
   gem 'redis', '< 4.3'
   gem 'resque'
-  gem 'resque-scheduler'
+  gem 'resque-scheduler', '>= 4.10.2'
   gem 'resque-scheduler-web', '>= 1.1.0'
   gem 'resque-status'
   gem 'resque-status-web', '>= 0.1.0'
