@@ -33,7 +33,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 gem 'rails', '>= 6.1.7.5', '< 6.2'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
-gem 'puma', '~> 5'
+gem 'puma', '~> 5', '>= 5.6.8'
 # gem 'puma-daemon', require: false
 
 group :assets do
