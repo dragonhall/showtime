@@ -38,7 +38,7 @@ gem 'puma', '~> 5'
 
 group :assets do
   gem 'coffee-rails', '~> 5.0', '>= 5.0.0'
-  gem 'jbuilder', '~> 2.5'
+  gem 'jbuilder', '~> 2.12', '>= 2.12.0'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
   gem 'jquery-rails', '>= 4.6.0'
