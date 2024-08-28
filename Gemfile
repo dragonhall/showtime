@@ -111,7 +111,7 @@ group :application do
   gem 'pry-rails'
 
   gem 'carrierwave', '>= 2.2.4'
-  gem 'consul', '>= 1.2.0'
+  gem 'consul', '>= 1.3.2'
   gem 'devise', '>= 4.9.0' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.11.0'
