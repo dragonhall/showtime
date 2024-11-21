@@ -122,7 +122,7 @@ group :application do
 
   gem 'rack-dev-mark', '>= 0.7.11'
 
-  gem 'rails-i18n', '>= 7.0.7'
+  gem 'rails-i18n', '>= 8.0.0'
 
   gem 'redis', '< 4.3'
   gem 'resque', '>= 2.0.0'
