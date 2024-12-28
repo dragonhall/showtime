@@ -122,11 +122,10 @@ end
 #  - :queue (defaults to "*")
 #  - :count (defaults to 1)
 #  - :environment (corresponds to RAILS_ENV for the Resque worker)
-# guard 'resque', environment: 'development', queue: 'default,mailers,streaming,recording' do
-#   watch(%r{^app/jobs/(.+)\.rb$})
-# #  watch(%r{^lib/(.+)\.rb$})
-# end
-#
-# guard 'resque', environment: 'development', task: 'resque:scheduler' do
-#   watch(%r{^app/jobs/(.+)\.rb$})
-# end
+guard 'resque', environment: 'development', queue: 'default,mailers,streaming,recording' do
+  watch(%r{^app/jobs/(.+)\.rb$})
+end
+
+guard 'resque', environment: 'development', task: 'resque:scheduler' do
+  watch(%r{^app/jobs/(.+)\.rb$})
+end
