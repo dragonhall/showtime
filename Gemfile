@@ -125,11 +125,11 @@ group :application do
   gem 'rails-i18n', '>= 7.0.7'
 
   gem 'redis', '< 4.3'
-  gem 'resque', '>= 2.0.0'
+  gem 'resque'
   gem 'resque-scheduler', '>= 4.10.1'
   gem 'resque-scheduler-web', '>= 1.1.0'
   gem 'resque-status'
-  gem 'resque-status-web', '>= 0.1.0'
+  gem 'resque-status-web'
   gem 'resque-web', github: 'EdCordata/resque-web',
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 

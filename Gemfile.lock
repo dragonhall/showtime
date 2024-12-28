@@ -597,10 +597,10 @@ DEPENDENCIES
   rails-i18n (>= 7.0.7)
   redis (< 4.3)
   resque
-  resque-scheduler
+  resque-scheduler (>= 4.10.1)
   resque-scheduler-web (>= 1.1.0)
   resque-status
-  resque-status-web (>= 0.1.0)
+  resque-status-web
   resque-web!
   rollbar
   rspec-rails (>= 6.0.0)
