@@ -34,7 +34,7 @@ gem 'rails', '>= 6.1.7.5', '< 6.2'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 5'
-# gem 'puma-daemon', require: false
+gem 'puma-daemon', require: false
 
 group :assets do
   gem 'coffee-rails', '~> 5.0', '>= 5.0.0'
