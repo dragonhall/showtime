@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 Rollbar.configure do |config|
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
 
-  if File.exists?(Rails.root.join('config/rollbar.yml'))
-    yml = YAML.load(File.read(Rails.root.join('config/rollbar.yml')))
-  else
-    yml = {}
-  end
+  yml = if File.exist?(Rails.root.join('config/rollbar.yml'))
+          YAML.safe_load(File.read(Rails.root.join('config/rollbar.yml')))
+        else
+          {}
+        end
 
   # config.access_token = '6f2f19ae42ab435b9d315e3aa6c9cbea'
   config.access_token = yml['access_token'] || ENV['ROLLBAR_ACCESS_TOKEN'] || ''

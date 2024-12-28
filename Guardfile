@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -15,15 +17,13 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-
-guard :spring, bundler: true do
-  watch('Gemfile.lock')
-  watch(%r{^config/})
-  watch(%r{^config.ru$})
-  watch(%r{^spec/(support|factories)/})
-  watch(%r{^app/assets/config/manifest.js})
-end
-
+# guard :spring, bundler: true do
+#   watch('Gemfile.lock')
+#   watch(%r{^config/})
+#   watch(%r{^config.ru$})
+#   watch(%r{^spec/(support|factories)/})
+#   watch(%r{^app/assets/config/manifest.js})
+# end
 
 guard :bundler do
   require 'guard/bundler'
@@ -41,7 +41,8 @@ end
 # daemon: false                        # runs the server as a daemon.
 # debugger: false                      # enable ruby-debug gem.
 # environment: 'development'           # changes server environment.
-# force_run: false                     # kills any process that's holding the listen port before attempting to (re)start Rails.
+# force_run: false                     # kills any process that's holding the listen port
+#                                      # before attempting to (re)start Rails.
 # pid_file: 'tmp/pids/[RAILS_ENV].pid' # specify your pid_file.
 # host: 'localhost'                    # server hostname.
 # port: 3000                           # server port number.
@@ -53,13 +54,13 @@ end
 # zeus: false                          # enables zeus gem.
 # CLI: 'rails server'                  # customizes runner command. Omits all options except `pid_file`!
 
-guard :rails, server: :puma, host: '0.0.0.0' do
-  watch('Gemfile.lock')
-  watch(%r{^config/.*})
-  watch(%r{^app/assets/config/manifest.js})
-end
+# guard :rails, server: :puma, host: '0.0.0.0' do
+#   watch('Gemfile.lock')
+#   watch(%r{^config/.*})
+#   watch(%r{^app/assets/config/manifest.js})
+# end
 
-# Note: The cmd option is now required due to the increasing number of ways
+# NOTE: The cmd option is now required due to the increasing number of ways
 #       rspec may be run, below are examples of the most common uses.
 #  * bundler: 'bundle exec rspec'
 #  * bundler binstubs: 'bin/rspec'
@@ -68,7 +69,7 @@ end
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-#guard :rspec, cmd: "bundle exec rspec" do
+# guard :rspec, cmd: "bundle exec rspec" do
 #  require "guard/rspec/dsl"
 #  dsl = Guard::RSpec::Dsl.new(self)
 #
@@ -111,7 +112,7 @@ end
 #  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
 #    Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
 #  end
-#end
+# end
 
 ### Guard::Resque
 #  available options:
@@ -121,11 +122,11 @@ end
 #  - :queue (defaults to "*")
 #  - :count (defaults to 1)
 #  - :environment (corresponds to RAILS_ENV for the Resque worker)
-guard 'resque', environment: 'development', queue: 'default,mailers,streaming,recording' do
-  watch(%r{^app/jobs/(.+)\.rb$})
-#  watch(%r{^lib/(.+)\.rb$})
-end
-
-guard 'resque', environment: 'development', task: 'resque:scheduler' do
-  watch(%r{^app/jobs/(.+)\.rb$})
-end
+# guard 'resque', environment: 'development', queue: 'default,mailers,streaming,recording' do
+#   watch(%r{^app/jobs/(.+)\.rb$})
+# #  watch(%r{^lib/(.+)\.rb$})
+# end
+#
+# guard 'resque', environment: 'development', task: 'resque:scheduler' do
+#   watch(%r{^app/jobs/(.+)\.rb$})
+# end

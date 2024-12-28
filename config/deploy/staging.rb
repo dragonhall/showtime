@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -7,16 +9,14 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server '87.229.7.176', user: 'showtime', roles: %w[app db web], port: 15_412
-
+server '92.119.122.184', user: 'showtime', roles: %w[app db web], port: 15_412
 
 set :nginx_sites_available_path, '/opt/nginx-with-rtmp/conf/sites-available'
 set :nginx_sites_enabled_path, '/opt/nginx-with-rtmp/conf/sites-enabled'
 
-
-set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu/htdocs'
+set :deploy_to, '/srv/www/showtime.teszt.dragonhall.hu'
 set :nginx_server_name, 'showtime.teszt.dragonhall.hu'
-set :branch, ENV.fetch('DEPLOY_BRANCH') { 'develop' }.to_sym
+set :branch, ENV.fetch('DEPLOY_BRANCH', 'develop').to_sym
 set :rails_env, 'staging'
 
 # role-based syntax
@@ -53,7 +53,8 @@ set :rails_env, 'staging'
 #    auth_methods: %w(password)
 #  }
 
-set :ssh_options, keys: %W[#{ENV['HOME']}/.ssh/id_rsa], auth_methods: %w[publickey] #, verbose: :debug
+# set :ssh_options, keys: %W[#{ENV['HOME']}/.ssh/id_rsa], auth_methods: %w[publickey] , verbose: :debug
+set :ssh_options, auth_methods: %w[publickey] # , verbose: :debug
 
 #
 # The server-based syntax can be used to override options:

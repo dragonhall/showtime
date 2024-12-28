@@ -23,10 +23,10 @@ class PlaylistsController < InheritedResources::Base
 
   def play
     @playlist ||= begin
-                    Playlist.find(params[:id])
-                  rescue StandardError
-                    nil
-                  end
+      Playlist.find(params[:id])
+    rescue StandardError
+      nil
+    end
     @channel = Channel.where(domain: '#technical').first
 
     if @playlist
@@ -39,16 +39,16 @@ class PlaylistsController < InheritedResources::Base
 
   def program
     @playlist ||= begin
-                    Playlist.find(params[:id])
-                  rescue StandardError
-                    nil
-                  end
+      Playlist.find(params[:id])
+    rescue StandardError
+      nil
+    end
 
     if @playlist # && @playlist.finalized?
-      # rubocop:disable Metrics/LineLength
+      # rubocop:disable Layout/LineLength
       redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
                   status: :found
-      # rubocop:enable Metrics/LineLength
+      # rubocop:enable Layout/LineLength
     else
       render 'public/404.html', status: :not_found
     end
@@ -60,10 +60,10 @@ class PlaylistsController < InheritedResources::Base
         if Playlist.current.any?
 
           @playlist = Playlist.current.first
-          # rubocop:disable Metrics/LineLength
+          # rubocop:disable Layout/LineLength
           redirect_to "/programs/channel_#{@playlist.channel.id}/#{@playlist.id}/#{@playlist.start_time.strftime('%F')}.png",
                       status: :found
-          # rubocop:enable Metrics/LineLength
+          # rubocop:enable Layout/LineLength
         else
           render file: 'public/404.html', status: :not_found
         end
@@ -78,7 +78,11 @@ class PlaylistsController < InheritedResources::Base
   end
 
   def collection
-    get_collection_ivar || set_collection_ivar(end_of_association_chain.where(finalized: true).page(params[:page]).per(20))
+    get_collection_ivar ||
+      set_collection_ivar(end_of_association_chain
+                            .where(finalized: true)
+                            .page(params[:page])
+                            .per(20))
   end
 
   private

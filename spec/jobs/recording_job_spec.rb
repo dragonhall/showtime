@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe RecordingJob, type: :job do
+RSpec.describe RecordingJob do
   pending "add some examples to (or delete) #{__FILE__}"
 end

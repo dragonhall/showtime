@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class FusionUser < ApplicationRecord
   establish_connection :dragonhall
 
-  default_scope { where(:user_status => 0) }
+  default_scope { where(user_status: 0) }
 
-  FUSION_URL = "http://dragonhall.hu"
-  DEFAULT_AVATAR =  "/forum/images/Default.png"
+  FUSION_URL = 'http://dragonhall.hu'
+  DEFAULT_AVATAR = '/forum/images/Default.png'
 
   pretty_columns :user_
 
@@ -16,6 +18,4 @@ class FusionUser < ApplicationRecord
   def active?
     !user_status
   end
-
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RecordingsController < ApplicationController
   layout 'tv'
 
@@ -5,11 +7,11 @@ class RecordingsController < ApplicationController
 
   def index
     @series = Video.series
-    if params[:series].blank?
-      @recordings = Recording.available
-    else
-      @recordings = Recording.available.joins(:video).where('videos.recordable' => true)
-    end
+    @recordings = if params[:series].blank?
+                    Recording.available
+                  else
+                    Recording.available.joins(:video).where('videos.recordable' => true)
+                  end
   end
 
   def show

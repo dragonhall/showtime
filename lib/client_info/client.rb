@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ClientInfo
   class Client
     include ActiveModel::Model
@@ -28,7 +30,7 @@ module ClientInfo
       user_id >= 0 && FusionUser.where(user_id: user_id).any? ? ::FusionUser.find(user_id) : nil
     end
 
-    def as_json(options = nil)
+    def as_json(_options = nil)
       {
         client_id: client_id,
         address: address,
@@ -40,7 +42,7 @@ module ClientInfo
         flag: ActionController::Base.helpers.asset_path("flags/#{flag}.png"),
         user_id: user_id,
         avatar: user.blank? ? ActionController::Base.helpers.asset_path('icons/user.png') : user.avatar_url,
-        user_name: user.blank? ? 'Anonymous' : user.name,
+        user_name: user.blank? ? 'Anonymous' : user.name
 
       }
     end
@@ -53,19 +55,19 @@ module ClientInfo
       if @parsed_flashver.empty?
         pcs = flash_ver.scan(/\A(\w+)\s+([0-9,]+)\Z/).flatten
 
-        case pcs[0]
+        @parsed_flashver[:platform] = case pcs[0]
 
-        when 'LNX'
-          @parsed_flashver[:platform] = 'Linux'
-        when 'WIN'
-          @parsed_flashver[:platform] = 'Windows'
-        when 'MAC'
-          @parsed_flashver[:platform] = 'Macintosh'
-        when 'FMLE'
-          @parsed_flashver[:platform] = 'FlashMediaEncoder'
-        else
-          @parsed_flashver[:platform] = "Unknown platform (#{pcs[0]})"
-        end
+                                      when 'LNX'
+                                        'Linux'
+                                      when 'WIN'
+                                        'Windows'
+                                      when 'MAC'
+                                        'Macintosh'
+                                      when 'FMLE'
+                                        'FlashMediaEncoder'
+                                      else
+                                        "Unknown platform (#{pcs[0]})"
+                                      end
 
         @parsed_flashver[:version] = pcs[1] ? pcs[1].tr(',', '.') : ''
       end

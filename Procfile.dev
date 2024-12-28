@@ -1,0 +1,4 @@
+resque_workers: bundle exec rake resque:workers COUNT=2 QUEUE=default,mailers 
+resque_streaming: bundle exec rake resque:work QUEUE=streaming 
+# resque_recording: bundle exec rake resque:workers COUNT=2 QUEUE=recording 
+resque_scheduler: bundle exec rake resque:scheduler 

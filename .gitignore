@@ -10,6 +10,7 @@ capybara-*.html
 /public/assets
 /public/uploads
 /public/programs
+/public/videos
 /coverage/
 /spec/tmp
 /.idea/workspace.xml

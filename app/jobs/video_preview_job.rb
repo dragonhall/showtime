@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class VideoPreviewJob < ApplicationJob
   queue_as :default
 

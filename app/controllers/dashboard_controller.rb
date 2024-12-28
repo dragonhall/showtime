@@ -10,8 +10,5 @@ class DashboardController < ApplicationController
                                         current_power.channels.map(&:id))
     @upcoming_playlists = Playlist.where('playlists.channel_id IN(?)',
                                          current_power.channels.map(&:id)).upcoming
-
   end
-
-  private
 end

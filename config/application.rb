@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails'
@@ -19,17 +21,17 @@ Bundler.require(*Rails.groups, :assets, :application)
 module Showtime
   class Version
     def self.version(root_path)
-      @@version ||= if File.exists?("#{root_path}/REVISION") then
-                      File.read("#{root_path}/REVISION")
-                    else
-                      %x(cd #{Rails.root} && git rev-parse HEAD).chomp
-                    end[0..6]
+      @version ||= if File.exist?("#{root_path}/REVISION") then
+                     File.read("#{root_path}/REVISION")
+                   else
+                     %x(cd #{Rails.root} && git rev-parse HEAD).chomp
+                   end[0..6]
     end
   end
 
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.1
+    config.load_defaults 6.0
 
     config.time_zone = 'Budapest'
 
@@ -53,7 +55,6 @@ module Showtime
       config.rack_dev_mark.env =
         "#{Rails.env} (#{Showtime::Version.version(Rails.root)})"
     end
-
 
     config.active_job.queue_adapter = :resque
 

@@ -3,7 +3,7 @@
   = f.input :channel_id, collection: current_power.channels, label_method: :name, value_method: :id, selected: @channel.id, disabled: !f.object.new_record?
   = f.input :title
   = f.input :start_time, as: :datepicker, disabled: f.object.finalized?, input_html: { autocomplete: :off, value: f.object.start_time? ? f.object.start_time.strftime('%F %T') : '' }
-  = f.input :intro_id, collection: Video.intros, label_method: :title, value_method: :id, selected: @playlist.intro_id
+  = f.input :intro_id, collection: Video.intros, label_method: :title, value_method: :id
 
   - unless f.object.new_record?
     = f.input :finalized, disabled: f.object.finalized?
