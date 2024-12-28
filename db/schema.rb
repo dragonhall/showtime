@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_140901) do
+ActiveRecord::Schema.define(version: 2024_12_28_143750) do
 
   create_table "admins", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "name", collation: "utf8mb3_general_ci"
@@ -94,6 +94,8 @@ ActiveRecord::Schema.define(version: 2020_08_25_140901) do
     t.boolean "playing"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "length", default: 0
+    t.integer "video_type"
   end
 
   create_table "videos", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|

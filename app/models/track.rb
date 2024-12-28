@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Track < ApplicationRecord
+
+  # XXX Ensure this enum is matches with Video#video_type otherwise playlist editor will break!
+  enum video_type: %i[film trailer advert intro rollover]
+
   belongs_to :playlist
   belongs_to :video
 
@@ -10,7 +14,7 @@ class Track < ApplicationRecord
 
   scope :films, -> { joins(:video).where('videos.video_type' => Video.video_types[:film]) }
 
-  default_scope -> { includes(:video).order(:playlist_id, :position) }
+  # default_scope -> { includes(:video).order(:playlist_id, :position) }
 
   validates_presence_of :video
   validates_presence_of :playlist
@@ -21,17 +25,23 @@ class Track < ApplicationRecord
 
   after_initialize :initialize_title
   after_initialize :initialize_position
-  before_validation :initialize_title
+  after_initialize :initialize_length
+  after_initialize :initialize_video_type
 
-  after_save :recalc_playlist_duration
+  before_validation :initialize_title
+  before_validation :initialize_video_type
+
+  # HACK skip length refresh if we are in renumbering
+  before_save :refresh_length, unless: -> { position_changed? and not new_record? }
+  after_save :recalc_playlist_duration, unless: -> { position_changed? and not new_record? }
 
   after_destroy :renumber_playlist
 
   # @return [Integer] Returns length (in seconds) of the contained video
   #                   plus - if set - the length of the intro/outro of the playlist
-  def length
-    @length ||= video.metadata['length'] || 0
-  end
+  # def length
+  #   @length ||= video.metadata['length'] || 0
+  # end
 
   def stop!
     update_attribute :playing, false
@@ -77,13 +87,28 @@ class Track < ApplicationRecord
     self.title = video.metadata['title'] if title.blank? && video
   end
 
+  def initialize_video_type
+    self.video_type = video.video_type if video_type.blank? && video
+  end
+
   def initialize_position
     self.position = playlist.tracks.count + 1 if position.nil? && playlist
     self.position = 1 if position.zero?
   end
 
+  def initialize_length
+    return if length > 0 or video.blank?
+    return if video.metadata.blank? or not video.metadata.key?('length')
+
+    Rails.logger.debug "Initializing track length"
+    self.length = video.metadata['length']
+    Rails.logger.debug "Length set to #{length}"
+  end
+
+
   def before_me
-    @before_me ||= playlist.tracks.where('tracks.position < ?', position).all.map(&:length).sum
+    # @before_me ||= playlist.tracks.where('tracks.position < ?', position).all.map(&:length).sum
+    @before_me ||= playlist.tracks.where('position < ?', position).sum(:length)
   end
 
   def recalc_playlist_duration
@@ -92,5 +117,13 @@ class Track < ApplicationRecord
 
   def renumber_playlist
     playlist.renumber!
+  end
+
+  def refresh_length
+    Rails.logger.debug "Refreshing track length"
+    if new_record? or ( not video.blank? and video.updated_at > updated_at ) then
+      self.length = video.metadata['length']
+      Rails.logger.debug "Length set to #{length}"
+    end
   end
 end

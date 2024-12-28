@@ -29,7 +29,8 @@ class TracksController < InheritedResources::Base
   end
 
   def reorder
-    tracks = params[:tracks].map { |id| Track.find(id) }
+    # tracks = params[:tracks].map { |id| Track.find(id) }
+    tracks = Track.where(id: params[:tracks]).includes(:playlist)
 
     if tracks.first.playlist.finalized?
       render json: {error: "Tracks cannot moved when they're finalized"},

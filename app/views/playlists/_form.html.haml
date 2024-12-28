@@ -32,7 +32,7 @@
           %tr{id: "track_#{track.id}"}
             %td= track.position
             %td
-              = image_tag("icons/film_#{track.video.video_type}.png", title: track.video.video_type.titleize)
+              = image_tag("icons/film_#{track.video_type}.png", title: track.video_type.titleize)
               = track.title
             %td= track.start_time.strftime('%H:%M:%S')
             %td= Time.at(track.length).utc.strftime('%H:%M:%S')
