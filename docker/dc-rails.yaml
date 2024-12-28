@@ -1,0 +1,21 @@
+services:
+  rails:
+    build:
+      context: ..
+      dockerfile: Dockerfile.dev
+    volumes:
+      - bundle-cache:/usr/local/bundle
+      - ../:/app
+      - ./config/database.yml:/app/config/database.yml
+      - ./config/redis.yml:/app/config/redis.yml
+    # ports:
+    #   - 3000:3000
+    depends_on:
+      - db
+    environment:
+      SHOWTIME_DATABASE_URL: mysql2://showtime:Sh0wT!me@db/showtime_development
+      SHOWTIME_FUSIONDB_URL: mysql2://showtime:Sh0wT!me@db/dragonhall_utf8
+
+
+volumes:
+  bundle-cache: {}
