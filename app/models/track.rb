@@ -116,7 +116,7 @@ class Track < ApplicationRecord
   end
 
   def renumber_playlist
-    playlist.renumber!
+    playlist.reload.renumber!
   end
 
   def refresh_length

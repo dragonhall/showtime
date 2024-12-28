@@ -11,6 +11,23 @@ class TracksController < InheritedResources::Base
 
   skip_before_action :authenticate_admin!, only: :index
 
+  def index
+    index! do |format|
+      format.html
+      format.json do
+        render json: {
+          tracks: @tracks.map do |track|
+                    {
+                      id: "track_#{track.id}",
+                      position: track.position,
+                      start_time: track.start_time.strftime('%H:%M:%S')
+                    }
+                  end
+        }
+      end
+    end
+  end
+
   def create
     create! do |success, _failure|
       success.json do
@@ -37,10 +54,12 @@ class TracksController < InheritedResources::Base
              status: :forbidden
     else
 
-      tracks.each_with_index do |track, idx|
-        track.update_attribute :position, idx + 1 if track.position != idx + 1
-        track.reload
+      tracks.each do |track|
+        new_pos = params[:tracks].index(track.id.to_s) + 1
+        track.update_attribute :position, new_pos if track.position != new_pos
       end
+
+      tracks = Track.where(playlist_id: params[:playlist_id])
 
       respond_to do |format|
         format.json do
