@@ -1,0 +1,5 @@
+include:
+  - docker/dc-db.yaml
+  - docker/dc-redis.yaml
+  - docker/dc-rails.yaml
+  - docker/dc-nginx.yaml

@@ -56,6 +56,77 @@ jQuery ->
       $(this).css('user-select', 'none')
 #  jQuery.initialize 'table#playlist_tracklist input[type="submit]'
 
+  jQuery.initialize 'table#playlist_tracklist a.delete', ->
+    $('table#playlist_tracklist > tbody > tr > td > a.delete').on 'click', (e) ->
+      e.preventDefault()
+      e.stopPropagation()
+      # HACK: Presumably Rails JS integration triggers back the click event somehow...
+      e.stopImmediatePropagation()
+      console.log("DEBUG: Delete icon pressed")
+
+      track_table = $('table#playlist_tracklist tbody')
+
+      track_table.sortable('disable')
+      track_table.css('color', '#999')
+      track_table.css('cursor', 'wait')
+      track_table.css('user-select', 'none')
+
+      track_row = $(this).parent().parent()
+      track_id = track_row.attr('id')
+
+      prompt = $(this).data('confirm')
+      if(prompt != undefined)
+        resp = window.confirm(prompt)
+        console.log({response: resp})
+        if(!resp)
+          track_table.sortable('enable')
+          track_table.css('color', '#222')
+          track_table.css('cursor', 'crosshair')
+          track_table.css('user-select', 'auto')
+          return false
+     
+      jQuery.ajax
+        url: $(this).attr('href')
+        method: 'DELETE'
+        dataType: 'JSON'
+        async: false
+        success: (data, status, jqXHR) ->
+          console.log("DEBUG: Track deleted: " + track_id)
+          track_row.remove()
+          console.log("DEBUG: Track removed: " + track_id)
+     
+
+      # Check if we removed the track on the success branch, if not, we skip the refresh phasae
+      #if jQuery.contains(document, track_row[0])
+      if track_table.find('tr#' + track_id).length > 0
+        console.log("Skip refresh")
+        track_table.sortable('enable')
+        track_table.css('color', '#222')
+        track_table.css('cursor', 'crosshair')
+        track_table.css('user-select', 'auto')
+        return false
+
+      console.log("LOFASZ")
+      
+      jQuery.ajax
+        url: $('table#playlist_tracklist').parent().attr('action') + '/tracks'
+        dataType: 'JSON'
+        method: 'GET'
+        success: (data, status, jqXHR) ->
+          # In theory, at this point the deleted track is removed from the table, we only rewrite the position ids and start time
+          console.log("DEBUG: Track list refresh got data")
+          console.log(data)
+          data.tracks.forEach (e) ->
+            elem = $('table#playlist_tracklist').find('tr#' + e.id)
+            elem.find('td:first-child').html(e.position)
+            elem.find('td:nth-child(3)').html(e.start_time)
+
+          track_table.sortable('enable')
+          track_table.css('color', '#222')
+          track_table.css('cursor', 'crosshair')
+          track_table.css('user-select', 'auto')
+        
+      console.log("VALAMI LOFASZ 2")
 
   $('table#videos caption a.add').on 'click', (e) ->
     e.preventDefault()
@@ -66,3 +137,5 @@ jQuery ->
     e.preventDefault()
 
     jQuery.facebox ajax: $(this).attr('href')
+
+# vim: ts=2 sw=2 et
