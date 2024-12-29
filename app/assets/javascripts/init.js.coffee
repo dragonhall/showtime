@@ -62,7 +62,7 @@ jQuery ->
       e.stopPropagation()
       # HACK: Presumably Rails JS integration triggers back the click event somehow...
       e.stopImmediatePropagation()
-      console.log("DEBUG: Delete icon pressed")
+      # console.log("DEBUG: Delete icon pressed")
 
       track_table = $('table#playlist_tracklist tbody')
 
@@ -91,9 +91,7 @@ jQuery ->
         dataType: 'JSON'
         async: false
         success: (data, status, jqXHR) ->
-          console.log("DEBUG: Track deleted: " + track_id)
           track_row.remove()
-          console.log("DEBUG: Track removed: " + track_id)
      
 
       # Check if we removed the track on the success branch, if not, we skip the refresh phasae
@@ -106,16 +104,14 @@ jQuery ->
         track_table.css('user-select', 'auto')
         return false
 
-      console.log("LOFASZ")
-      
       jQuery.ajax
         url: $('table#playlist_tracklist').parent().attr('action') + '/tracks'
         dataType: 'JSON'
         method: 'GET'
         success: (data, status, jqXHR) ->
           # In theory, at this point the deleted track is removed from the table, we only rewrite the position ids and start time
-          console.log("DEBUG: Track list refresh got data")
-          console.log(data)
+          # console.log("DEBUG: Track list refresh got data")
+          # console.log(data)
           data.tracks.forEach (e) ->
             elem = $('table#playlist_tracklist').find('tr#' + e.id)
             elem.find('td:first-child').html(e.position)
@@ -126,7 +122,6 @@ jQuery ->
           track_table.css('cursor', 'crosshair')
           track_table.css('user-select', 'auto')
         
-      console.log("VALAMI LOFASZ 2")
 
   $('table#videos caption a.add').on 'click', (e) ->
     e.preventDefault()
