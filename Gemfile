@@ -30,7 +30,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 #gem 'rails', '~> 6.1'
-gem 'rails', '>= 6.1.7.5', '< 6.2'
+gem 'rails', '>= 6.1.7.7', '< 6.2'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 5'
@@ -38,11 +38,11 @@ gem 'puma-daemon', require: false
 
 group :assets do
   gem 'coffee-rails', '~> 5.0', '>= 5.0.0'
-  gem 'jbuilder', '~> 2.5'
+  gem 'jbuilder', '~> 2.12', '>= 2.12.0'
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
   gem 'jquery-rails', '>= 4.6.0'
-  gem 'jquery-ui-rails', '>= 6.0.1'
+  gem 'jquery-ui-rails', '>= 7.0.0'
   gem 'sassc-rails', '~> 2.1.2'
   gem 'uglifier', '>= 1.3.0'
 
@@ -95,12 +95,18 @@ end
 
 group :test do
   gem 'database_cleaner', '>= 2.0.2'
-  gem 'factory_bot_rails', '>= 6.1.0'
+  gem 'factory_bot_rails', '>= 6.3.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
+<<<<<<< HEAD
+  gem 'rspec-rails', '>= 6.0.4'
+  gem 'rubocop'
+  gem 'rubocop-rspec', require: false
+=======
   gem 'rspec-rails', '>= 6.0.0'
   gem 'rubocop', '>= 1.56.4'
   gem 'rubocop-rspec', '>= 2.25.0', require: false
+>>>>>>> master
   gem 'simplecov'
 
   gem 'faker'
@@ -112,9 +118,9 @@ group :application do
 
   gem 'carrierwave', '>= 2.2.4'
   gem 'consul', '>= 1.3.2'
-  gem 'devise', '>= 4.9.0' # , github: 'plataformatec/devise'
+  gem 'devise', '>= 4.9.3' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
-  gem 'inherited_resources', '>= 1.11.0'
+  gem 'inherited_resources', '>= 1.14.0'
   gem 'kaminari', '>= 1.2.1'
   gem 'kaminari-i18n', '>= 0.5.0'
 
@@ -122,7 +128,7 @@ group :application do
 
   gem 'rack-dev-mark', '>= 0.7.11'
 
-  gem 'rails-i18n', '>= 7.0.7'
+  gem 'rails-i18n', '>= 7.0.9'
 
   gem 'redis', '< 4.3'
   gem 'resque'
@@ -134,7 +140,7 @@ group :application do
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 
   gem 'rollbar'
-  gem 'simple_form', '>= 5.2.0'
+  gem 'simple_form', '>= 5.3.0'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
