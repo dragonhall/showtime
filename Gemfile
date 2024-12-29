@@ -98,15 +98,9 @@ group :test do
   gem 'factory_bot_rails', '>= 6.3.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
-<<<<<<< HEAD
   gem 'rspec-rails', '>= 6.0.4'
-  gem 'rubocop'
-  gem 'rubocop-rspec', require: false
-=======
-  gem 'rspec-rails', '>= 6.0.0'
   gem 'rubocop', '>= 1.56.4'
   gem 'rubocop-rspec', '>= 2.25.0', require: false
->>>>>>> master
   gem 'simplecov'
 
   gem 'faker'
