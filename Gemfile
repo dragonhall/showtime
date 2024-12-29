@@ -99,8 +99,8 @@ group :test do
   gem 'fuubar'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.0.0'
-  gem 'rubocop'
-  gem 'rubocop-rspec', require: false
+  gem 'rubocop', '>= 1.56.4'
+  gem 'rubocop-rspec', '>= 2.25.0', require: false
   gem 'simplecov'
 
   gem 'faker'
