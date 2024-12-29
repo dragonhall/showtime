@@ -9,6 +9,11 @@ class PlaylistsController < InheritedResources::Base
 
   layout false, except: ['index']
 
+  def edit
+    @playlist = Playlist.where(id: params[:id]).includes(:tracks).first
+    edit!
+  end
+
   def create
     create! { root_url }
   end

@@ -95,7 +95,7 @@ class Playlist < ApplicationRecord
     tracks.each_with_index do |track, i|
       index = i + 1 # Start numbering from 1
       unless track.position == index then
-        track.update_attributes position: index
+        track.update position: index
       end
     end
   end
@@ -103,7 +103,7 @@ class Playlist < ApplicationRecord
   def shift_from!(position)
     tracks.where('position > ?', position).each do |track|
       logger.debug "Shifting '#{track.title}' (#{track.position} => #{track.position + 1})"
-      track.update_attributes position: track.position + 1
+      track.update position: track.position + 1
     end
   end
 

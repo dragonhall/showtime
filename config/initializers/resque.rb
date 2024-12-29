@@ -20,5 +20,9 @@ Redis.current = redis_ns if Redis.respond_to?(:current)
 yaml_schedule    = YAML.load_file(Rails.root.join('config', 'resque_schedule.yaml')) || {}
 wrapped_schedule = ActiveScheduler::ResqueWrapper.wrap yaml_schedule
 
-Resque.redis     = redis_ns
-Resque.schedule  = wrapped_schedule
+begin
+  Resque.redis     = redis_ns
+  Resque.schedule  = wrapped_schedule
+rescue Redis::CannotConnectError
+  Rails.logger.warn "Redis is offline :-("
+end

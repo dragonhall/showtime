@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -ex
+
+./bin/bundle install
+./bin/rake tmp:create
+./bin/rake tmp:clear
+
+# If running the rails server then create or migrate existing database
+if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
+  ./bin/rails db:prepare
+fi
+
+mkdir -p /tmp/compass-tmp
+rm -f tmp && ln -s /tmp/compass-tmp tmp
+
+exec "${@}"

@@ -34,7 +34,7 @@ gem 'rails', '>= 6.1.7.7', '< 6.2'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 5'
-# gem 'puma-daemon', require: false
+gem 'puma-daemon', require: false
 
 group :assets do
   gem 'coffee-rails', '~> 5.0', '>= 5.0.0'
@@ -98,9 +98,15 @@ group :test do
   gem 'factory_bot_rails', '>= 6.3.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
+<<<<<<< HEAD
   gem 'rspec-rails', '>= 6.0.4'
   gem 'rubocop'
   gem 'rubocop-rspec', require: false
+=======
+  gem 'rspec-rails', '>= 6.0.0'
+  gem 'rubocop', '>= 1.56.4'
+  gem 'rubocop-rspec', '>= 2.25.0', require: false
+>>>>>>> master
   gem 'simplecov'
 
   gem 'faker'
@@ -111,7 +117,7 @@ group :application do
   gem 'pry-rails'
 
   gem 'carrierwave', '>= 2.2.4'
-  gem 'consul', '>= 1.2.0'
+  gem 'consul', '>= 1.3.2'
   gem 'devise', '>= 4.9.3' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.14.0'
@@ -125,11 +131,11 @@ group :application do
   gem 'rails-i18n', '>= 7.0.9'
 
   gem 'redis', '< 4.3'
-  gem 'resque', '>= 2.0.0'
+  gem 'resque'
   gem 'resque-scheduler', '>= 4.10.1'
   gem 'resque-scheduler-web', '>= 1.1.0'
   gem 'resque-status'
-  gem 'resque-status-web', '>= 0.1.0'
+  gem 'resque-status-web'
   gem 'resque-web', github: 'EdCordata/resque-web',
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 

@@ -1,0 +1,17 @@
+services:  
+  db:
+    image: docker.io/library/mysql:8.0
+    restart: always
+    ports:
+      - 33306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: "Sh0wT!meR00t"
+      MYSQL_DATABASE: showtime_development
+      MYSQL_USER: showtime
+      MYSQL_PASSWORD: "Sh0wT!me"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./docker/initdb.d:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql-data: {}
