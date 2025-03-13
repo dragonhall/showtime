@@ -30,7 +30,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 #gem 'rails', '~> 6.1'
-gem 'rails', '>= 6.1.7.7', '< 6.2'
+gem 'rails', '~> 7.0'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 5'
@@ -125,7 +125,7 @@ group :application do
   gem 'rails-i18n', '>= 7.0.9'
 
   gem 'redis', '< 4.3'
-  gem 'resque'
+  gem 'resque', '>= 2.2.1'
   gem 'resque-scheduler', '>= 4.10.1'
   gem 'resque-scheduler-web', '>= 1.1.0'
   gem 'resque-status'
