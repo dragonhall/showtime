@@ -363,7 +363,7 @@ GEM
       rack
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.10)
+    rack (2.2.14)
     rack-contrib (2.5.0)
       rack (< 4)
     rack-dev-mark (0.8.0)
