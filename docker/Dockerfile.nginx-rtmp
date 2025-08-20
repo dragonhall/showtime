@@ -1,0 +1,39 @@
+FROM ubuntu:24.04 AS builder
+
+RUN apt-get -qq update && apt-get -qqy install lsb-release build-essential libtool automake autoconf curl git
+
+RUN echo "deb-src http://archive.ubuntu.com/ubuntu $(lsb_release -cs) main restricted universe multiverse" > /etc/apt/sources.list.d/ubuntu-src.list && \
+    apt-get -qq update && apt-get -qqy build-dep nginx --no-install-recommends && \
+    rm -fr /var/cache/apt/* /var/lib/apt/*
+
+ENV NGINX_VERSION=1.23.2
+
+RUN mkdir -p /usr/local/src/nginx && cd /usr/local/src/nginx && curl -LOks "https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" && tar zxvf "nginx-${NGINX_VERSION}.tar.gz"
+
+RUN cd /usr/local/src/nginx && git clone https://github.com/arut/nginx-rtmp-module && \
+    cd "nginx-${NGINX_VERSION}" && \
+    ./configure --prefix=/opt/nginx-with-rtmp --add-module=../nginx-rtmp-module \
+    --with-threads --with-compat --with-pcre --conf-path=/etc/nginx-rtmp/nginx.conf --error-log-path=/var/log/nginx/rtmp.error.log \
+    --pid-path=/run/nginx-rtmp.pid --lock-path=/var/lock/nginx-rtmp.lock --http-log-path=/var/log/nginx/rtmp.access.log && \
+    make && mkdir -p /usr/local/src/nginx/dist make DESTDIR=/usr/local/src/nginx/dist install && \
+    cd /usr/local/src/nginx/dist && tar zcvf /usr/local/src/nginx-with-rtmp-${NGINX_VERSION}.tgz .
+
+FROM ubuntu:24.04
+
+ENV NGINX_VERSION=1.23.2
+
+COPY --from=builder /usr/local/src/nginx-with-rtmp-${NGINX_VERSION}.tgz /usr/local/src
+
+RUN tar zxvf /usr/local/src/nginx-with-rtmp-${NGINX_VERSION}.tgz -C / 
+
+COPY docker/nginx-rtmp.conf /etc/nginx-rtmp/nginx.conf
+
+RUN mkdir -p /etc/nginx-rtmp/apps-enabled /etc/nginx-rtmp/apps-available /etc/nginx-rtmp/sites-enabled /etc/nginx-rtmp/sites-available
+
+USER www-data:www-data
+
+WORKDIR /var/www/
+
+CMD [ "/opt/nginx-with-rtmp/sbin/nginx", "-c", "/etc/nginx-rtmp/nginx.conf" ] 
+
+# vim: ft=dockerfile

@@ -1,0 +1,13 @@
+services:
+  nginx-rtmp:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.nginx-rtmp
+    volumes:
+      - ../:/app
+#      - ./config/nginx/ssl:/etc/nginx/ssl
+#      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 1935:1935
+      - 8080:80
+      - 8443:443

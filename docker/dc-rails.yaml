@@ -2,7 +2,7 @@ services:
   rails:
     build:
       context: ..
-      dockerfile: Dockerfile.dev
+      dockerfile: docker/Dockerfile.dev
     volumes:
       - bundle-cache:/usr/local/bundle
       - ../:/app
