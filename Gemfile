@@ -30,7 +30,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
 #gem 'rails', '~> 6.1'
-gem 'rails', '>= 6.1.7.7', '< 6.2'
+gem 'rails', '~> 7.1'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
 gem 'puma', '~> 5'
@@ -42,7 +42,7 @@ group :assets do
   gem 'jqtools-rails'
   gem 'jquery-easing-rails', '>= 0.0.2'
   gem 'jquery-rails', '>= 4.6.0'
-  gem 'jquery-ui-rails', '>= 7.0.0'
+  gem 'jquery-ui-rails', '>= 8.0.0'
   gem 'sassc-rails', '~> 2.1.2'
   gem 'uglifier', '>= 1.3.0'
 
@@ -98,7 +98,7 @@ group :test do
   gem 'factory_bot_rails', '>= 6.3.0'
   gem 'fuubar'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.0.4'
+  gem 'rspec-rails', '>= 7.0.0'
   gem 'rubocop', '>= 1.56.4'
   gem 'rubocop-rspec', '>= 2.25.0', require: false
   gem 'simplecov'
@@ -111,22 +111,22 @@ group :application do
   gem 'pry-rails'
 
   gem 'carrierwave', '>= 2.2.4'
-  gem 'consul', '>= 1.3.2'
+  gem 'consul', '>= 2.0.0'
   gem 'devise', '>= 4.9.3' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
-  gem 'inherited_resources', '>= 1.14.0'
+  gem 'inherited_resources', '>= 2.1.0'
   gem 'kaminari', '>= 1.2.1'
   gem 'kaminari-i18n', '>= 0.5.0'
 
   gem 'mini_magick'
 
-  gem 'rack-dev-mark', '>= 0.7.11'
+  gem 'rack-dev-mark', '>= 0.8.1'
 
-  gem 'rails-i18n', '>= 7.0.9'
+  gem 'rails-i18n', '>= 8.0.0'
 
   gem 'redis', '< 4.3'
-  gem 'resque'
-  gem 'resque-scheduler', '>= 4.10.1'
+  gem 'resque', '>= 2.0.0'
+  gem 'resque-scheduler', '>= 4.11.0'
   gem 'resque-scheduler-web', '>= 1.1.0'
   gem 'resque-status'
   gem 'resque-status-web'
@@ -138,7 +138,7 @@ group :application do
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
-  gem 'twitter-bootstrap-rails', '>= 3.2.2'
+  gem 'twitter-bootstrap-rails', '>= 5.1.0'
 
   gem 'imgkit'
   gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
