@@ -134,7 +134,7 @@ group :application do
                     branch: 'fix/file-to-import-not-found-or-unreadable-font-awesome-sprockets', require: 'resque_web'
 
   gem 'rollbar'
-  gem 'simple_form', '>= 5.3.0'
+  gem 'simple_form', '>= 5.4.0'
 
   gem 'streamio-ffmpeg', github: 'streamio/streamio-ffmpeg', branch: :master
 
