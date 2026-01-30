@@ -112,7 +112,7 @@ group :application do
 
   gem 'carrierwave', '>= 2.2.4'
   gem 'consul', '>= 1.3.2'
-  gem 'devise', '>= 4.9.3' # , github: 'plataformatec/devise'
+  gem 'devise', '>= 5.0.0' # , github: 'plataformatec/devise'
   gem 'haml-rails', '>= 2.0.1'
   gem 'inherited_resources', '>= 1.14.0'
   gem 'kaminari', '>= 1.2.1'
