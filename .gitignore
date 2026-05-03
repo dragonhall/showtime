@@ -10,6 +10,7 @@ capybara-*.html
 /public/assets
 /public/uploads
 /public/programs
+/public/streams
 /public/videos
 /coverage/
 /spec/tmp
@@ -70,3 +71,4 @@ config/redis.yml
 /.docker/data/
 # TODO create script for downloading corresponding SQL's from prod
 /.docker/initdb.d/*.sql 
+/docker/docker

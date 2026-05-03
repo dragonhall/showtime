@@ -24,5 +24,5 @@ begin
   Resque.redis     = redis_ns
   Resque.schedule  = wrapped_schedule
 rescue Redis::CannotConnectError
-  Rails.logger.warn "Redis is offline :-("
+  Rails.logger.warn 'Redis is offline :-('
 end

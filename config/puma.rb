@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'puma/daemon'
 
 # Puma can serve each request in a thread from an internal thread pool.

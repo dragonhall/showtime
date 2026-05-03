@@ -27,6 +27,12 @@ class Channel < ApplicationRecord
     "http:// #{domain}"
   end
 
+  # HACK: we determine the HD status of the channel based on the name,
+  #       because for now we don't want to add an extra field for that
+  def hd?
+    name.downcase.match(/\shd$/)
+  end
+
   private
 
   def permit_fulladmins

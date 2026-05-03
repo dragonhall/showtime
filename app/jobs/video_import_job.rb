@@ -41,7 +41,9 @@ class VideoImportJob < ApplicationJob
                            end.join(' ').gsub(/\[.+?\]/, '').strip
                          end
 
-    v.metadata[:title] = v.metadata[:title]
+    v.metadata[:title] =
+      v.metadata[:title].strip.squeeze(' ')
+       .encode('UTF-8', invalid: :replace, undef: :replace, replace: '?')
 
     v.video_type ||= video_type.to_sym
 

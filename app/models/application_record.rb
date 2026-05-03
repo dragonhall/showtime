@@ -4,7 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   def self.pretty_columns(prefix, options = {})
-    skipped_columns = options[:except] || []       # add whatever column name you want here
+    skipped_columns = options[:except] || [] # add whatever column name you want here
     columns.each do |column|
       column_name = column.name
       next if skipped_columns.include? column_name

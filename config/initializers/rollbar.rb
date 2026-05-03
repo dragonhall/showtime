@@ -5,7 +5,7 @@ Rollbar.configure do |config|
   # To disable in specific environments, set config.enabled=false.
 
   yml = if File.exist?(Rails.root.join('config/rollbar.yml'))
-          YAML.safe_load(File.read(Rails.root.join('config/rollbar.yml')))
+          YAML.safe_load_file(Rails.root.join('config/rollbar.yml'))
         else
           {}
         end

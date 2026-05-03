@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 unless URI.respond_to?(:encode)
   require 'cgi'
   module URI

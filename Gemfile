@@ -29,7 +29,7 @@ gem 'mysql2' # , '>= 0.3.18', '< 0.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 # gem 'rails', '~> 5.2.4', '>= 5.2.4.3'
-#gem 'rails', '~> 6.1'
+# gem 'rails', '~> 6.1'
 gem 'rails', '>= 6.1.7.7', '< 6.2'
 
 # Puma daemon does not support Puma 6 yet (https://github.com/kigster/puma-daemon/issues/10)
@@ -52,9 +52,9 @@ group :assets do
                        branch: 'hron84/feature-rails6'
 end
 
-# group :development, :test do
-#  gem 'byebug'
-# end
+group :development, :test do
+  gem 'byebug'
+end
 
 group :development do
   #   # Access an IRB console on exception pages or by using
@@ -71,9 +71,8 @@ group :development do
   gem 'capistrano-foreman', require: false
   gem 'capistrano-linked-files', require: false
   gem 'capistrano-rails', require: false
-  gem 'rvm1-capistrano3', require: false
-  #
   gem 'meta_request', '>= 0.8.0'
+  gem 'rvm1-capistrano3', require: false
   #
   #   # Spring speeds up development by keeping your application
   #   # running in the background. Read more: https://github.com/rails/spring
@@ -141,7 +140,7 @@ group :application do
   gem 'twitter-bootstrap-rails', '>= 3.2.2'
 
   gem 'imgkit'
-  gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
+  # gem 'wkhtmltoimage-binary' if RUBY_PLATFORM.match?(/linux|darwin/)
 
   gem 'geoip'
 

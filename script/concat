@@ -10,8 +10,15 @@ PEGI="$4"
 ME="$(readlink -f "$0")"
 RAILS_ROOT=$(readlink -f "$(dirname "${ME}")/..")
 
-LOGO_INTRO="/szeroka/dh0/load/load3/dhtv/intro/LogoIntro.ts"
-PEGI_INTRO="/szeroka/dh0/load/load3/dhtv/intro/${PEGI}.ts"
+if [ -d '/szeroka/dh0/load/load3/dhtv/intro/' ]; then
+  # If we are running on the prod server...
+  LOGO_INTRO="/szeroka/dh0/load/load3/dhtv/intro/LogoIntro.ts"
+  PEGI_INTRO="/szeroka/dh0/load/load3/dhtv/intro/${PEGI}.ts"
+else
+  # If it is a local test environment...
+  LOGO_INTRO="${RAILS_ROOT}/public/videos/intro/LogoIntro.ts"
+  PEGI_INTRO="${RAILS_ROOT}/public/videos/intro/${PEGI}.ts"
+fi
 
 CONCAT="concat:${LOGO_INTRO}|${PEGI_INTRO}|${SOURCE}"
 

@@ -97,6 +97,13 @@ module ResqueStatusAdapter
   private
 
   def set_status(*args)
-    self.status = [status, {'name' => name}, args].flatten
+    new_status = [status, {'name' => name}, args].flatten
+
+    # Is it the first time we are setting the status?
+    if Resque::Plugins::Status::Hash.get(job_id).nil?
+      Resque::Plugins::Status::Hash.create(job_id, *new_status)
+    else
+      Resque::Plugins::Status::Hash.set(job_id, *new_status)
+    end
   end
 end

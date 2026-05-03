@@ -41,11 +41,38 @@ class Playlist < ApplicationRecord
   after_update :postprocess_finalization, if: :saved_change_to_finalized?
 
   def active?
-    tracks.where(playing: true).any?
+    playing?
+  end
+
+  # We try to calculate the active track based on the current time and the start time of the playlist
+  def active_track
+    return nil unless active?
+
+    current_time = Time.zone.now
+    # We return nil if the playlist stuck on the streaming (rarely but happens)
+    return nil if current_time > end_time
+
+    elapsed_time = current_time - start_time
+
+    tracks.each do |track|
+      return track if elapsed_time < track.length
+
+      elapsed_time -= track.length
+    end
+
+    nil
   end
 
   def finalize!
     logger.debug "Finalizing playlist #{title}"
+  end
+
+  def stream_path
+    output_path.blank? ? nil : Rails.public_dir.join(output_path)
+  end
+
+  def streamable?
+    finalized? && stream_path.present? && stream_path.exist?
   end
 
   def wrap_films!
@@ -149,6 +176,9 @@ class Playlist < ApplicationRecord
   end
 
   def human_title
+    # Spare some calculation time...
+    @human_title = 'Mai Műsor' if Rails.application.class.name.downcase.match?(/showtime/)
+
     if !defined?(@human_title) || @human_title.blank?
       @human_title = if start_time.to_date == Time.zone.now.to_date then
                        'Mai'
@@ -166,7 +196,7 @@ class Playlist < ApplicationRecord
                      else
                        start_time > Time.now.end_of_day ? 'Következő' : 'Előző'
                      end
-      @human_title = 'Mai' if Rails.application.class.name.downcase.match?(/showtime/)
+
       @human_title += ' Műsor'
     end
     @human_title

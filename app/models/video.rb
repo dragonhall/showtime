@@ -5,7 +5,7 @@ class Video < ApplicationRecord
 
   enum video_type: %i[film trailer advert intro rollover]
 
-  enum pegi_rating: [3, 7, 12, 16, 18].map { |r| "pegi_#{r}".to_sym }
+  enum pegi_rating: [3, 7, 12, 16, 18].map { |r| :"pegi_#{r}" }
 
   # serialize :metadata, JSON
   # serialize :metadata, JsonWithIndifferentAccessSerializer
@@ -78,6 +78,12 @@ class Video < ApplicationRecord
       ).rows.flatten.compact
   end
 
+  def pathname
+    @pathname ||= if path.present?
+                    Pathname.new(path)
+                  end
+  end
+
   # @param [Playlist] playlist
   def record!(playlist)
     recordings.create!(valid_from: playlist.start_time, channel_id: playlist.channel.id)
@@ -97,6 +103,12 @@ class Video < ApplicationRecord
       errors.add(:recordable, 'should not enabled for non-films')
     end
   end
+
+  def exist?
+    pathname.exist?
+  end
+
+  alias exists? exist?
 
   private
 

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Track < ApplicationRecord
-
   # XXX Ensure this enum is matches with Video#video_type otherwise playlist editor will break!
   enum video_type: %i[film trailer advert intro rollover]
 
@@ -31,9 +30,9 @@ class Track < ApplicationRecord
   before_validation :initialize_title
   before_validation :initialize_video_type
 
-  # HACK skip length refresh if we are in renumbering
-  before_save :refresh_length, unless: -> { position_changed? and not new_record? }
-  after_save :recalc_playlist_duration, unless: -> { position_changed? and not new_record? }
+  # HACK: skip length refresh if we are in renumbering
+  before_save :refresh_length, unless: -> { position_changed? and !new_record? }
+  after_save :recalc_playlist_duration, unless: -> { position_changed? and !new_record? }
 
   after_destroy :renumber_playlist
 
@@ -97,14 +96,13 @@ class Track < ApplicationRecord
   end
 
   def initialize_length
-    return if length > 0 or video.blank?
-    return if video.metadata.blank? or not video.metadata.key?('length')
+    return if length.positive? || video.blank?
+    return if video.metadata.blank? || !video.metadata.key?('length')
 
-    Rails.logger.debug "Initializing track length"
+    Rails.logger.debug 'Initializing track length'
     self.length = video.metadata['length']
     Rails.logger.debug "Length set to #{length}"
   end
-
 
   def before_me
     # @before_me ||= playlist.tracks.where('tracks.position < ?', position).all.map(&:length).sum
@@ -120,8 +118,8 @@ class Track < ApplicationRecord
   end
 
   def refresh_length
-    Rails.logger.debug "Refreshing track length"
-    if new_record? or ( not video.blank? and video.updated_at > updated_at ) then
+    Rails.logger.debug 'Refreshing track length'
+    if new_record? || (!video.blank? && (video.updated_at > updated_at)) then
       self.length = video.metadata['length']
       Rails.logger.debug "Length set to #{length}"
     end

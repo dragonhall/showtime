@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'fileutils'
-# < ApplicationJob
 class StreamingJob
   include Resque::Plugins::Status
 
@@ -17,52 +16,40 @@ class StreamingJob
   # end
 
   def perform
+    # puts options.to_json; return
+
     playlist_id = options['playlist_id']
 
     FFMPEG.logger = logger
 
+    # We hacking around for console-initiated "debug" runs, where we just pass the whole playlist...
     begin
       playlist = if playlist_id.is_a?(Playlist) then
                    playlist_id
                  else
                    Playlist.find(playlist_id)
                  end
+      playlist_id = playlist.id
     rescue ActiveRecord::RecordNotFound => e
       failed "Cannot play Playlist##{playlist_id}: #{e.message}"
       return
     end
 
-    failed "Cannot play Playlist#{playlist_id}: not finalized" unless playlist.finalized?
-
-    total = playlist.tracks.count
-
-    logger.debug "Playing #{total} tracks"
+    failed "Cannot play Playlist##{playlist_id}: not finalized" unless playlist.finalized?
+    failed "Cannot play Playlist##{playlist_id}: not streamable" unless playlist.streamable?
 
     FileUtils.mkdir_p Rails.root.join('tmp', 'streaming', job_id.to_s)
 
-    playlist.tracks.each_with_index do |track, i|
-      next if playlist.tracks.where(playing: true).any? && !track.playing?
+    # TODO: we should track the progress of the stream somehow on tracks too,
+    # because we currently effectively disable the "current track" feature for Google Analytics
 
-      track.update_attribute :playing, true
+    playlist.channel.hd?
 
-      at(i + 1, total, "Playing #{track.title} on [#{playlist.channel.name}] until #{track.end_time}")
+    playlist.update_attribute :playing, true
+    stream_video playlist.stream_path, playlist.channel, playlist.duration
+    playlist.update_attribute :playing, false
 
-      logger.debug "Started playing #{track.title} on [#{playlist.channel.name}], " \
-                   "planned start: #{track.start_time}, planned end: #{track.end_time}"
-
-      if File.exist?(track.video.path)
-        # Loading video
-        stream_video track.video, channel: playlist.channel
-      else
-        logger.fatal "Playing movie failed: missing file: '#{track.video.path}'"
-        failed "Playing movie failed: missing file: '#{track.video.path}'"
-        sleep track.length # TODO: replace it with looping monoscope/error video
-      end
-
-      track.update_attribute :playing, false
-    end
-
-    FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
+    # FileUtils.rm_rf Rails.root.join('tmp', 'streaming', job_id.to_s)
   end
 
   private
@@ -75,67 +62,28 @@ class StreamingJob
   # @param [Video] video
   # @param [Channel] channel
 
-  def stream_video(video, channel: nil)
-    movie = video.to_movie
+  def stream_video(stream_path, channel, expected_duration, hd: false)
+    movie = FFMPEG::Movie.new(stream_path)
 
-    ratio = movie.width / movie.height.to_f
+    # ratio = movie.width / movie.height.to_f
 
-    target_width = 720
+    target_width = hd ? 1280 : 720
 
     # target_height = ratio < (16.0 / 9.0) ? 540 : 404
-    target_height = 404
-
-    # wspacing = ratio < (16.0 / 9.0) ? 22 + 91 : 22
-    wspacing = ratio < 1.5 ? 22 + 91 : 22
-
-    channel_logo = channel.logo.path if video.logo? && channel.logo?
-
-    logo_path, logo_params = build_logo(channel_logo, target_width, target_height, wspacing) if channel.logo?
-
-    pegi_path, pegi_params = build_pegi(video.pegi_rating.sub(/^pegi_/, '').to_i, target_width, target_height, wspacing)
+    target_height = hd ? 720 : 404
 
     filter_params = ''
 
-    filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2[scaled];"
-
-    # rubocop:disable Style/EmptyElse
-    # rubocop:disable Metrics/BlockNesting
-    if channel.logo?
-      case video.video_type
-      when 'film'
-        if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
-          if video.logo?
-            filter_params += "movie=#{logo_path}[logo];movie=#{pegi_path}[pegi];[scaled][logo]#{logo_params}[tmp];[tmp][pegi]#{pegi_params}"
-          else
-            filter_params += "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
-          end
-        elsif video.logo? && logo_path
-          filter_params += "movie=#{logo_path}[logo];[scaled][logo]#{logo_params}"
-        end
-      when 'trailer'
-        if %w[pegi_12 pegi_16 pegi_18].include?(video.pegi_rating) && pegi_path then
-          filter_params += "movie=#{pegi_path}[pegi];[scaled][pegi]#{pegi_params}"
-        end
-      else
-        # nothing to do
-      end
-    end
-    # rubocop:enable Metrics/BlockNesting
-    # rubocop:enable Style/EmptyElse
-
-    filter_params.sub!(/\[scaled\];\Z/, '')
+    # Enforce output resolution and aspect ratio (this can be tricky when we stream HD content for SD channel)
+    filter_params += "[in]scale=#{target_width}:#{target_height}:force_original_aspect_ratio=decrease,pad=#{target_width}:#{target_height}:(ow-iw)/2:(oh-ih)/2"
 
     bitrate = 1_000
     bitrate = (bitrate / 1000.0).ceil
 
-    transcoding_params = {custom: %W[-t #{video.length}]}
+    transcoding_params = {custom: %W[-t #{expected_duration}]}
 
     transcoding_params[:custom] += ['-vf', filter_params] unless filter_params.blank?
     transcoding_params[:custom] += %w[-qmin 4 -qmax 10 -subq 9 -r 23.976 -f flv]
-
-    if !video.metadata[:deinterlace].blank? && video.metadata[:deinterlace] != '0'
-      transcoding_params[:custom].unshift '-deinterlace'
-    end
 
     transcoding_params.merge!(
       resolution: "#{target_width}x#{target_height}",
@@ -151,71 +99,26 @@ class StreamingJob
                  "#{transcoding_params} and #{other_params}"
 
     start_time = Time.zone.now
-    # movie.transcode("rtmp://127.0.0.1:1935/dragonhall/#{channel.stream_path}")
 
-    movie.transcode("rtmp://dragonhall.hu:1935/live/#{channel.stream_path}",
+    # We handle multiple domains for streaming, including streaming to external places
+    # NOTE: for non-DragonHall targets, we have to set the actual path (minus the domain) as a stream path
+    #       because StreamingJob cannot figure out the path logic for external targets
+    rtmp_domain = channel.domain.blank? || channel.domain == '#technical' ? 'tv.dragonhall.hu' : channel.domain
+    stream_path = (rtmp_domain.match?(/dragonhall\.hu$/) ? "live/#{channel.stream_path}" : channel.stream_path)
+
+    movie.transcode("rtmp://#{rtmp_domain}:1935/#{stream_path}",
                     transcoding_params,
                     other_params)
 
     stop_time = Time.zone.now
 
     elapsed = (stop_time - start_time).ceil
-    timediff = video.metadata[:length] - elapsed
+    timediff = expected_duration - elapsed
     if timediff.positive?
-      logger.fatal "Playing #{video.path} ended too early. Expected end time: " +
-                   (start_time + video.metadata[:length]).to_s
+      logger.fatal "Playing #{stream_path} ended too early. Expected end time: " +
+                   (start_time + expected_duration).to_s
       sleep(timediff) # TODO:  replace it with looping monoscope/error video
     end
-  end
-
-  def build_pegi(rating, w, h, wspacing)
-    rating_image = Rails.root.join("public/pegi_rating/#{rating}.png").to_s
-
-    return [nil, nil] unless File.exist?(rating_image)
-
-    logger.debug 'Building PEGI'
-
-    image = MiniMagick::Image.open rating_image
-
-    ratio = image.width.to_f / image.height
-    target_width = w * 0.05
-    target_height = target_width / ratio
-
-    image.resize "#{target_width.ceil}x#{target_height.ceil}"
-    image.format 'png'
-    image.write Rails.root.join('tmp', 'streaming', job_id.to_s, 'pegi.png')
-
-    param = "overlay=#{wspacing}:#{h - target_height - 22}"
-
-    [
-      Rails.root.join('tmp', 'streaming', job_id.to_s, 'pegi.png'),
-      param
-    ]
-  end
-
-  def build_logo(logo, w, _h, wspacing)
-    logger.debug 'Building LOGO'
-
-    return ['', ''] if logo.nil? || logo.empty?
-
-    image = MiniMagick::Image.open logo
-
-    # Calculate new image sizes
-    ratio = image.width.to_f / image.height
-    target_width = w * 0.16
-    target_height = target_width / ratio
-
-    image.resize "#{target_width.ceil}x#{target_height.ceil}"
-    image.format 'png'
-    # image.write Rails.root.join('tmp', job_id.to_s + '_logo.png')
-    image.write Rails.root.join('tmp', 'streaming', job_id.to_s, 'logo.png')
-
-    param = "overlay=#{w - target_width - wspacing}:22"
-
-    [
-      Rails.root.join('tmp', 'streaming', job_id.to_s, 'logo.png'),
-      param
-    ]
   end
 
   # @param [Integer] secs
